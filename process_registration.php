@@ -1,9 +1,7 @@
 <?php
-// Include konfigurasi database
 include('koneksi.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Tangkap data yang dikirimkan dari form
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT); 
@@ -15,9 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               VALUES (1, '$username', '$password', '$email', '$full_name', '$address', '$role', current_timestamp())";
 
     $result = mysqli_query($koneksi, $query);
-
     if ($result) {
-        // Registrasi berhasil, redirect ke halaman login
         echo "<alert>Akun Berhasil Ditambahkan</alert>";
         if($_POST['page'] == "admin_page"){
             header('Location: registrasi_anggota.php');
@@ -27,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         exit();
     } else {
-        // Registrasi gagal, tampilkan pesan error
         echo "Error: " . mysqli_error($connection);
     }
 
