@@ -6,6 +6,7 @@ $result = mysqli_query($koneksi, "SELECT * FROM buku WHERE id = '$id'");
 $data = mysqli_fetch_assoc($result);
 
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
