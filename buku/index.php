@@ -67,6 +67,11 @@ $username = $_SESSION['username'];
                         <i class="fas fa-fw fa-book"></i>
                         <span>Ulasan</span></a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../laporan/laporan.php">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Laporan</span></a>
+                </li>
                 <hr class="sidebar-divider">
                 <li class="nav-item">
                     <a class="nav-link" href="../registrasi_anggota.php">
@@ -84,9 +89,19 @@ $username = $_SESSION['username'];
                         <span>Data Buku</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="tables.html">
+                    <a class="nav-link" href="../peminjaman/peminjaman.php">
                         <i class="fas fa-fw fa-file-alt"></i>
+                        <span>Peminjam</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../laporan/laporan.php">
+                        <i class="fas fa-print"></i>
                         <span>Laporan</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../logout.php">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span></a>
                 </li>
             <?php endif ?>
             <hr class="sidebar-divider d-none d-md-block">
@@ -101,16 +116,36 @@ $username = $_SESSION['username'];
 
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-
+                    <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
+
+                    <!-- Topbar Search -->
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" id="searchInput" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
                             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                                 <form class="form-inline mr-auto w-100 navbar-search">
                                     <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                                        <input id="searchInput" type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                                         <div class="input-group-append">
                                             <button class="btn btn-primary" type="button">
                                                 <i class="fas fa-search fa-sm"></i>
@@ -120,16 +155,19 @@ $username = $_SESSION['username'];
                                 </form>
                             </div>
                         </li>
-                        <div class="topbar-divider d-none d-sm-block">
-                        </div>
+
+
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+
+                        <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $_SESSION['username']; ?></span>
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
-
+                            <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -150,7 +188,7 @@ $username = $_SESSION['username'];
 
                     <div class="row">
                         <div class="col-lg-8">
-                            <table class="table table-hover">
+                            <table class="table table-hover" id="bookTable">
                                 <thead>
                                     <tr>
                                         <th scope="col">ID</th>
@@ -218,6 +256,28 @@ $username = $_SESSION['username'];
             <script src="../sbadmin/vendor/chart.js/Chart.min.js"></script>
             <script src="../sbadmin/js/demo/chart-area-demo.js"></script>
             <script src="../sbadmin/js/demo/chart-pie-demo.js"></script>
+
+            <script>
+                $(document).ready(function() {
+                    $('#searchInput').on('input', function() {
+                        var searchKeyword = $(this).val();
+                        searchBooks(searchKeyword);
+                    });
+                });
+
+                function searchBooks(keyword) {
+                    $.ajax({
+                        url: 'search.php',
+                        type: 'POST',
+                        data: {
+                            keyword: keyword
+                        },
+                        success: function(response) {
+                            $('#bookTable').html(response);
+                        }
+                    });
+                }
+            </script>
 </body>
 
 </html>

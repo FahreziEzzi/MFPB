@@ -4,9 +4,12 @@ include "../koneksi.php";
 $id = $_GET['id'];
 $result = mysqli_query($koneksi, "SELECT * FROM buku WHERE id = '$id'");
 $data = mysqli_fetch_assoc($result);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -53,6 +56,7 @@ $data = mysqli_fetch_assoc($result);
                                         <p>Penulis: <?= $data['penulis'] ?></p>
                                         <p>Penerbit: <?= $data['penerbit'] ?></p>
                                         <p>Tahun Terbit: <?= $data['tahun_terbit'] ?></p>
+                                        <p>Sinopsis: <?= $data['Sinopsis'] ?></p>
                                     </div>
                                 </div>
                                 <form class="user" action="proses_pengiriman_ulasan.php" method="post">

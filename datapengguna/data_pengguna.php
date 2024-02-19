@@ -19,6 +19,7 @@ if (isset($_GET['role_filter']) && !empty($_GET['role_filter'])) {
 $sql = "SELECT * FROM user $filter_condition";
 $result = mysqli_query($koneksi, $sql);
 
+
 ?>
 
 <!DOCTYPE html>
@@ -86,6 +87,11 @@ $result = mysqli_query($koneksi, $sql);
                     <a class="nav-link" href="../ulasan/">
                         <i class="fas fa-fw fa-book"></i>
                         <span>Ulasan</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../laporan/laporan.php">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Laporan</span></a>
                 </li>
                 <hr class="sidebar-divider">
                 <!-- Nav Item - Tables -->

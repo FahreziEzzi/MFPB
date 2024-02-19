@@ -131,6 +131,9 @@ if ($role === 'petugas') :
                                         <input type="number" class="form-control form-control-user" id="inputTahunTerbit" placeholder="Tahun Terbit" name="tahun_terbit" required>
                                     </div>
                                     <div class="form-group">
+                                        <input type="text" class="form-control form-control-user" id="inputSinopsis" placeholder="Sinopsis" name="sinopsis" required>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="inputKategori">Kategori:</label>
                                         <select class="form-control" id="inputKategori" name="kategori_id" required>
                                             <option value="comedy">comedy</option>

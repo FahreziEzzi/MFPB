@@ -1,8 +1,10 @@
 <?php
-
+include "koneksi.php";
 session_start();
 $role = $_SESSION['role'];
 $username = $_SESSION['username'];
+$sql = "SELECT * FROM buku";
+$result = mysqli_query($koneksi, $sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,11 +71,21 @@ $username = $_SESSION['username'];
             <i class="fas fa-fw fa-book"></i>
             <span>Ulasan</span></a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="laporan/laporan.php">
+            <i class="fas fa-fw fa-book"></i>
+            <span>Laporan</span></a>
+        </li>
         <hr class="sidebar-divider">
         <li class="nav-item">
           <a class="nav-link" href="registrasi_anggota.php">
             <i class="fas fa-fw fa-user"></i>
             <span>Registrasi</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="logout.php">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Logout</span></a>
         </li>
 
       <?php endif ?>
@@ -86,9 +98,19 @@ $username = $_SESSION['username'];
             <span>Data Buku</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="tables.html">
+          <a class="nav-link" href="peminjaman/peminjaman.php">
             <i class="fas fa-fw fa-file-alt"></i>
+            <span>Peminjam</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="laporan/laporan.php">
+            <i class="fas fa-print"></i>
             <span>Laporan</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="logout.php">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span></a>
         </li>
       <?php endif ?>
       <hr class="sidebar-divider d-none d-md-block">
@@ -99,14 +121,13 @@ $username = $_SESSION['username'];
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
           </button>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown no-arrow d-sm-none">
-              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search fa-fw"></i>
-              </a>
               <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                 <form class="form-inline mr-auto w-100 navbar-search">
                   <div class="input-group">
@@ -122,13 +143,15 @@ $username = $_SESSION['username'];
             </li>
             <div class="topbar-divider d-none d-sm-block">
             </div>
-            <li class="nav-item dropdown no-arrow">
+            <li class="nav-item dropdown arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                   <?= $_SESSION['username']; ?>
                 </span>
               </a>
+
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -136,7 +159,9 @@ $username = $_SESSION['username'];
                 </a>
               </div>
             </li>
+
           </ul>
+
         </nav>
         <div class="container-fluid">
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -197,58 +222,40 @@ $username = $_SESSION['username'];
                 </div>
               </div>
             </div>
+
           </div>
+          <table class="table table-hover" id="bookTable">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">cover</th>
+                <th scope="col">Judul</th>
+                <th scope="col">Pengarang</th>
+                <th scope="col">Tahun Terbit</th>
+                <th style="text-align: center;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php while ($data = mysqli_fetch_assoc($result)) : ?>
+                <tr>
+                  <td><?= $data['id'] ?></td>
+                  <td><img src="buku/<?= $data['cover'] ?>" alt="Cover Buku" style="max-width: 100px; max-height: 100px;"></td>
+                  <td><?= $data['judul'] ?></td>
+                  <td><?= $data['penulis'] ?></td>
+                  <td><?= $data['tahun_terbit'] ?></td>
+                  <td class="text-center">
+                    <a class="badge badge-danger" onclick="return confirm('Yakin Mau Hapus buku?')" href="buku/delete.php?id=<?= $data['id'] ?>">Delete</a>
+                    <a class="badge badge-success" href="buku/edit.php?id=<?= $data['id'] ?>">Edit</a>
+                  </td>
+                </tr>
+              <?php endwhile ?>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="container mt-5">
-        <h2>Daftar Peminjaman</h2>
-        <form action="generate-excel.php" method="post">
-          <div class="form-group">
-            <label for="tanggal_peminjaman">Tanggal Peminjaman:</label>
-            <input type="date" class="form-control" id="tanggal_peminjaman" name="tanggal_peminjaman">
-          </div>
-          <div class="form-group">
-            <label for="tanggal_pengembalian">Tanggal Pengembalian:</label>
-            <input type="date" class="form-control" id="tanggal_pengembalian" name="tanggal_pengembalian">
-          </div>
-          <button type="submit" class="btn btn-primary">Generate Excel</button>
-        </form>
 
-
-        <table class="table">
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>User</th>
-              <th>Buku</th>
-              <th>Tanggal Peminjaman</th>
-              <th>Tanggal Pengembalian</th>
-              <th>Status Peminjaman</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php
-            if (mysqli_num_rows($result) > 0) {
-              $no = 1;
-              while ($row = mysqli_fetch_assoc($result)) {
-                echo "<tr>";
-                echo "<td>" . $no . "</td>";
-                echo "<td>" . $row['nama_user'] . "</td>";
-                echo "<td>" . $row['judul_buku'] . "</td>";
-                echo "<td>" . $row['tanggal_peminjaman'] . "</td>";
-                echo "<td>" . $row['tanggal_pengembalian'] . "</td>";
-                echo "<td>" . $row['status_peminjaman'] . "</td>";
-                echo "</tr>";
-                $no++;
-              }
-            } else {
-              echo "<tr><td colspan='6'>Tidak ada data</td></tr>";
-            }
-            ?>
-          </tbody>
-        </table>
-      </div>
     </div>
+  </div>
   </div>
   <footer class="sticky-footer bg-white">
     <div class="container my-auto">
@@ -284,6 +291,17 @@ $username = $_SESSION['username'];
   <script src="sbadmin/vendor/chart.js/Chart.min.js"></script>
   <script src="sbadmin/js/demo/chart-area-demo.js"></script>
   <script src="sbadmin/js/demo/chart-pie-demo.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      // Mengatur tindakan logout saat tombol logout ditekan
+      $('#logout').click(function() {
+        // Redirect ke halaman logout.php atau sesuai halaman logout Anda
+        window.location.href = 'login.php';
+      });
+    });
+  </script>
+
 </body>
 
 </html>

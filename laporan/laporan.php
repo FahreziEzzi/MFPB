@@ -8,29 +8,11 @@ if ($role !== 'admin' && $role !== 'petugas') {
     header("Location: dashboard.php");
     exit();
 }
-$status = isset($_GET['status']) ? $_GET['status'] : '';
-$startDate = isset($_GET['start_date']) ? $_GET['start_date'] : '';
-$endDate = isset($_GET['end_date']) ? $_GET['end_date'] : '';
-
 $sql = "SELECT peminjaman.id, user.nama_lengkap AS nama_user, buku.judul AS judul_buku, peminjaman.tanggal_peminjaman, peminjaman.tanggal_pengembalian, peminjaman.status_peminjaman
         FROM peminjaman
         INNER JOIN user ON peminjaman.user = user.id
         INNER JOIN buku ON peminjaman.buku = buku.id";
-
-if (!empty($status)) {
-    $sql .= " AND status_peminjaman = '$status' ";
-}
-
-if (!empty($startDate) && !empty($endDate)) {
-    $sql .= " AND tanggal_peminjaman BETWEEN '$startDate' AND '$endDate' ";
-}
-
 $result = mysqli_query($koneksi, $sql);
-$result = mysqli_query($koneksi, $sql);
-
-if (!$result) {
-    die('Error: ' . mysqli_error($koneksi));
-}
 ?>
 
 <!DOCTYPE html>
@@ -93,7 +75,7 @@ if (!$result) {
                         <span>Data Pengguna</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="peminjaman.php">
+                    <a class="nav-link" href="../peminjaman/peminjaman.php">
                         <i class="fas fa-fw fa-handshake"></i>
                         <span>Peminjam</span></a>
                 </li>
@@ -105,7 +87,7 @@ if (!$result) {
                         <span>Ulasan</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../laporan/laporan.php">
+                    <a class="nav-link" href="">
                         <i class="fas fa-fw fa-book"></i>
                         <span>Laporan</span></a>
                 </li>
@@ -126,11 +108,11 @@ if (!$result) {
                         <span>Data Buku</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="peminjaman.php">
+                    <a class="nav-link" href="../peminjaman/peminjaman.php">
                         <i class="fas fa-fw fa-file-alt"></i>
                         <span>Peminjam</span></a>
                 <li class="nav-item">
-                    <a class="nav-link" href="../laporan/laporan.php">
+                    <a class="nav-link" href="../laporan.php">
                         <i class="fas fa-print"></i>
                         <span>Laporan</span></a>
                 </li>
@@ -188,70 +170,34 @@ if (!$result) {
                     </ul>
                 </nav>
                 <!-- tabel -->
-                <div class="container mt-5">
-                    <h2>Daftar Peminjaman</h2>
-                    <form method="GET" class="form-row align-items-end" action="">
-
+                <div class="container-fluid">
+                    <h1 class="h3 mb-3 text-gray-800">Generate Laporan Peminjaman</h1>
+                    <!-- Form untuk filter tanggal -->
+                    <form action="generate-excel.php" method="post" class="form-row align-items-end">
                         <div class="form-group col-lg-3 mb-3">
-                            <label for="">Pilih Status</label>
-                            <select class="form-control" name="status">
-                                <option value=""></option>
-                                <option value="Dipinjam" <?php if ($status == 'Dipinjam') echo 'selected'; ?>>Dipinjam</option>
-                                <option value="Dikembalikan" <?php if ($status == 'Dikembalikan') echo 'selected'; ?>>Dikembalikan</option>
-                            </select>
+                            <label for="filterDate">Filter Berdasarkan Tanggal Awal:</label>
+                            <input type="date" class="form-control" id="filterDate" name="filter_date">
                         </div>
                         <div class="form-group col-lg-3 mb-3">
-                            <label for="">Tanggal Peminjaman / Awal</label>
-                            <input type="date" class="form-control" name="start_date" value="<?= $startDate ?>">
+                            <label for="filterEndDate">Filter Berdasarkan Tanggal Akhir:</label>
+                            <input type="date" class="form-control" id="filterEndDate" name="filter_end_date">
                         </div>
                         <div class="form-group">
-                            <label for="">Tanggal Pengembalian / Akhir</label>
-                            <input type="date" class="form-control" name="end_date" value="<?= $endDate ?>">
+                            <label for="kategori_id">Filter Berdasarkan Status</label>
+                            <select class="form-control" id="kategori_id" name="status_peminjaman">
+                                <option value=""></option>
+                                <option value="dipinjam">Dipinjam</option>
+                                <option value="dikembalikan">Dikembalikan</option>
+                            </select>
                         </div>
                         <div class="form-group col-lg-2 mb-3">
-                            <button type="submit" class="btn btn-primary">Filter</button>
+                            <button type="submit" class="btn btn-primary btn-block" name="generate_excel">Generate Excel</button>
                         </div>
-
                     </form>
-                    <br>
 
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>User</th>
-                                <th>Buku</th>
-                                <th>Tanggal Peminjaman</th>
-                                <th>Tanggal Pengembalian</th>
-                                <th>Status Peminjaman</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            if (mysqli_num_rows($result) > 0) {
-                                $no = 1;
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<tr>";
-                                    echo "<td>" . $no . "</td>";
-                                    echo "<td>" . $row['nama_user'] . "</td>";
-                                    echo "<td>" . $row['judul_buku'] . "</td>";
-                                    echo "<td>" . $row['tanggal_peminjaman'] . "</td>";
-                                    echo "<td>" . $row['tanggal_pengembalian'] . "</td>";
-                                    echo "<td>" . $row['status_peminjaman'] . "</td>";
-                                    echo "</tr>";
-                                    $no++;
-                                }
-                            } else {
-                                echo "<tr><td colspan='6'>Tidak ada data</td></tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
                 </div>
-
             </div>
         </div>
-    </div>
     </div>
     </div>
     <footer class="sticky-footer bg-white">

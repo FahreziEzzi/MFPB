@@ -94,6 +94,11 @@ $resultUlasan = mysqli_query($koneksi, $query);
                     <i class="fas fa-fw fa-book"></i>
                     <span>Ulasan</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../laporan/laporan.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Laporan</span></a>
+            </li>
             <hr class="sidebar-divider">
             <li class="nav-item">
                 <a class="nav-link" href="../registrasi_anggota.php">
