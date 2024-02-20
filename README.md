@@ -7,15 +7,15 @@ Tujuan dibuatnya perpustakaan digital ini untuk
 - Mendukung pendidikan dan pengembangan pribadi dengan menyediakan akses terhadap sumber pengetahuan yang beragam.
 
 Fitur
-Registrasi & Login
-Mengelola Data Buku Perpustakaan (Create, Read, Update, Delete)
-Meminjam dan Mengembalikan buku sebagai peminjam
-Bookmark bagi peminjam
-Memberi rating dan ulasan buku
-Generate Laporan (Excel)
-Lupa Password melalui email
+- Registrasi & Login
+- Mengelola Data Buku Perpustakaan (Create, Read, Update, Delete)
+- Meminjam dan Mengembalikan buku sebagai peminjam
+- Bookmark bagi peminjam
+- Memberi rating dan ulasan buku
+- Generate Laporan (Excel)
+- Lupa Password melalui email 
 
-Get Started
+Get started
 
 Download zip project ini atau clone repository ini
 git clone https://github.com/FahreziEzzi/MFPB.git
@@ -26,5 +26,5 @@ Buat database "db_perpustakaan", lalu Import database db_perpustakaan.sql ke dat
 Buka index.php pada folder perpustakaan, maka aplikasi siap dijalankan
 
 Library yang digunakan
-PHPMailer
-PHPOffice
+- PHPMailer
+- PHPOffice
