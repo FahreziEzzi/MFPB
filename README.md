@@ -1,4 +1,4 @@
-  project perpustakaan digital adalah sebuah platform perpustakaan digital yang bertujuan untuk memberikan akses mudah dan nyaman kepada para pembaca untuk menjelajahi dan membaca berbagai koleksi buku secara online. Dengan menggunakan teknologi digital, BukuBerkah memungkinkan pengguna untuk mengakses ribuan judul buku dari berbagai genre dan bahasa dengan hanya menggunakan perangkat mereka.
+  project perpustakaan digital adalah sebuah platform perpustakaan digital yang bertujuan untuk memberikan akses mudah dan nyaman kepada para pembaca untuk menjelajahi dan membaca berbagai koleksi buku secara online. Dengan menggunakan teknologi digital, memungkinkan pengguna untuk mengakses ribuan judul buku dari berbagai genre dan bahasa dengan hanya menggunakan perangkat mereka.
 
 Tujuan dibuatnya perpustakaan digital ini untuk
 - Membawa dunia literasi ke dalam era digital dengan memfasilitasi akses mudah dan cepat ke berbagai buku.
