@@ -26,6 +26,19 @@ $result = mysqli_query($koneksi, $sql);
 <html lang="en">
 
 <head>
+<style>
+    #searchDropdown {
+      display: none;
+    }
+
+    .nav-item.active .nav-link span {
+      font-size: 17px !important;
+    }
+
+    .nav-item.side .nav-link span {
+      font-size: 17px !important;
+    }
+  </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -46,76 +59,84 @@ $result = mysqli_query($koneksi, $sql);
                     <i class="fas fa-angry"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">
-                    <?php
-                    echo $role === 'admin' ? 'Admin' : 'Petugas';
-                    ?>
-                </div>
-            </a>
+          <?php
+          echo $role === 'admin' ? 'Admin' : 'Petugas';
+          ?>
+        </div>
+      </a>
+      <hr class="sidebar-divider my-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="../dashboard.php">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+      </li>
+      <hr class="sidebar-divider">
+      <?php
+      if ($role === 'admin') :
+      ?>
+        <li class="nav-item side">
+          <a class="nav-link" href="../buku/index.php">
+            <i class="fas fa-fw fa-book"></i>
+            <span>Data Buku</span></a>
+        </li>
+        <li class="nav-item side">
+          <a class="nav-link" href="">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Data Pengguna</span></a>
+        </li>
+        <li class="nav-item side">
+          <a class="nav-link" href="../peminjaman/peminjaman.php">
+            <i class="fas fa-fw fa-handshake"></i>
+            <span>Peminjam</span></a>
+        </li>
+        <hr class="sidebar-divider">
+        <li class="nav-item side">
+          <a class="nav-link" href="../ulasan/index.php">
+            <i class="fas fa-fw fa-book"></i>
+            <span>Ulasan</span></a>
+        </li>
+        <li class="nav-item side">
+          <a class="nav-link" href="../laporan/laporan.php">
+            <i class="fas fa-fw fa-book"></i>
+            <span>Laporan</span></a>
+        </li>
+        <hr class="sidebar-divider">
+        <li class="nav-item side">
+          <a class="nav-link" href="../registrasi_anggota.php">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Registrasi</span></a>
+        </li>
+        <li class="nav-item side">
+          <a class="nav-link" href="../logout.php">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Logout</span></a>
+        </li>
 
-
-            <hr class="sidebar-divider my-0">
-            <li class="nav-item active">
-                <a class="nav-link" href="../dashboard.php">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-
-
-            <hr class="sidebar-divider">
-
-            <?php
-            if ($role === 'admin') :
-            ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="../buku/index.php">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Data Buku</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="data_pengguna.php">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Data Pengguna</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../peminjaman/peminjaman.php">
-                        <i class="fas fa-fw fa-handshake"></i>
-                        <span>Peminjam</span></a>
-                </li>
-                <!-- Nav Item - Tables -->
-                <hr class="sidebar-divider">
-                <li class="nav-item">
-                    <a class="nav-link" href="../ulasan/">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Ulasan</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../laporan/laporan.php">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Laporan</span></a>
-                </li>
-                <hr class="sidebar-divider">
-                <!-- Nav Item - Tables -->
-                <li class="nav-item">
-                    <a class="nav-link" href="../registrasi_anggota.php">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Registrasi</span></a>
-                </li>
-
-            <?php endif ?>
-            <?php
-            if ($role === 'petugas') :
-            ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="buku/index.php">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Data Buku</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="tables.html">
-                        <i class="fas fa-fw fa-file-alt"></i>
-                        <span>Laporan</span></a>
-                </li>
-            <?php endif ?>
+      <?php endif ?>
+      <?php
+      if ($role === 'petugas') :
+      ?>
+        <li class="nav-item side">
+          <a class="nav-link" href="../buku/index.php">
+            <i class="fas fa-fw fa-book"></i>
+            <span>Data Buku</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="../peminjaman/peminjaman.php">
+            <i class="fas fa-fw fa-file-alt"></i>
+            <span>Peminjam</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="../laporan/laporan.php">
+            <i class="fas fa-print"></i>
+            <span>Laporan</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="../logout.php">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span></a>
+        </li>
+      <?php endif ?>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

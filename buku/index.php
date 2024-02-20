@@ -10,6 +10,15 @@ $username = $_SESSION['username'];
 <html lang="en">
 
 <head>
+    <style>
+        .nav-item.active .nav-link span {
+            font-size: 17px !important;
+        }
+
+        .nav-item.side .nav-link span {
+            font-size: 17px !important;
+        }
+    </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -46,54 +55,59 @@ $username = $_SESSION['username'];
             <?php
             if ($role === 'admin') :
             ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php">
+                <li class="nav-item side">
+                    <a class="nav-link" href="">
                         <i class="fas fa-fw fa-book"></i>
                         <span>Data Buku</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item side">
                     <a class="nav-link" href="../datapengguna/data_pengguna.php">
                         <i class="fas fa-fw fa-user"></i>
                         <span>Data Pengguna</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item side">
                     <a class="nav-link" href="../peminjaman/peminjaman.php">
                         <i class="fas fa-fw fa-handshake"></i>
                         <span>Peminjam</span></a>
                 </li>
                 <hr class="sidebar-divider">
-                <li class="nav-item">
-                    <a class="nav-link" href="../ulasan/">
+                <li class="nav-item side">
+                    <a class="nav-link" href="../ulasan/index.php">
                         <i class="fas fa-fw fa-book"></i>
                         <span>Ulasan</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item side">
                     <a class="nav-link" href="../laporan/laporan.php">
                         <i class="fas fa-fw fa-book"></i>
                         <span>Laporan</span></a>
                 </li>
                 <hr class="sidebar-divider">
-                <li class="nav-item">
+                <li class="nav-item side">
                     <a class="nav-link" href="../registrasi_anggota.php">
                         <i class="fas fa-fw fa-user"></i>
                         <span>Registrasi</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../logout.php">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Logout</span></a>
                 </li>
 
             <?php endif ?>
             <?php
             if ($role === 'petugas') :
             ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="buku/index.php">
+                <li class="nav-item side">
+                    <a class="nav-link" href="../buku/index.php">
                         <i class="fas fa-fw fa-book"></i>
                         <span>Data Buku</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="../peminjaman/peminjaman.php">
                         <i class="fas fa-fw fa-file-alt"></i>
                         <span>Peminjam</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="../laporan/laporan.php">
                         <i class="fas fa-print"></i>
                         <span>Laporan</span></a>
@@ -164,7 +178,6 @@ $username = $_SESSION['username'];
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $_SESSION['username']; ?></span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

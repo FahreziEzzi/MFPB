@@ -73,6 +73,11 @@ checkAdminRole($userRole);
                     <i class="fas fa-fw fa-user"></i>
                     <span>Registrasi</span></a>
             </li>
+            <li class="nav-item ">
+                    <a class="nav-link" href="../logout.php">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span></a>
+                </li>
             <hr class="sidebar-divider d-none d-md-block">
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>

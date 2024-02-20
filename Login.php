@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,6 +16,7 @@
     body {
       background-color: #4e73df;
     }
+
     .container {
       height: 100vh;
       display: flex;
@@ -37,6 +39,7 @@
     }
   </style>
 </head>
+
 <body class="bg-gradient-primary">
   <div class="container">
     <div class="col-lg-6">
@@ -64,10 +67,12 @@
                   <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
                   <hr>
                 </form>
-                <hr>
                 <div class="text-center">
                   <a class="small" href="Registrasi.php">Create an Account!</a>
+                  <br>
+                  <a href="resetpw/check.php" class="small">Forgot your password?</a>
                 </div>
+                <hr>
               </div>
             </div>
           </div>
