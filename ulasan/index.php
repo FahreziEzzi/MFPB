@@ -1,5 +1,6 @@
 <?php
 include "../koneksi.php";
+session_start();
 $sql = "SELECT * FROM buku";
 $resultBooks = mysqli_query($koneksi, $sql);
 $query = "SELECT buku.id AS buku_id, buku.judul, ulasan_buku.ulasan, ulasan_buku.rating,
@@ -17,12 +18,12 @@ $resultUlasan = mysqli_query($koneksi, $query);
 <head>
     <style>
         .nav-item.active .nav-link span {
-      font-size: 17px !important;
-    }
+            font-size: 17px !important;
+        }
 
-    .nav-item.side .nav-link span {
-      font-size: 17px !important;
-    }
+        .nav-item.side .nav-link span {
+            font-size: 17px !important;
+        }
     </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -115,10 +116,10 @@ $resultUlasan = mysqli_query($koneksi, $query);
                     <span>Registrasi</span></a>
             </li>
             <li class="nav-item side">
-                    <a class="nav-link" href="../logout.php">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span></a>
-                </li>
+                <a class="nav-link" href="../logout.php">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span></a>
+            </li>
             <hr class="sidebar-divider d-none d-md-block">
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -142,7 +143,9 @@ $resultUlasan = mysqli_query($koneksi, $query);
                         </div>
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    <?= $_SESSION['username']; ?>
+                                </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <div class="dropdown-divider"></div>

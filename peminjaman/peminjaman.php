@@ -137,17 +137,17 @@ if (!$result) {
             <i class="fas fa-fw fa-book"></i>
             <span>Data Buku</span></a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item side">
           <a class="nav-link" href="../peminjaman/peminjaman.php">
             <i class="fas fa-fw fa-file-alt"></i>
             <span>Peminjam</span></a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item side">
           <a class="nav-link" href="../laporan/laporan.php">
             <i class="fas fa-print"></i>
             <span>Laporan</span></a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item side">
           <a class="nav-link" href="../logout.php">
             <i class="fas fa-sign-out-alt"></i>
             <span>Logout</span></a>

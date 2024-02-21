@@ -14,6 +14,15 @@ checkAdminRole($userRole);
 <html lang="en">
 
 <head>
+    <style>
+        .nav-item.active .nav-link span {
+            font-size: 17px !important;
+        }
+
+        .nav-item.side .nav-link span {
+            font-size: 17px !important;
+        }
+    </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -41,43 +50,43 @@ checkAdminRole($userRole);
                     <span>Dashboard</span></a>
             </li>
             <hr class="sidebar-divider">
-            <li class="nav-item">
+            <li class="nav-item side">
                 <a class="nav-link" href="buku/">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Data Buku</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item side">
                 <a class="nav-link" href="buku/">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Data Pengguna</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item side">
                 <a class="nav-link" href="peminjaman/peminjaman.php">
                     <i class="fas fa-fw fa-handshake"></i>
                     <span>Peminjam</span></a>
             </li>
             <hr class="sidebar-divider">
-            <li class="nav-item">
+            <li class="nav-item side">
                 <a class="nav-link" href="ulasan/">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Ulasan</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item side">
                 <a class="nav-link" href="laporan/laporan.php">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Laporan</span></a>
             </li>
             <hr class="sidebar-divider">
-            <li class="nav-item">
+            <li class="nav-item side">
                 <a class="nav-link" href="registrasi_anggota.php">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Registrasi</span></a>
             </li>
-            <li class="nav-item ">
-                    <a class="nav-link" href="../logout.php">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span></a>
-                </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../logout.php">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span></a>
+            </li>
             <hr class="sidebar-divider d-none d-md-block">
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -108,7 +117,9 @@ checkAdminRole($userRole);
                         </div>
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                <?= $_SESSION['username']; ?>
+                                </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <div class="dropdown-divider"></div>

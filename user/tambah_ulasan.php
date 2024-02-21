@@ -57,7 +57,7 @@ $data = mysqli_fetch_assoc($result);
                                         <p>Penulis: <?= $data['penulis'] ?></p>
                                         <p>Penerbit: <?= $data['penerbit'] ?></p>
                                         <p>Tahun Terbit: <?= $data['tahun_terbit'] ?></p>
-                                        <p>Sinopsis: <?= $data['Sinopsis'] ?></p>
+                                        <p>Deskripsi: <?= $data['deskripsi'] ?></p>
                                     </div>
                                 </div>
                                 <form class="user" action="proses_pengiriman_ulasan.php" method="post">

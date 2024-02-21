@@ -3,7 +3,25 @@ include "koneksi.php";
 session_start();
 $role = $_SESSION['role'];
 $username = $_SESSION['username'];
-$sql = "SELECT * FROM buku";
+
+// Pagination setup
+$limit = 5; // Jumlah entri per halaman
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1; // Halaman saat ini
+
+// Hitung total entri
+$sql_count = "SELECT COUNT(*) AS total FROM buku";
+$count_result = mysqli_query($koneksi, $sql_count);
+$count_data = mysqli_fetch_assoc($count_result);
+$total_records = $count_data['total'];
+
+// Hitung total halaman
+$total_pages = ceil($total_records / $limit);
+
+// Tentukan OFFSET untuk query
+$offset = ($current_page - 1) * $limit;
+
+// Query data buku dengan LIMIT dan OFFSET
+$sql = "SELECT * FROM buku LIMIT $limit OFFSET $offset";
 $result = mysqli_query($koneksi, $sql);
 ?>
 <!DOCTYPE html>
@@ -105,17 +123,17 @@ $result = mysqli_query($koneksi, $sql);
             <i class="fas fa-fw fa-book"></i>
             <span>Data Buku</span></a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item side">
           <a class="nav-link" href="peminjaman/peminjaman.php">
             <i class="fas fa-fw fa-file-alt"></i>
             <span>Peminjam</span></a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item side">
           <a class="nav-link" href="laporan/laporan.php">
             <i class="fas fa-print"></i>
             <span>Laporan</span></a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item side">
           <a class="nav-link" href="logout.php">
             <i class="fas fa-sign-out-alt"></i>
             <span>Logout</span></a>
@@ -253,6 +271,7 @@ $result = mysqli_query($koneksi, $sql);
                   <td class="text-center">
                     <a class="badge badge-danger" onclick="return confirm('Yakin Mau Hapus buku?')" href="buku/delete.php?id=<?= $data['id'] ?>">Delete</a>
                     <a class="badge badge-success" href="buku/edit.php?id=<?= $data['id'] ?>">Edit</a>
+                    <a class="badge badge-primary" href="buku/detail.php?id=<?= $data['id'] ?>">detail</a>
                   </td>
                 </tr>
               <?php endwhile ?>
@@ -260,8 +279,28 @@ $result = mysqli_query($koneksi, $sql);
           </table>
         </div>
       </div>
-
+      <div class="row">
+        <div class="col">
+          <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+              <li class="page-item <?php echo $current_page <= 1 ? 'disabled' : ''; ?>">
+                <a class="page-link" href="?page=<?php echo $current_page - 1; ?>" tabindex="-1" aria-disabled="true">Previous</a>
+              </li>
+              <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+                <li class="page-item <?php echo $current_page == $i ? 'active' : ''; ?>">
+                  <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                </li>
+              <?php endfor; ?>
+              <li class="page-item <?php echo $current_page >= $total_pages ? 'disabled' : ''; ?>">
+                <a class="page-link" href="?page=<?php echo $current_page + 1; ?>">Next</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
     </div>
+  </div>
+
   </div>
   </div>
   <footer class="sticky-footer bg-white">
