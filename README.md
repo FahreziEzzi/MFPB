@@ -30,5 +30,5 @@ Buka index.php pada folder perpustakaan, maka aplikasi siap dijalankan
 - [PHPMailer](https://github.com/PHPMailer/PHPMailer)
 - [PHPOffice](https://github.com/PHPOffice/PhpSpreadsheet)
 
-#Catatan
+# Catatan
 Di direktori file resetpw/check.php, ada bagian code $mail->Username = '' dan $mail->Password = '', Username ini adalah gmail yang digunakan dan Password ini adalah aplikasi sandi atau apps password dari gmail.
