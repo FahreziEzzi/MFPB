@@ -1,9 +1,10 @@
 <?php
+session_start();
 include "../koneksi.php";
 $infoBuku = [];
 $resultUlasan = [];
 $buku_id = isset($_GET['id']) ? $_GET['id'] : 0;
-$infoBukuQuery = "SELECT buku.id AS buku_id, buku.judul, buku.penulis, buku.penerbit
+$infoBukuQuery = "SELECT buku.id AS buku_id, buku.judul, buku.penulis, buku.penerbit, buku.cover
                   FROM buku
                   WHERE buku.id = $buku_id";
 $resultInfoBuku = mysqli_query($koneksi, $infoBukuQuery);
@@ -11,7 +12,8 @@ $resultInfoBuku = mysqli_query($koneksi, $infoBukuQuery);
 if ($resultInfoBuku) {
     $infoBuku = mysqli_fetch_assoc($resultInfoBuku);
 }
-$ulasanQuery = "SELECT ulasan_buku.id AS ulasan_id, user.nama_lengkap, ulasan_buku.ulasan, ulasan_buku.rating
+
+$ulasanQuery = "SELECT ulasan_buku.id AS ulasan_id, user.nama_lengkap, ulasan_buku.ulasan, ulasan_buku.rating, ulasan_buku.user
                 FROM ulasan_buku
                 INNER JOIN user ON ulasan_buku.user = user.id
                 WHERE ulasan_buku.buku = $buku_id";
@@ -21,6 +23,7 @@ $resultUlasan = mysqli_query($koneksi, $ulasanQuery);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -29,10 +32,63 @@ $resultUlasan = mysqli_query($koneksi, $ulasanQuery);
     <meta name="author" content="">
     <title>Ulasan</title>
     <link href="../sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
     <link href="../sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+    <link href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+    /* Tambahkan gaya CSS kustom di sini */
+    body {
+        background-color: #f8f9fc;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+    .card-header {
+        background-color: #ffffff;
+        border-bottom: 1px solid #e3e6f0;
+    }
+
+    .card-title {
+        color: #4e73df;
+        font-weight: bold;
+    }
+
+    .card-body {
+        background-color: #ffffff;
+    }
+
+    #ulasanTable_wrapper {
+        padding: 20px;
+    }
+
+    #ulasanTable_length,
+    #ulasanTable_filter {
+        margin-bottom: 10px;
+    }
+
+    .cover-image {
+        max-width: 140px;
+        height: 390px;
+        margin-bottom: 20px;
+    }
+
+    @media (min-width: 768px) {
+        .cover-image {
+            max-width: 410%;
+            float: left;
+            margin-right: 20px;
+            margin-bottom: 0;
+        }
+
+        .book-info {
+            overflow: hidden;
+        }
+    }
+    </style>
 </head>
 
 <body id="page-top">
@@ -40,45 +96,82 @@ $resultUlasan = mysqli_query($koneksi, $ulasanQuery);
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
                 <div class="container-fluid">
-                    <h1 class="h3 mb-4 text-gray-800"><?= isset($infoBuku['judul']) ? $infoBuku['judul'] : "Informasi Buku Tidak Ditemukan" ?></h1>
-                    <div class="card mb-4">
+                    <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title"><?= isset($infoBuku['judul']) ? $infoBuku['judul'] : "Informasi Buku Tidak Ditemukan" ?></h5>
+                            <h5 class="card-title">
+                                <?= isset($infoBuku['judul']) ? $infoBuku['judul'] : "Informasi Buku Tidak Ditemukan" ?>
+                            </h5>
                         </div>
                         <div class="card-body">
-                            <p class="card-text"><strong>Pengarang:</strong> <?= isset($infoBuku['penulis']) ? $infoBuku['penulis'] : "Informasi Tidak Tersedia" ?></p>
-                            <p class="card-text"><strong>Penerbit:</strong> <?= isset($infoBuku['penerbit']) ? $infoBuku['penerbit'] : "Informasi Tidak Tersedia" ?></p>
+                            <div class="row">
+                                <div class="col-md-3">
+
+                                    <img src="<?= isset($infoBuku['cover']) ? '../buku/' . $infoBuku['cover'] : '../buku/uploads/' ?>"
+                                        class="card-img-top cover-image" alt="Cover Image">
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="book-info">
+                                        <p class="card-text"><strong>Pengarang:</strong>
+                                            <?= isset($infoBuku['penulis']) ? $infoBuku['penulis'] : "Informasi Tidak Tersedia" ?>
+                                        </p>
+                                        <p class="card-text"><strong>Penerbit:</strong>
+                                            <?= isset($infoBuku['penerbit']) ? $infoBuku['penerbit'] : "Informasi Tidak Tersedia" ?>
+                                        </p>
+                                        <p class="card-text"><strong>Deskripsi:</strong>
+                                            <?= isset($infoBuku['deskripsi']) ? $infoBuku['deskripsi'] : "Informasi Tidak Tersedia" ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card mb-4">
+
+                    <div class="card">
                         <div class="card-header">
                             <h5 class="card-title">Ulasan</h5>
                         </div>
                         <div class="card-body">
-                            <table id="ulasanTable" class="table table-striped table-bordered" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>Nama Lengkap</th>
-                                        <th>Ulasan</th>
-                                        <th>Rating</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if ($resultUlasan && mysqli_num_rows($resultUlasan) > 0) : ?>
-                                        <?php while ($ulasan = mysqli_fetch_assoc($resultUlasan)) : ?>
-                                            <tr>
-                                                <td><?= $ulasan['nama_lengkap'] ?></td>
-                                                <td><?= $ulasan['ulasan'] ?></td>
-                                                <td><?= $ulasan['rating'] ?></td>
-                                            </tr>
-                                        <?php endwhile ?>
-                                    <?php else : ?>
+                            <div id="ulasanTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <div class="row">
+
+                                    <div class="col-sm-12 col-md-6">
+
+                                    </div>
+                                </div>
+                                <table id="ulasanTable" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
                                         <tr>
-                                            <td colspan="3">Belum ada ulasan untuk buku ini.</td>
+                                            <th>Nama Lengkap</th>
+                                            <th>Ulasan</th>
+                                            <th>Rating</th>
+                                            <th>Action</th>
                                         </tr>
-                                    <?php endif ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php if ($resultUlasan && mysqli_num_rows($resultUlasan) > 0) : ?>
+                                        <?php while ($ulasan = mysqli_fetch_assoc($resultUlasan)) : ?>
+                                        <tr>
+                                            <td><?= $ulasan['nama_lengkap'] ?></td>
+                                            <td><?= $ulasan['ulasan'] ?></td>
+                                            <td><?= $ulasan['rating'] ?></td>
+                                            <td>
+                                                <?php if ($_SESSION['user_id'] == $ulasan['user']) : ?>
+                                                <a href="edit_ulasan.php?id=<?= $ulasan['ulasan_id'] ?>"
+                                                    class="btn btn-sm btn-primary">Edit</a>
+                                                <button onclick="confirmDelete(<?= $ulasan['ulasan_id'] ?>)"
+                                                    class="btn btn-sm btn-danger">Hapus</button>
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                        <?php endwhile ?>
+                                        <?php else : ?>
+                                        <tr>
+                                            <td colspan="4">Belum ada ulasan untuk buku ini.</td>
+                                        </tr>
+                                        <?php endif ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -92,19 +185,26 @@ $resultUlasan = mysqli_query($koneksi, $ulasanQuery);
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
     <script src="../sbadmin/js/sb-admin-2.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#ulasanTable').DataTable({
-                "paging": true,
-                "pageLength": 5,
-                "lengthMenu": [5, 10, 25, 50], 
-                "language": {
-                    "paginate": {
-                        "previous": "<",
-                        "next": ">"
-                    }
+    $(document).ready(function() {
+        $('#ulasanTable').DataTable({
+            "paging": true,
+            "pageLength": 5,
+            "lengthMenu": [5, 10, 25, 50],
+            "language": {
+                "paginate": {
+                    "previous": "<",
+                    "next": ">"
                 }
-            });
+            }
         });
+    });
+    </script>
+    <script>
+    function confirmDelete(ulasanId) {
+        if (confirm("Yakin ingin menghapus ulasan ini?")) {
+            window.location.href = "hapus_ulasan.php?id=" + ulasanId;
+        }
+    }
     </script>
 </body>
 

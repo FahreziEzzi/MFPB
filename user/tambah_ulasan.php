@@ -19,23 +19,25 @@ $data = mysqli_fetch_assoc($result);
     <meta name="author" content="">
     <title>Ulasan Buku</title>
     <link href="../sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
     <link href="../sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
     <style>
-        .book-info {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+    .book-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
 
-        .book-info img {
-            max-width: 150px;
-            margin-right: 20px;
-        }
+    .book-info img {
+        max-width: 290px;
+        margin-right: 50px;
+    }
 
-        .book-details {
-            flex: 1;
-        }
+    .book-details {
+        flex: 1;
+    }
     </style>
 </head>
 
@@ -65,14 +67,18 @@ $data = mysqli_fetch_assoc($result);
                                     <input type="hidden" name="id_user" value="<?php echo $_SESSION['user_id'] ?>">
                                     <div class="form-group">
                                         <label for="inputRating">Rating 1-5:</label>
-                                        <input type="number" class="form-control" id="inputRating" name="rating" min="1" max="5" required>
+                                        <input type="number" class="form-control" id="inputRating" name="rating" min="1"
+                                            max="5" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputUlasan">Ulasan:</label>
-                                        <textarea class="form-control" id="inputUlasan" name="ulasan" rows="3" required></textarea>
+                                        <textarea class="form-control" id="inputUlasan" name="ulasan" rows="3"
+                                            required></textarea>
                                     </div>
-                                    <button type="submit" class="btn btn-primary btn-user btn-block">Kirim Ulasan</button>
-                                    <a href="lihat_ulasan.php?id=<?php echo $_GET['id']; ?>" class="btn btn-success btn-user btn-block">Lihat Ulasan</a>
+                                    <button type="submit" class="btn btn-primary btn-user btn-block">Kirim
+                                        Ulasan</button>
+                                    <a href="lihat_ulasan.php?id=<?php echo $_GET['id']; ?>"
+                                        class="btn btn-success btn-user btn-block">Lihat Ulasan</a>
                                     <hr>
                                 </form>
                             </div>

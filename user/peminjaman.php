@@ -131,7 +131,7 @@ $result = mysqli_query($koneksi, $query);
                                     <i class="fas fa-handshake fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Peminjaman
                                 </a>
-                                <a class="dropdown-item" href="">
+                                <a class="dropdown-item" href="bookmark.php">
                                     <i class="far fa-bookmark fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Bookmark
                                 </a>
@@ -162,7 +162,7 @@ $result = mysqli_query($koneksi, $query);
                                     <p class="card-text"><?php echo $row['penulis']; ?></p>
                                     <p class="card-text"><?php echo $row['penerbit']; ?></p>
                                     <p class="card-text">Tahun Terbit: <?php echo $row['tahun_terbit']; ?></p>
-                                    <a href="#" class="btn btn-primary">Pinjam</a>
+                                    <a href="pinjam.php" class="btn btn-primary">Pinjam</a>
                                     <a href="bookmark.php?id=<?= $row['id']; ?>&action=delete" class="btn btn-secondary"
                                         onclick="return confirmDelete()">
                                         <i class="fas fa-heart"></i> Hapus Bookmark</a>

@@ -3,12 +3,30 @@ include "../koneksi.php";
 session_start();
 $sql = "SELECT * FROM buku";
 $resultBooks = mysqli_query($koneksi, $sql);
-$query = "SELECT buku.id AS buku_id, buku.judul, ulasan_buku.ulasan, ulasan_buku.rating,
-                  COUNT(ulasan_buku.id) AS jumlah_ulasan,
-                  AVG(ulasan_buku.rating) AS rating
-           FROM buku
-           LEFT JOIN ulasan_buku ON buku.id = ulasan_buku.buku
-           GROUP BY buku.id";
+
+$limit = 5; // Jumlah entri per halaman
+$current_page = isset($_GET['page']) ? $_GET['page'] : 1; // Halaman saat ini
+
+// Hitung total entri
+$sql_count = "SELECT COUNT(*) AS total FROM buku";
+$count_result = mysqli_query($koneksi, $sql_count);
+$count_data = mysqli_fetch_assoc($count_result);
+$total_records = $count_data['total'];
+
+// Hitung total halaman
+$total_pages = ceil($total_records / $limit);
+
+// Tentukan OFFSET untuk query
+$offset = ($current_page - 1) * $limit;
+
+$query = "SELECT buku.id AS buku_id, buku.judul, buku.cover,
+                 COUNT(ulasan_buku.id) AS jumlah_ulasan,
+                 AVG(ulasan_buku.rating) AS rating
+          FROM buku
+          LEFT JOIN ulasan_buku ON buku.id = ulasan_buku.buku
+          GROUP BY buku.id";
+
+$query .= " LIMIT $limit OFFSET $offset";
 
 $resultUlasan = mysqli_query($koneksi, $query);
 ?>
@@ -40,6 +58,14 @@ $resultUlasan = mysqli_query($koneksi, $query);
 
 </head>
 <style>
+    .nav-item.active .nav-link span {
+        font-size: 17px !important;
+    }
+
+    .nav-item.side .nav-link span {
+        font-size: 17px !important;
+    }
+
     .ulasan-sidebar {
         position: fixed;
         top: 80px;
@@ -77,7 +103,7 @@ $resultUlasan = mysqli_query($koneksi, $query);
                 <div class="sidebar-brand-text mx-3">Admin</div>
             </a>
             <hr class="sidebar-divider my-0">
-            <li class="nav-item active">
+            <li class="nav-item side">
                 <a class="nav-link" href="../dashboard.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -90,29 +116,29 @@ $resultUlasan = mysqli_query($koneksi, $query);
             </li>
             <li class="nav-item side">
                 <a class="nav-link" href="../buku/">
-                    <i class="fas fa-fw fa-user"></i>
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Data Pengguna</span></a>
             </li>
             <li class="nav-item side">
                 <a class="nav-link" href="../peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-handshake"></i>
+                    <i class="fas fa-fw fa-user"></i>
                     <span>Peminjam</span></a>
             </li>
             <hr class="sidebar-divider">
-            <li class="nav-item side">
+            <li class="nav-item side active">
                 <a class="nav-link" href="">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Ulasan</span></a>
             </li>
             <li class="nav-item side">
                 <a class="nav-link" href="../laporan/laporan.php">
-                    <i class="fas fa-fw fa-book"></i>
+                    <i class="fas fa-fw fa-print"></i>
                     <span>Laporan</span></a>
             </li>
             <hr class="sidebar-divider">
             <li class="nav-item side">
                 <a class="nav-link" href="../registrasi_anggota.php">
-                    <i class="fas fa-fw fa-user"></i>
+                    <i class="fas fa-fw fa-user-check"></i>
                     <span>Registrasi</span></a>
             </li>
             <li class="nav-item side">
@@ -145,6 +171,7 @@ $resultUlasan = mysqli_query($koneksi, $query);
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?= $_SESSION['username']; ?>
+                                    <i class="fas fa-caret-down"></i>
                                 </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -160,34 +187,62 @@ $resultUlasan = mysqli_query($koneksi, $query);
                 <div class="container-fluid">
                     <h1 class="h3 mb-3 text-gray-800">Ulasan Buku</h1>
                     <div class="row">
-                        <div class="col-lg-8">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <!-- <th scope="col">Cover</th> -->
-                                        <th scope="col">Judul</th>
-                                        <th scope="col">Jumlah Ulasan</th>
-                                        <th scope="col">Rating</th>
-                                        <th style="text-align: center;">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php while ($data = mysqli_fetch_assoc($resultUlasan)) : ?>
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table table-hover" style="width: 100%">
+                                    <thead>
                                         <tr>
-                                            <td><?= $data['buku_id'] ?></td>
-                                            <!-- <td><img src="<?= $data['cover'] ?>" alt="Cover Buku" style="max-width: 100px; max-height: 100px;"></td> -->
-                                            <td><?= $data['judul'] ?></td>
-                                            <td><?= $data['jumlah_ulasan'] ?></td>
-                                            <td><?= number_format($data['rating'], 2); ?></td>
-                                            <td class="text-center">
-                                                <a class="badge badge-danger" onclick="" href="tambah_ulasan.php?id=<?= $data['buku_id'] ?>">Tambah Ulasan</a>
-                                                <a class="badge badge-success" href="lihat_ulasan.php?id=<?= $data['buku_id'] ?>">Lihat Ulasan</a>
-                                            </td>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Cover</th>
+                                            <th scope="col">Judul</th>
+                                            <th scope="col">Jumlah Ulasan</th>
+                                            <th scope="col">Rata-rata Rating</th>
+                                            <!-- Tambahkan kolom sesuai dengan struktur tabel buku -->
+                                            <th style="text-align: center;">Aksi</th>
                                         </tr>
-                                    <?php endwhile ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php while ($row = mysqli_fetch_assoc($resultUlasan)) : ?>
+                                            <tr>
+                                                <td><?= $row['buku_id'] ?></td>
+                                                <td>
+                                                    <?php if (!empty($row['cover'])) : ?>
+                                                        <img src="../buku/<?= $row['cover']; ?>" alt="Cover Buku" style="max-width: 100px; max-height: 100px;">
+                                                    <?php else : ?>
+                                                        Tidak ada Cover
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td><?= $row['judul'] ?></td>
+                                                <td><?= $row['jumlah_ulasan'] ?></td>
+                                                <td><?= number_format($row['rating'], 2); ?></td>
+                                                <td class="text-center">
+                                                    <a class="badge badge-danger" onclick="" href="tambah_ulasan.php?id=<?= $row['buku_id'] ?>">Tambah Ulasan</a>
+                                                    <a class="badge badge-success" href="lihat_ulasan.php?id=<?= $row['buku_id'] ?>">Lihat Ulasan</a>
+                                                </td>
+                                            </tr>
+                                        <?php endwhile; ?>
+                                    </tbody>
+                                </table>
+                                <div class="row justify-content-center">
+                                    <div class="col">
+                                        <nav aria-label="Page navigation">
+                                            <ul class="pagination justify-content-center">
+                                                <li class="page-item <?php echo $current_page <= 1 ? 'disabled' : ''; ?>">
+                                                    <a class="page-link" href="?page=<?php echo $current_page - 1; ?>" tabindex="-1" aria-disabled="true">Previous</a>
+                                                </li>
+                                                <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+                                                    <li class="page-item <?php echo $current_page == $i ? 'active' : ''; ?>">
+                                                        <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                    </li>
+                                                <?php endfor; ?>
+                                                <li class="page-item <?php echo $current_page >= $total_pages ? 'disabled' : ''; ?>">
+                                                    <a class="page-link" href="?page=<?php echo $current_page + 1; ?>">Next</a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -215,7 +270,7 @@ $resultUlasan = mysqli_query($koneksi, $query);
                     <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="login.php">Logout</a>
+                        <a class="btn btn-primary" href="../logout.php">Logout</a>
                     </div>
                 </div>
             </div>

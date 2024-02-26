@@ -1,12 +1,20 @@
 <?php
 session_start();
 include '../koneksi.php';
-// Check if the user is not logged in
+
+// Validasi pengguna
 if (!isset($_SESSION['username'])) {
     header("Location: ../login.php");
     exit();
 }
-$username = $_SESSION['username'];
+
+$role = $_SESSION['role'];
+
+if ($role !== 'admin' && $role !== 'petugas') {
+    header("Location: ../dashboard.php");
+    exit();
+}
+
 $filter_date = isset($_POST['filter_date']) ? $_POST['filter_date'] : '';
 $filter_end_date = isset($_POST['filter_end_date']) ? $_POST['filter_end_date'] : '';
 $filter_status = isset($_POST['status_peminjaman']) ? $_POST['status_peminjaman'] : '';
@@ -78,3 +86,4 @@ header('Cache-Control: max-age=0');
 $writer = new Xlsx($spreadsheet);
 $writer->save('php://output');
 exit;
+?>

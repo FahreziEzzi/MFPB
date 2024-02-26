@@ -4,7 +4,6 @@ session_start();
 $role = isset($_SESSION['role']) ? $_SESSION['role'] : '';
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 
-
 // Check apakah pengguna sudah login
 if (!isset($_SESSION['username'])) {
     header("Location: ../login.php"); // Redirect ke halaman login jika belum login
@@ -20,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $penerbit = htmlspecialchars($_POST["penerbit"]);
     $tahun_terbit = htmlspecialchars($_POST["tahun_terbit"]);
     $kategori_id = htmlspecialchars($_POST["kategori_id"]);
-    $deskripsi = htmlspecialchars($_POST["deskripsi"]);
+    $deskripsi = mysqli_real_escape_string($koneksi, $_POST["deskripsi"]);
 
     // Lakukan validasi dan penambahan buku
     if (!empty($judul) && !empty($penulis) && !empty($penerbit) && !empty($tahun_terbit) && !empty($kategori_id)) {
@@ -42,8 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 $add_book_query = "INSERT INTO `buku` (`perpus_id`, `judul`, `deskripsi`, `cover`, `penulis`, `penerbit`, `tahun_terbit`, `kategori_id`, `created_at`)
                    VALUES ('$perpus_id', '$judul', '$deskripsi', '$cover_filename', '$penulis', '$penerbit', '$tahun_terbit', '$kategori_id', current_timestamp())";
-
-
 
                 // Eksekusi query dan tampilkan pesan sukses atau error
                 if (mysqli_query($koneksi, $add_book_query)) {
@@ -86,7 +83,9 @@ if (mysqli_num_rows($result_kategori) > 0) {
     <meta name="author" content="">
     <title>Tambah Buku</title>
     <link href="../sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
     <link href="../sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
@@ -116,43 +115,43 @@ if (mysqli_num_rows($result_kategori) > 0) {
             <?php
             if ($role === 'admin') :
             ?>
-                <li class="nav-item side">
-                    <a class="nav-link" href="">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Data Buku</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../datapengguna/data_pengguna.php">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Data Pengguna</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../peminjaman/peminjaman.php">
-                        <i class="fas fa-fw fa-handshake"></i>
-                        <span>Peminjam</span></a>
-                </li>
-                <hr class="sidebar-divider">
-                <li class="nav-item side">
-                    <a class="nav-link" href="../ulasan/index.php">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Ulasan</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../laporan/laporan.php">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Laporan</span></a>
-                </li>
-                <hr class="sidebar-divider">
-                <li class="nav-item side">
-                    <a class="nav-link" href="../registrasi_anggota.php">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Registrasi</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../logout.php">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Logout</span></a>
-                </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Data Buku</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../datapengguna/data_pengguna.php">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Data Pengguna</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../peminjaman/peminjaman.php">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Peminjam</span></a>
+            </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item side">
+                <a class="nav-link" href="../ulasan/index.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Ulasan</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../laporan/laporan.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Laporan</span></a>
+            </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item side">
+                <a class="nav-link" href="registrasi_anggota.php">
+                    <i class="fas fa-fw fa-user-check"></i>
+                    <span>Registrasi</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../logout.php">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Logout</span></a>
+            </li>
 
             <?php endif ?>
             <hr class="sidebar-divider d-none d-md-block">
@@ -176,21 +175,28 @@ if (mysqli_num_rows($result_kategori) > 0) {
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Tambah Buku</h1>
                                 </div>
-                                <form class="user" action="process_tambah_buku.php" method="post" enctype="multipart/form-data">
+                                <form class="user" action="process_tambah_buku.php" method="post"
+                                    enctype="multipart/form-data">
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-user" id="inputJudul" placeholder="Judul Buku" name="judul" required>
+                                        <input type="text" class="form-control form-control-user" id="inputJudul"
+                                            placeholder="Judul Buku" name="judul" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-user" id="inputPenulis" placeholder="Penulis" name="penulis" required>
+                                        <input type="text" class="form-control form-control-user" id="inputPenulis"
+                                            placeholder="Penulis" name="penulis" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-user" id="inputPenerbit" placeholder="Penerbit" name="penerbit" required>
+                                        <input type="text" class="form-control form-control-user" id="inputPenerbit"
+                                            placeholder="Penerbit" name="penerbit" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="number" class="form-control form-control-user" id="inputTahunTerbit" placeholder="Tahun Terbit" name="tahun_terbit" required>
+                                        <input type="number" class="form-control form-control-user"
+                                            id="inputTahunTerbit" placeholder="Tahun Terbit" name="tahun_terbit"
+                                            required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-user" id="inputDeskripsi" placeholder="Deskripsi" name="deskripsi" required>
+                                        <textarea class="form-control form-control-user" id="inputDeskripsi"
+                                            placeholder="Deskripsi" name="deskripsi" required></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="kategori_id">Kategori:</label>
@@ -200,9 +206,11 @@ if (mysqli_num_rows($result_kategori) > 0) {
                                     </div>
                                     <div class="form-group">
                                         <label for="inputGambar">cover Buku:</label>
-                                        <input type="file" class="form-control-file" id="inputGambar" name="cover" accept="image/*">
+                                        <input type="file" class="form-control-file" id="inputGambar" name="cover"
+                                            accept="image/*">
                                     </div>
-                                    <button type="submit" class="btn btn-primary btn-user btn-block">Tambah Buku</button>
+                                    <button type="submit" class="btn btn-primary btn-user btn-block">Tambah
+                                        Buku</button>
                                     <hr>
                                 </form>
                             </div>

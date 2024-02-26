@@ -31,6 +31,35 @@ $result = mysqli_query($koneksi, $sql);
 if (!$result) {
     die('Error: ' . mysqli_error($koneksi));
 }
+$totalRows = mysqli_num_rows(mysqli_query($koneksi, $sql));
+
+// Batasan baris per halaman
+$rowsPerPage = 5;
+
+// Menghitung total halaman
+$totalPages = ceil($totalRows / $rowsPerPage);
+
+// Mendapatkan nomor halaman dari permintaan GET, atau menggunakan halaman pertama sebagai default
+$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+// Menghitung offset untuk kueri SQL berdasarkan halaman saat ini
+$offset = ($currentPage - 1) * $rowsPerPage;
+
+// Mengambil data peminjaman untuk halaman saat ini
+$sql .= " LIMIT $offset, $rowsPerPage";
+$result = mysqli_query($koneksi, $sql);
+
+if (!$result) {
+    die('Error: ' . mysqli_error($koneksi));
+}
+
+// Tombol "Previous"
+$prevPage = $currentPage - 1;
+$prevDisabled = ($currentPage == 1) ? "disabled" : "";
+
+// Tombol "Next"
+$nextPage = $currentPage + 1;
+$nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
 ?>
 
 <!DOCTYPE html>
@@ -48,12 +77,12 @@ if (!$result) {
         }
 
         .nav-item.active .nav-link span {
-      font-size: 17px !important;
-    }
+            font-size: 17px !important;
+        }
 
-    .nav-item.side .nav-link span {
-      font-size: 17px !important;
-    }
+        .nav-item.side .nav-link span {
+            font-size: 17px !important;
+        }
     </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -75,84 +104,86 @@ if (!$result) {
                     <i class="fas fa-angry"></i>
                 </div>
                 <div class="sidebar-brand-text mx-3">
-          <?php
-          echo $role === 'admin' ? 'Admin' : 'Petugas';
-          ?>
-        </div>
-      </a>
-      <hr class="sidebar-divider my-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="../dashboard.php">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
-      </li>
-      <hr class="sidebar-divider">
-      <?php
-      if ($role === 'admin') :
-      ?>
-        <li class="nav-item side">
-          <a class="nav-link" href="../buku/index.php">
-            <i class="fas fa-fw fa-book"></i>
-            <span>Data Buku</span></a>
-        </li>
-        <li class="nav-item side">
-          <a class="nav-link" href="../datapengguna/data_pengguna.php">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Data Pengguna</span></a>
-        </li>
-        <li class="nav-item side">
-          <a class="nav-link" href="peminjaman/peminjaman.php">
-            <i class="fas fa-fw fa-handshake"></i>
-            <span>Peminjam</span></a>
-        </li>
-        <hr class="sidebar-divider">
-        <li class="nav-item side">
-          <a class="nav-link" href="../ulasan/index.php">
-            <i class="fas fa-fw fa-book"></i>
-            <span>Ulasan</span></a>
-        </li>
-        <li class="nav-item side">
-          <a class="nav-link" href="../laporan/laporan.php">
-            <i class="fas fa-fw fa-book"></i>
-            <span>Laporan</span></a>
-        </li>
-        <hr class="sidebar-divider">
-        <li class="nav-item side">
-          <a class="nav-link" href="../registrasi_anggota.php">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Registrasi</span></a>
-        </li>
-        <li class="nav-item side">
-          <a class="nav-link" href="../logout.php">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Logout</span></a>
-        </li>
+                    <?php
+                    echo $role === 'admin' ? 'Admin' : 'Petugas';
+                    ?>
+                </div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item side">
+                <a class="nav-link" href="../dashboard.php">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+            <hr class="sidebar-divider">
+            <?php
+            if ($role === 'admin') :
+            ?>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../buku/index.php">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Data Buku</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../datapengguna/data_pengguna.php">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Data Pengguna</span></a>
+                </li>
+                <li class="nav-item side active">
+                    <a class="nav-link" href="">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Peminjam</span></a>
+                </li>
+                <hr class="sidebar-divider">
+                <li class="nav-item side">
+                    <a class="nav-link" href="../ulasan/index.php">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Ulasan</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../laporan/laporan.php">
+                        <i class="fas fa-fw fa-print"></i>
+                        <span>Laporan</span></a>
+                </li>
+                <hr class="sidebar-divider">
+                <li class="nav-item side">
+                    <a class="nav-link" href="registrasi_anggota.php">
+                        <i class="fas fa-fw fa-user-check"></i>
+                        <span>Registrasi</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="#" onclick="confirmLogout();">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
 
-      <?php endif ?>
-      <?php
-      if ($role === 'petugas') :
-      ?>
-        <li class="nav-item side">
-          <a class="nav-link" href="../buku/index.php">
-            <i class="fas fa-fw fa-book"></i>
-            <span>Data Buku</span></a>
-        </li>
-        <li class="nav-item side">
-          <a class="nav-link" href="../peminjaman/peminjaman.php">
-            <i class="fas fa-fw fa-file-alt"></i>
-            <span>Peminjam</span></a>
-        </li>
-        <li class="nav-item side">
-          <a class="nav-link" href="../laporan/laporan.php">
-            <i class="fas fa-print"></i>
-            <span>Laporan</span></a>
-        </li>
-        <li class="nav-item side">
-          <a class="nav-link" href="../logout.php">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Logout</span></a>
-        </li>
-      <?php endif ?>
+            <?php endif ?>
+            <?php
+            if ($role === 'petugas') :
+            ?>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../buku/index.php">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Data Buku</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../peminjaman/peminjaman.php">
+                        <i class="fas fa-fw fa-file-alt"></i>
+                        <span>Peminjam</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../laporan/laporan.php">
+                        <i class="fas fa-print"></i>
+                        <span>Laporan</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="#" onclick="confirmLogout();">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            <?php endif ?>
             <hr class="sidebar-divider d-none d-md-block">
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -188,6 +219,7 @@ if (!$result) {
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?= $_SESSION['username']; ?>
+                                    <i class="fas fa-caret-down"></i>
                                 </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -209,8 +241,10 @@ if (!$result) {
                             <label for="">Pilih Status</label>
                             <select class="form-control" name="status">
                                 <option value=""></option>
-                                <option value="Dipinjam" <?php if ($status == 'Dipinjam') echo 'selected'; ?>>Dipinjam</option>
-                                <option value="Dikembalikan" <?php if ($status == 'Dikembalikan') echo 'selected'; ?>>Dikembalikan</option>
+                                <option value="Dipinjam" <?php if ($status == 'Dipinjam') echo 'selected'; ?>>Dipinjam
+                                </option>
+                                <option value="Dikembalikan" <?php if ($status == 'Dikembalikan') echo 'selected'; ?>>
+                                    Dikembalikan</option>
                             </select>
                         </div>
                         <div class="form-group col-lg-3 mb-3">
@@ -260,6 +294,21 @@ if (!$result) {
                             ?>
                         </tbody>
                     </table>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item <?php echo $prevDisabled; ?>">
+                                <a class="page-link" href="?page=<?php echo $prevPage; ?>" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
+                                <li class="page-item <?php echo ($currentPage == $i) ? "active" : ""; ?>">
+                                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                </li>
+                            <?php endfor; ?>
+                            <li class="page-item <?php echo $nextDisabled; ?>">
+                                <a class="page-link" href="?page=<?php echo $nextPage; ?>">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
 
             </div>
@@ -289,7 +338,7 @@ if (!$result) {
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.php">Logout</a>
+                    <a class="btn btn-primary" href="../logout.php">Logout</a>
                 </div>
             </div>
         </div>
@@ -304,6 +353,21 @@ if (!$result) {
     <script src="../sbadmin/vendor/chart.js/Chart.min.js"></script>
     <script src="../sbadmin/js/demo/chart-area-demo.js"></script>
     <script src="../sbadmin/js/demo/chart-pie-demo.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Mengatur tindakan logout saat tombol logout ditekan
+            $('#logout').click(function() {
+                // Redirect ke halaman logout.php atau sesuai halaman logout Anda
+                window.location.href = 'login.php';
+            });
+        });
+
+        function confirmLogout() {
+            if (confirm("Apakah kamu yakin ingin logout?")) {
+                window.location.href = "logout.php"; // Redirect ke logout.php jika user menekan OK
+            }
+        }
+    </script>
 </body>
 
 </html>

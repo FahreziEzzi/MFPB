@@ -46,13 +46,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <head>
     <style>
-        .nav-item.active .nav-link span {
-            font-size: 17px !important;
-        }
+    .nav-item.active .nav-link span {
+        font-size: 17px !important;
+    }
 
-        .nav-item.side .nav-link span {
-            font-size: 17px !important;
-        }
+    .nav-item.side .nav-link span {
+        font-size: 17px !important;
+    }
     </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -64,7 +64,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Custom fonts for this template-->
     <link href="../sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="../sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
@@ -98,68 +100,68 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php
             if ($userRole === 'admin') :
             ?>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../buku/index.php">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Data Buku</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../datapengguna/data_pengguna.php">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Data Pengguna</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../peminjaman/peminjaman.php">
-                        <i class="fas fa-fw fa-handshake"></i>
-                        <span>Peminjam</span></a>
-                </li>
-                <hr class="sidebar-divider">
-                <li class="nav-item side">
-                    <a class="nav-link" href="../ulasan/index.php">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Ulasan</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../laporan/laporan.php">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Laporan</span></a>
-                </li>
-                <hr class="sidebar-divider">
-                <li class="nav-item side">
-                    <a class="nav-link" href="../registrasi_anggota.php">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Registrasi</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../logout.php">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Logout</span></a>
-                </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../buku/index.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Data Buku</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../datapengguna/data_pengguna.php">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Data Pengguna</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../peminjaman/peminjaman.php">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Peminjam</span></a>
+            </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item side">
+                <a class="nav-link" href="../ulasan/index.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Ulasan</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../laporan/laporan.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Laporan</span></a>
+            </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item side">
+                <a class="nav-link" href="registrasi_anggota.php">
+                    <i class="fas fa-fw fa-user-check"></i>
+                    <span>Registrasi</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../logout.php">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Logout</span></a>
+            </li>
 
             <?php endif ?>
             <?php
             if ($userRole === 'petugas') :
             ?>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../buku/index.php">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Data Buku</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="../peminjaman/peminjaman.php">
-                        <i class="fas fa-fw fa-file-alt"></i>
-                        <span>Peminjam</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="../laporan/laporan.php">
-                        <i class="fas fa-print"></i>
-                        <span>Laporan</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../logout.php">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span></a>
-                </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../buku/index.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Data Buku</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="../peminjaman/peminjaman.php">
+                    <i class="fas fa-fw fa-file-alt"></i>
+                    <span>Peminjam</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="../laporan/laporan.php">
+                    <i class="fas fa-print"></i>
+                    <span>Laporan</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../logout.php">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span></a>
+            </li>
             <?php endif ?>
             <hr class="sidebar-divider d-none d-md-block">
             <div class="text-center d-none d-md-inline">
@@ -187,13 +189,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <ul class="navbar-nav ml-auto">
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?= $_SESSION['username']; ?>
+                                    <i class="fas fa-caret-down"></i>
                                 </span>
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
@@ -217,21 +222,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <form class="user" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                         <!-- Tambahkan pesan sukses jika ada -->
                         <?php if (isset($success_message)) { ?>
-                            <div class="alert alert-success" role="alert">
-                                <?php echo $success_message; ?>
-                            </div>
+                        <div class="alert alert-success" role="alert">
+                            <?php echo $success_message; ?>
+                        </div>
                         <?php } ?>
                         <!-- Tambahkan pesan error jika ada -->
                         <?php if (isset($error_message)) { ?>
-                            <div class="alert alert-danger" role="alert">
-                                <?php echo $error_message; ?>
-                            </div>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $error_message; ?>
+                        </div>
                         <?php } ?>
 
 
                         <div class="form-group">
                             <label for="kategori">Nama Kategori</label>
-                            <textarea class="form-control rounded" id="Kategori" name="kategori" placeholder="Kategori" required></textarea>
+                            <textarea class="form-control rounded" id="Kategori" name="kategori" placeholder="Kategori"
+                                required></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -267,7 +273,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </a>
 
         <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
