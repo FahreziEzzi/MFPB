@@ -7,7 +7,7 @@ $role = $_SESSION['role'];
 $username = $_SESSION['username'];
 
 // Pagination setup
-$limit = 5; // Jumlah entri per halaman
+$limit = 3; // Jumlah entri per halaman
 $current_page = isset($_GET['page']) ? $_GET['page'] : 1; // Halaman saat ini
 
 // Hitung total entri
@@ -37,6 +37,10 @@ $result = mysqli_query($koneksi, $sql);
 
     .nav-item.side .nav-link span {
         font-size: 17px !important;
+    }
+
+    .badge-danger:hover {
+        cursor: pointer;
     }
     </style>
     <meta charset="utf-8">
@@ -243,6 +247,7 @@ $result = mysqli_query($koneksi, $sql);
                                         <th scope="col">Cover</th>
                                         <th scope="col">Judul</th>
                                         <th scope="col">Pengarang</th>
+                                        <th scope="col">Stok</th>
                                         <th scope="col">Tahun Terbit</th>
                                         <th style="text-align: center;">Aksi</th>
                                     </tr>
@@ -255,11 +260,12 @@ $result = mysqli_query($koneksi, $sql);
                                                 style="max-width: 100px; max-height: 100px;"></td>
                                         <td><?= $data['judul'] ?></td>
                                         <td><?= $data['penulis'] ?></td>
+                                        <td><?= $data['stok'] ?></td>
                                         <td><?= $data['tahun_terbit'] ?></td>
                                         <td class="text-center">
                                             <a class="badge badge-danger"
-                                                onclick="return confirm('Yakin Mau Hapus buku?')"
-                                                href="delete.php?id=<?= $data['id'] ?>">Delete</a>
+                                                onclick="confirmDelete(<?php echo $data['id']; ?>)">Delete</a>
+
                                             <a class="badge badge-success"
                                                 href="edit.php?id=<?= $data['id'] ?>">Edit</a>
                                             <a class="badge badge-primary"
@@ -335,7 +341,7 @@ $result = mysqli_query($koneksi, $sql);
     <script src="../sbadmin/vendor/chart.js/Chart.min.js"></script>
     <script src="../sbadmin/js/demo/chart-area-demo.js"></script>
     <script src="../sbadmin/js/demo/chart-pie-demo.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
     $(document).ready(function() {
         $('#searchInput').on('input', function() {
@@ -359,8 +365,28 @@ $result = mysqli_query($koneksi, $sql);
 
     function confirmLogout() {
         if (confirm("Are you sure you want to logout?")) {
-            window.location.href = "logout.php"; // Redirect ke logout.php jika user menekan OK
+            window.location.href = "logout.php"
         }
+    }
+    </script>
+
+    <script>
+    function confirmDelete(bookId) {
+        Swal.fire({
+            title: 'Apakah anda yakin menghapus buku ini?',
+            text: "Tindakan ini tidak dapat dibatalkan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Jika pengguna mengonfirmasi penghapusan, arahkan ke delete.php dengan id buku yang ingin dihapus
+                window.location.href = 'delete.php?id=' + bookId;
+            }
+        });
     }
     </script>
 </body>

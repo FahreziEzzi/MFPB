@@ -52,6 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     exit();
 }
 
+if (isset($_SESSION['notification'])) {
+    // Tampilkan pesan notifikasi
+    echo "<script>alert('" . $_SESSION['notification'] . "');</script>";
+    // Hapus pesan notifikasi dari session
+    unset($_SESSION['notification']);
+}
 
 $query = "SELECT * FROM buku";
 $result = mysqli_query($koneksi, $query);
@@ -68,32 +74,29 @@ $result = mysqli_query($koneksi, $query);
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Beranda</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <link href="../sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="../sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
-    .card-img-container {
-        position: relative;
-        overflow: hidden;
-    }
+        .card-img-container {
+            position: relative;
+            overflow: hidden;
+        }
 
-    .card-img-container::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        border: 5px solid #e9ecef;
-        pointer-events: none;
-        z-index: 1;
-    }
+        .card-img-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            border: 5px solid #e9ecef;
+            pointer-events: none;
+            z-index: 1;
+        }
     </style>
 </head>
 
@@ -105,11 +108,9 @@ $result = mysqli_query($koneksi, $query);
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" id="searchInput" class="form-control bg-light border-0 small"
-                                placeholder="Cari..." aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" id="searchInput" class="form-control bg-light border-0 small" placeholder="Cari..." aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button">
                                     <i class="fas fa-search fa-sm"></i>
@@ -119,15 +120,13 @@ $result = mysqli_query($koneksi, $query);
                     </form>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?= $_SESSION['username']; ?>
                                     <i class="fas fa-caret-down"></i>
                                 </span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="peminjaman.php">
                                     <i class="fas fa-handshake fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Peminjaman
@@ -153,52 +152,46 @@ $result = mysqli_query($koneksi, $query);
                     </div>
                     <div class="row">
                         <?php while ($row = mysqli_fetch_assoc($result)) : ?>
-                        <div class="col-lg-3 mb-3 searchable">
-                            <div class="card search-result">
-                                <div class="card-img-container">
-                                    <img src="../buku/<?php echo $row['cover']; ?>" class="card-img-top img-fluid"
-                                        alt="Cover Buku">
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="font-weight-bold card-title"><?php echo $row['judul']; ?></h5>
-                                    <p class="card-text"><?php echo $row['penulis']; ?></p>
-                                    <p class="card-text"><?php echo $row['penerbit']; ?></p>
-                                    <p class="card-text">Tahun Terbit: <?php echo $row['tahun_terbit']; ?></p>
-                                    <?php
+                            <div class="col-lg-3 mb-3 searchable">
+                                <div class="card search-result">
+                                    <div class="card-img-container">
+                                        <img src="../buku/<?php echo $row['cover']; ?>" class="card-img-top img-fluid" alt="Cover Buku">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="font-weight-bold card-title"><?php echo $row['judul']; ?></h5>
+                                        <p class="card-text"><?php echo $row['penulis']; ?></p>
+                                        <p class="card-text"><?php echo $row['penerbit']; ?></p>
+                                        <p class="card-text">Tahun Terbit: <?php echo $row['tahun_terbit']; ?></p>
+                                        <?php
                                         $id = $row['id'];
                                         $querypinjam = "SELECT * FROM peminjaman WHERE buku = $id AND user = '" . $_SESSION['user_id'] . "' AND status_peminjaman = 'Dipinjam'";
                                         $resultpinjam = mysqli_query($koneksi, $querypinjam);
                                         $datapinjam = mysqli_fetch_assoc($resultpinjam);
                                         ?>
-                                    <?php if (mysqli_num_rows($resultpinjam) > 0 && $datapinjam['status_peminjaman'] == "Dipinjam") : ?>
-                                    <a href="kembalikan.php?id=<?= $row['id'] ?>" class="btn btn-danger"
-                                        id="pinjamButton<?php echo $row['id']; ?>">Kembalikan</a>
-                                    <?php else : ?>
-                                    <a href="pinjam.php?id=<?= $row['id']; ?>" class="btn btn-primary"
-                                        id="pinjamButton<?php echo $row['id']; ?>">Pinjam</a>
-                                    <?php endif ?>
-                                    <?php if (mysqli_num_rows($resultpinjam) > 0 && $datapinjam['status_peminjaman'] == "Dipinjam") : ?>
-                                    <!-- Tombol Ulasan -->
-                                    <!-- Tampilkan tombol ulasan hanya jika buku dipinjam -->
-                                    <a href="tambah_ulasan.php?id=<?= $row['id']; ?>" class="btn btn-success">Ulasan</a>
-                                    <?php endif ?>
+                                        <?php if (mysqli_num_rows($resultpinjam) > 0 && $datapinjam['status_peminjaman'] == "Dipinjam") : ?>
+                                            <a href="kembalikan.php?id=<?= $row['id'] ?>" class="btn btn-danger" id="pinjamButton<?php echo $row['id']; ?>">Kembalikan</a>
+                                        <?php else : ?>
+                                            <a href="pinjam.php?id=<?= $row['id']; ?>" class="btn btn-primary" id="pinjamButton<?php echo $row['id']; ?>">Pinjam</a>
+                                        <?php endif ?>
+                                        <?php if (mysqli_num_rows($resultpinjam) > 0 && $datapinjam['status_peminjaman'] == "Dipinjam") : ?>
+                                            <a href="tambah_ulasan.php?id=<?= $row['id']; ?>" class="btn btn-success">Ulasan</a>
+                                        <?php endif ?>
 
-                                    <?php
+                                        <?php
                                         $checkQuery = "SELECT * FROM koleksi_pribadi WHERE user = (SELECT id FROM user WHERE username = '$username') AND buku = {$row['id']}";
                                         $checkResult = mysqli_query($koneksi, $checkQuery);
                                         if (mysqli_num_rows($checkResult) > 0) : ?>
-                                    <a href="index.php?id=<?= $row['id']; ?>&action=delete" class="btn btn-secondary"
-                                        onclick="return confirmDelete()">
-                                        <i class="fas fa-heart"></i>
-                                    </a>
-                                    <?php else : ?>
-                                    <a href="index.php?id=<?= $row['id']; ?>&action=add" class="btn btn-secondary">
-                                        <i class="far fa-heart"></i>
-                                    </a>
-                                    <?php endif; ?>
+                                            <a href="index.php?id=<?= $row['id']; ?>&action=delete" class="btn btn-secondary" onclick="return confirmDelete()">
+                                                <i class="fas fa-heart"></i>
+                                            </a>
+                                        <?php else : ?>
+                                            <a href="index.php?id=<?= $row['id']; ?>&action=add" class="btn btn-secondary">
+                                                <i class="far fa-heart"></i>
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         <?php endwhile; ?>
                     </div>
                 </div>
@@ -215,8 +208,7 @@ $result = mysqli_query($koneksi, $query);
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -245,39 +237,39 @@ $result = mysqli_query($koneksi, $query);
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         <script>
-        $(document).ready(function() {
-            $("#searchInput").on("input", function() {
-                let searchTerm = $(this).val().toLowerCase();
-                let resultsFound = false;
-                $(".searchable").each(function() {
-                    let cardText = $(this).text().toLowerCase();
-                    if (cardText.includes(searchTerm)) {
-                        $(this).show();
-                        resultsFound = true;
+            $(document).ready(function() {
+                $("#searchInput").on("input", function() {
+                    let searchTerm = $(this).val().toLowerCase();
+                    let resultsFound = false;
+                    $(".searchable").each(function() {
+                        let cardText = $(this).text().toLowerCase();
+                        if (cardText.includes(searchTerm)) {
+                            $(this).show();
+                            resultsFound = true;
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+                    if (resultsFound) {
+                        $("#noResultsMessage").hide();
                     } else {
-                        $(this).hide();
+                        $("#noResultsMessage").show();
                     }
                 });
-                if (resultsFound) {
-                    $("#noResultsMessage").hide();
-                } else {
-                    $("#noResultsMessage").show();
-                }
+
+                <?php if (isset($_SESSION['notification'])) : ?>
+                    <?php if ($_SESSION['notification'] == 'Buku sudah ditambahkan ke bookmark.') : ?>
+                        toastr.success('<?php echo $_SESSION['notification']; ?>');
+                    <?php elseif ($_SESSION['notification'] == 'Buku berhasil dihapus dari bookmark.') : ?>
+                        toastr.success('<?php echo $_SESSION['notification']; ?>');
+                    <?php endif; ?>
+                    <?php unset($_SESSION['notification']); ?>
+                <?php endif; ?>
             });
 
-            <?php if (isset($_SESSION['notification'])) : ?>
-            <?php if ($_SESSION['notification'] == 'Buku sudah ditambahkan ke bookmark.') : ?>
-            toastr.success('<?php echo $_SESSION['notification']; ?>');
-            <?php elseif ($_SESSION['notification'] == 'Buku berhasil dihapus dari bookmark.') : ?>
-            toastr.success('<?php echo $_SESSION['notification']; ?>');
-            <?php endif; ?>
-            <?php unset($_SESSION['notification']); ?>
-            <?php endif; ?>
-        });
-
-        function confirmDelete() {
-            return confirm('Apakah Anda yakin ingin menghapus buku dari bookmark?');
-        }
+            function confirmDelete() {
+                return confirm('Apakah Anda yakin ingin menghapus buku dari bookmark?');
+            }
         </script>
 </body>
 

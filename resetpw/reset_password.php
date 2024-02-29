@@ -42,29 +42,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Custom fonts for this template-->
     <link href="../sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="../sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
 
     <style>
-        body {
-            background: blue;
-        }
+    body {
+        background: blue;
+    }
 
-        .container {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .container {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-        .card {
-            border: 0;
-            border-radius: 10px;
-            overflow: hidden;
-        }
+    .card {
+        border: 0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
     </style>
 
 </head>
@@ -83,16 +84,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Reset Password</h1>
                                     <?php if (!empty($message)) { ?>
-                                        <div class="alert alert-danger" role="alert">
-                                            <?php echo $message; ?>
-                                        </div>
+                                    <div class="alert alert-danger" role="alert">
+                                        <?php echo $message; ?>
+                                    </div>
                                     <?php } ?>
                                 </div>
-                                <form class="user" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                                <form class="user" method="POST"
+                                    action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                                     <input type="hidden" name="email" value="<?php echo $_GET['email']; ?>">
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-user"
-                                            id="reset_code" name="reset_code" aria-describedby="resetCodeHelp"
+                                        <input type="text" class="form-control form-control-user" id="reset_code"
+                                            name="reset_code" aria-describedby="resetCodeHelp"
                                             placeholder="Enter Reset Code..." required>
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-user btn-block">

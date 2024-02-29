@@ -5,7 +5,7 @@ $role = $_SESSION['role'];
 $username = $_SESSION['username'];
 
 // Pagination setup
-$limit = 5; // Jumlah entri per halaman
+$limit = 4; // Jumlah entri per halaman
 $current_page = isset($_GET['page']) ? $_GET['page'] : 1; // Halaman saat ini
 
 // Hitung total entri
@@ -210,7 +210,7 @@ $result = mysqli_query($koneksi, $sql);
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
-                                                daftar pengunjung</div>
+                                                Data Pengguna</div>
                                             <div class="h5 mb-0 font-weight-bold text-white">7</div>
                                         </div>
                                         <div class="col-auto">

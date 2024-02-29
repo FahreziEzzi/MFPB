@@ -128,7 +128,7 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
             </li>
             <hr class="sidebar-divider">
             <li class="nav-item side">
-                <a class="nav-link" href="registrasi_anggota.php">
+                <a class="nav-link" href="../registrasi_anggota.php">
                     <i class="fas fa-fw fa-user-check"></i>
                     <span>Registrasi</span></a>
             </li>

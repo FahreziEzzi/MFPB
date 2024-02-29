@@ -11,7 +11,6 @@ if (!isset($_SESSION['username'])) {
 }
 
 $username = $_SESSION['username'];
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ambil data yang dikirimkan dari form
     $judul = htmlspecialchars($_POST["judul"]);
@@ -20,9 +19,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tahun_terbit = htmlspecialchars($_POST["tahun_terbit"]);
     $kategori_id = htmlspecialchars($_POST["kategori_id"]);
     $deskripsi = mysqli_real_escape_string($koneksi, $_POST["deskripsi"]);
+    $stok = htmlspecialchars($_POST["stok"]); // Menambahkan penanganan untuk stok
 
     // Lakukan validasi dan penambahan buku
-    if (!empty($judul) && !empty($penulis) && !empty($penerbit) && !empty($tahun_terbit) && !empty($kategori_id)) {
+    if (!empty($judul) && !empty($penulis) && !empty($penerbit) && !empty($tahun_terbit) && !empty($kategori_id) && !empty($stok) && !empty($deskripsi)) {
         // Query untuk memeriksa apakah buku sudah ada
         $check_book_query = "SELECT * FROM `buku` WHERE `judul` = '$judul' AND `penulis` = '$penulis' AND `penerbit` = '$penerbit' AND `tahun_terbit` = '$tahun_terbit' AND `kategori_id` = '$kategori_id'";
         $result_check_book = mysqli_query($koneksi, $check_book_query);
@@ -39,8 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // File cover berhasil diunggah, simpan data buku ke database
                 $cover_filename = $cover['name'];
 
-                $add_book_query = "INSERT INTO `buku` (`perpus_id`, `judul`, `deskripsi`, `cover`, `penulis`, `penerbit`, `tahun_terbit`, `kategori_id`, `created_at`)
-                   VALUES ('$perpus_id', '$judul', '$deskripsi', '$cover_filename', '$penulis', '$penerbit', '$tahun_terbit', '$kategori_id', current_timestamp())";
+                $add_book_query = "INSERT INTO `buku` (`perpus_id`, `judul`, `deskripsi`, `cover`, `penulis`, `penerbit`, `tahun_terbit`, `stok`, `kategori_id`, `created_at`)
+                VALUES ('$perpus_id', '$judul', '$deskripsi', '$cover_filename', '$penulis', '$penerbit', '$tahun_terbit', '$stok', '$kategori_id', current_timestamp())";
 
                 // Eksekusi query dan tampilkan pesan sukses atau error
                 if (mysqli_query($koneksi, $add_book_query)) {
@@ -193,6 +193,10 @@ if (mysqli_num_rows($result_kategori) > 0) {
                                         <input type="number" class="form-control form-control-user"
                                             id="inputTahunTerbit" placeholder="Tahun Terbit" name="tahun_terbit"
                                             required>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="number" class="form-control form-control-user" id="inputStok"
+                                            placeholder="Stok" name="stok" required>
                                     </div>
                                     <div class="form-group">
                                         <textarea class="form-control form-control-user" id="inputDeskripsi"
