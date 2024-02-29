@@ -23,6 +23,21 @@ $offset = ($current_page - 1) * $limit;
 // Query data buku dengan LIMIT dan OFFSET
 $sql = "SELECT * FROM buku LIMIT $limit OFFSET $offset";
 $result = mysqli_query($koneksi, $sql);
+$sql_count_books = "SELECT COUNT(*) AS total_books FROM buku";
+$result_count_books = mysqli_query($koneksi, $sql_count_books);
+$count_books_data = mysqli_fetch_assoc($result_count_books);
+$total_books = $count_books_data['total_books'];
+
+$sql_count_borrowed = "SELECT COUNT(*) AS total_borrowed FROM peminjaman WHERE status_peminjaman = 'Dipinjam'";
+$result_count_borrowed = mysqli_query($koneksi, $sql_count_borrowed);
+$count_borrowed_data = mysqli_fetch_assoc($result_count_borrowed);
+$total_borrowed = $count_borrowed_data['total_borrowed'];
+
+// Menghitung jumlah pengguna
+$sql_count_users = "SELECT COUNT(*) AS total_users FROM user";
+$result_count_users = mysqli_query($koneksi, $sql_count_users);
+$count_users_data = mysqli_fetch_assoc($result_count_users);
+$total_users = $count_users_data['total_users'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +73,7 @@ $result = mysqli_query($koneksi, $sql);
     <div id="wrapper">
 
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-angry"></i>
                 </div>
@@ -205,13 +220,31 @@ $result = mysqli_query($koneksi, $sql);
                     </div>
                     <div class="row">
                         <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2" style="background-color: #1cc88a;">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
+                                                Buku Sedang Dipinjam</div>
+                                            <div class="h5 mb-0 font-weight-bold text-white">
+                                                <?php echo $total_borrowed; ?></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-book fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2" style="background-color: #4e73df;">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
-                                                Data Pengguna</div>
-                                            <div class="h5 mb-0 font-weight-bold text-white">7</div>
+                                                Jumlah Pengguna</div>
+                                            <div class="h5 mb-0 font-weight-bold text-white"><?php echo $total_users; ?>
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-user fa-2x text-gray-300"></i>
@@ -222,33 +255,13 @@ $result = mysqli_query($koneksi, $sql);
                         </div>
 
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2" style="background-color: #1cc88a;">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
-                                                buku Di Pinjam</div>
-                                            <div class="h5 mb-0 font-weight-bold text-white">19</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-book fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card  shadow h-100 py-2" style="background-color: #ffb000;">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">Buku
-                                                Tersedia
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-white">50</div>
-                                                </div>
+                                            <div class="text-xs font-weight-bold text-white text-uppercase mb-1">
+                                                Data Buku</div>
+                                            <div class="h5 mb-0 font-weight-bold text-white"><?php echo $total_books; ?>
                                             </div>
                                         </div>
                                         <div class="col-auto">

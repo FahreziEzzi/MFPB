@@ -12,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $judul = $_POST['judul'];
     $penulis = $_POST['penulis'];
     $penerbit = $_POST['penerbit'];
+    $deskripsi = $_POST['deskripsi'];
     $tahun_terbit = $_POST['tahun_terbit'];
     $kategori_id = $_POST['kategori_id'];
 
@@ -25,10 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         move_uploaded_file($_FILES["cover"]["tmp_name"], $targetFilePath);
 
 
-        $query = "UPDATE buku SET judul = '$judul', penulis = '$penulis', penerbit = '$penerbit', tahun_terbit = '$tahun_terbit', kategori_id = '$kategori_id', cover = '$targetFilePath' WHERE id = '$id'";
+        $query = "UPDATE buku SET judul = '$judul', penulis = '$penulis', penerbit = '$penerbit', deskripsi = '$deskripsi', tahun_terbit = '$tahun_terbit', kategori_id = '$kategori_id', cover = '$targetFilePath' WHERE id = '$id'";
     } else {
 
-        $query = "UPDATE buku SET judul = '$judul', penulis = '$penulis', penerbit = '$penerbit', tahun_terbit = '$tahun_terbit', kategori_id = '$kategori_id' WHERE id = '$id'";
+        $query = "UPDATE buku SET judul = '$judul', penulis = '$penulis', penerbit = '$penerbit', deskripsi = '$deskripsi', tahun_terbit = '$tahun_terbit', kategori_id = '$kategori_id' WHERE id = '$id'";
     }
 
     // Eksekusi query
@@ -96,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($role === 'admin') :
             ?>
             <li class="nav-item side active">
-                <a class="nav-link" href="">
+                <a class="nav-link" href="index.php">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Data Buku</span></a>
             </li>
@@ -201,6 +202,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <input type="text" class="form-control form-control-user" id="inputPenerbit"
                                             placeholder="Penerbit" name="penerbit" required
                                             value="<?= $data['penerbit'] ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-user" id="inputDeskripsi"
+                                            placeholder="Deskripsi" name="deskripsi" required
+                                            value="<?= $data['deskripsi'] ?>">
                                     </div>
                                     <div class="form-group">
                                         <input type="number" class="form-control form-control-user"

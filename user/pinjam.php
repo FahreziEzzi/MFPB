@@ -63,4 +63,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
         exit();
     }
 }
+
+// Dapatkan stok buku dari database
+$getStockQuery = "SELECT stok FROM buku WHERE id = $bookId";
+$stockResult = mysqli_query($koneksi, $getStockQuery);
+$row = mysqli_fetch_assoc($stockResult);
+$currentStock = $row['stok'];
+
+// Kurangi stok buku yang telah dipinjam
+$newStock = $currentStock - 1;
+
+// Perbarui stok buku di database
+$updateStockQuery = "UPDATE buku SET stok = $newStock WHERE id = $bookId";
+mysqli_query($koneksi, $updateStockQuery);
+
 ?>

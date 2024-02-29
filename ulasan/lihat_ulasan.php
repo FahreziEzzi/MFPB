@@ -32,62 +32,60 @@ $resultUlasan = mysqli_query($koneksi, $ulasanQuery);
     <meta name="author" content="">
     <title>Ulasan</title>
     <link href="../sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="../sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <style>
-    /* Tambahkan gaya CSS kustom di sini */
-    body {
-        background-color: #f8f9fc;
-    }
+        /* Tambahkan gaya CSS kustom di sini */
+        body {
+            background-color: #f8f9fc;
+        }
 
-    .card {
-        margin-bottom: 20px;
-    }
+        .card {
+            margin-bottom: 20px;
+        }
 
-    .card-header {
-        background-color: #ffffff;
-        border-bottom: 1px solid #e3e6f0;
-    }
+        .card-header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e3e6f0;
+        }
 
-    .card-title {
-        color: #4e73df;
-        font-weight: bold;
-    }
+        .card-title {
+            color: #4e73df;
+            font-weight: bold;
+        }
 
-    .card-body {
-        background-color: #ffffff;
-    }
+        .card-body {
+            background-color: #ffffff;
+        }
 
-    #ulasanTable_wrapper {
-        padding: 20px;
-    }
+        #ulasanTable_wrapper {
+            padding: 20px;
+        }
 
-    #ulasanTable_length,
-    #ulasanTable_filter {
-        margin-bottom: 10px;
-    }
+        #ulasanTable_length,
+        #ulasanTable_filter {
+            margin-bottom: 10px;
+        }
 
-    .cover-image {
-        max-width: 140px;
-        height: 390px;
-        margin-bottom: 20px;
-    }
-
-    @media (min-width: 768px) {
         .cover-image {
-            max-width: 410%;
-            float: left;
-            margin-right: 20px;
-            margin-bottom: 0;
+            max-width: 140px;
+            height: 390px;
+            margin-bottom: 20px;
         }
 
-        .book-info {
-            overflow: hidden;
+        @media (min-width: 768px) {
+            .cover-image {
+                max-width: 410%;
+                float: left;
+                margin-right: 20px;
+                margin-bottom: 0;
+            }
+
+            .book-info {
+                overflow: hidden;
+            }
         }
-    }
     </style>
 </head>
 
@@ -106,8 +104,7 @@ $resultUlasan = mysqli_query($koneksi, $ulasanQuery);
                             <div class="row">
                                 <div class="col-md-3">
 
-                                    <img src="<?= isset($infoBuku['cover']) ? '../buku/' . $infoBuku['cover'] : '../buku/uploads/' ?>"
-                                        class="card-img-top cover-image" alt="Cover Image">
+                                    <img src="<?= isset($infoBuku['cover']) ? '../buku/' . $infoBuku['cover'] : '../buku/uploads/' ?>" class="card-img-top cover-image" alt="Cover Image">
                                 </div>
                                 <div class="col-md-9">
                                     <div class="book-info">
@@ -132,30 +129,6 @@ $resultUlasan = mysqli_query($koneksi, $ulasanQuery);
                         </div>
                         <div class="card-body">
                             <div id="ulasanTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-6">
-                                        <div id="ulasanTable_length" class="dataTables_length">
-                                            <label for="ulasanTable_length">Tampilkan
-                                                <select name="ulasanTable_length" aria-controls="ulasanTable"
-                                                    class="custom-select custom-select-sm form-control form-control-sm">
-                                                    <option value="5">5</option>
-                                                    <option value="10">10</option>
-                                                    <option value="25">25</option>
-                                                    <option value="50">50</option>
-                                                </select>
-                                                Entri
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-6">
-                                        <div id="ulasanTable_filter" class="dataTables_filter">
-                                            <label for="ulasanTable_filter">Cari:
-                                                <input type="search" class="form-control form-control-sm" placeholder=""
-                                                    aria-controls="ulasanTable">
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
                                 <table id="ulasanTable" class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
@@ -167,24 +140,22 @@ $resultUlasan = mysqli_query($koneksi, $ulasanQuery);
                                     </thead>
                                     <tbody>
                                         <?php if ($resultUlasan && mysqli_num_rows($resultUlasan) > 0) : ?>
-                                        <?php while ($ulasan = mysqli_fetch_assoc($resultUlasan)) : ?>
-                                        <tr>
-                                            <td><?= $ulasan['nama_lengkap'] ?></td>
-                                            <td><?= $ulasan['ulasan'] ?></td>
-                                            <td><?= $ulasan['rating'] ?></td>
-                                            <td>
-                                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') : ?>
-                                                <a href="hapus_ulasan.php?id=<?= $ulasan['ulasan_id'] ?>"
-                                                    class="btn btn-sm btn-danger"
-                                                    onclick="return confirm('Yakin ingin menghapus ulasan ini?')">Hapus</a>
-                                                <?php endif; ?>
-                                            </td>
-                                        </tr>
-                                        <?php endwhile ?>
+                                            <?php while ($ulasan = mysqli_fetch_assoc($resultUlasan)) : ?>
+                                                <tr>
+                                                    <td><?= $ulasan['nama_lengkap'] ?></td>
+                                                    <td><?= $ulasan['ulasan'] ?></td>
+                                                    <td><?= $ulasan['rating'] ?></td>
+                                                    <td>
+                                                        <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') : ?>
+                                                            <a href="hapus_ulasan.php?id=<?= $ulasan['ulasan_id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus ulasan ini?')">Hapus</a>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endwhile ?>
                                         <?php else : ?>
-                                        <tr>
-                                            <td colspan="4">Belum ada ulasan untuk buku ini.</td>
-                                        </tr>
+                                            <tr>
+                                                <td colspan="4">Belum ada ulasan untuk buku ini.</td>
+                                            </tr>
                                         <?php endif ?>
                                     </tbody>
                                 </table>
@@ -202,19 +173,19 @@ $resultUlasan = mysqli_query($koneksi, $ulasanQuery);
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
     <script src="../sbadmin/js/sb-admin-2.min.js"></script>
     <script>
-    $(document).ready(function() {
-        $('#ulasanTable').DataTable({
-            "paging": true,
-            "pageLength": 5,
-            "lengthMenu": [5, 10, 25, 50],
-            "language": {
-                "paginate": {
-                    "previous": "<",
-                    "next": ">"
+        $(document).ready(function() {
+            $('#ulasanTable').DataTable({
+                "paging": true,
+                "pageLength": 5,
+                "lengthMenu": [5, 10, 25, 50],
+                "language": {
+                    "paginate": {
+                        "previous": "<",
+                        "next": ">"
+                    }
                 }
-            }
+            });
         });
-    });
     </script>
 </body>
 

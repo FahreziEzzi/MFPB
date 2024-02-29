@@ -67,7 +67,9 @@ $result = mysqli_query($koneksi, $query);
 <html lang="id">
 
 <head>
+    <style>
 
+    </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -96,6 +98,19 @@ $result = mysqli_query($koneksi, $query);
             border: 5px solid #e9ecef;
             pointer-events: none;
             z-index: 1;
+        }
+
+        .card-img-container {
+            position: relative;
+            overflow: hidden;
+            height: 430px;
+            /* Ubah sesuai dengan keinginan Anda */
+        }
+
+        px .card-img-container img {
+            width: 550px;
+            height: 550px;
+            object-fit: cover;
         }
     </style>
 </head>
@@ -163,20 +178,49 @@ $result = mysqli_query($koneksi, $query);
                                         <p class="card-text"><?php echo $row['penerbit']; ?></p>
                                         <p class="card-text">Tahun Terbit: <?php echo $row['tahun_terbit']; ?></p>
                                         <?php
+                                        // Hitung selisih hari antara tanggal pengembalian dengan tanggal sekarang
                                         $id = $row['id'];
                                         $querypinjam = "SELECT * FROM peminjaman WHERE buku = $id AND user = '" . $_SESSION['user_id'] . "' AND status_peminjaman = 'Dipinjam'";
                                         $resultpinjam = mysqli_query($koneksi, $querypinjam);
                                         $datapinjam = mysqli_fetch_assoc($resultpinjam);
+
+                                        if (mysqli_num_rows($resultpinjam) > 0 && $datapinjam['status_peminjaman'] == "Dipinjam") {
+                                            $tanggalPeminjaman = $datapinjam['tanggal_peminjaman'];
+                                            $tanggalPengembalian = date('Y-m-d', strtotime($tanggalPeminjaman . ' + 3 days'));
+                                            $selisihHari = ceil((strtotime($tanggalPengembalian) - strtotime(date('Y-m-d'))) / (60 * 60 * 24));
+                                            if ($selisihHari > 0) {
+                                                echo "<p class='card-text text-danger'>Batas hari peminjaman: $selisihHari hari</p>";
+                                            }
+                                        }
                                         ?>
+                                        <?php
+                                        // Periksa apakah pengguna telah meminjam buku ini
+                                        $id = $row['id'];
+                                        $querypinjam = "SELECT * FROM peminjaman WHERE buku = $id AND user = '" . $_SESSION['user_id'] . "' AND status_peminjaman = 'Dipinjam'";
+                                        $resultpinjam = mysqli_query($koneksi, $querypinjam);
+                                        $datapinjam = mysqli_fetch_assoc($resultpinjam);
+                                        $hasBorrowed = mysqli_num_rows($resultpinjam) > 0 && $datapinjam['status_peminjaman'] == "Dipinjam";
+                                        ?>
+
                                         <?php if (mysqli_num_rows($resultpinjam) > 0 && $datapinjam['status_peminjaman'] == "Dipinjam") : ?>
+                                            <!-- Tombol "Kembalikan" -->
                                             <a href="kembalikan.php?id=<?= $row['id'] ?>" class="btn btn-danger" id="pinjamButton<?php echo $row['id']; ?>">Kembalikan</a>
                                         <?php else : ?>
+                                            <!-- Tombol "Pinjam" -->
                                             <a href="pinjam.php?id=<?= $row['id']; ?>" class="btn btn-primary" id="pinjamButton<?php echo $row['id']; ?>">Pinjam</a>
                                         <?php endif ?>
-                                        <?php if (mysqli_num_rows($resultpinjam) > 0 && $datapinjam['status_peminjaman'] == "Dipinjam") : ?>
+                                        <?php if ($hasBorrowed) : ?>
+                                            <!-- Tombol "Baca" akan muncul jika pengguna telah meminjam buku -->
                                             <a href="tambah_ulasan.php?id=<?= $row['id']; ?>" class="btn btn-success">Ulasan</a>
                                         <?php endif ?>
 
+                                        <?php if ($hasBorrowed) : ?>
+                                            <!-- Tombol "Baca" akan muncul jika pengguna telah meminjam buku -->
+                                            <a href="baca_online.php?id=<?= $row['id']; ?>" class="btn btn-info" target="_blank">Baca</a>
+                                        <?php endif ?>
+
+
+                                        <!-- Tombol "Bookmark" -->
                                         <?php
                                         $checkQuery = "SELECT * FROM koleksi_pribadi WHERE user = (SELECT id FROM user WHERE username = '$username') AND buku = {$row['id']}";
                                         $checkResult = mysqli_query($koneksi, $checkQuery);

@@ -53,6 +53,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .nav-item.side .nav-link span {
         font-size: 17px !important;
     }
+
+    .back-button {
+        position: absolute;
+        top: 0;
+        left: -260px;
+    }
     </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -80,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-angry"></i>
                 </div>
@@ -101,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($userRole === 'admin') :
             ?>
             <li class="nav-item side">
-                <a class="nav-link" href="../buku/index.php">
+                <a class="nav-link" href="index.php">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Data Buku</span></a>
             </li>
@@ -215,6 +221,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid col-lg-6">
+                    <a href="index.php" class="btn btn-primary btn-icon-split back-button">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-arrow-left"></i>
+                        </span>
+                        <span class="text">Kembali ke Data Buku</span>
+                    </a>
+
                     <div class="d-sm-flex justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Kategori</h1>
                     </div>

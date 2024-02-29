@@ -101,7 +101,7 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
     <div id="wrapper">
 
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-angry"></i>
                 </div>
@@ -273,7 +273,7 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>No</th>
+                                <th>ID</th>
                                 <th>User</th>
                                 <th>Buku</th>
                                 <th>Tanggal Peminjaman</th>
@@ -284,22 +284,21 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                         <tbody>
                             <?php
                             if (mysqli_num_rows($result) > 0) {
-                                $no = 1;
                                 while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
-                                    echo "<td>" . $no . "</td>";
+                                    echo "<td>" . $row['id'] . "</td>"; // Menggunakan ID dari hasil kueri SQL
                                     echo "<td>" . $row['nama_user'] . "</td>";
                                     echo "<td>" . $row['judul_buku'] . "</td>";
                                     echo "<td>" . $row['tanggal_peminjaman'] . "</td>";
                                     echo "<td>" . $row['tanggal_pengembalian'] . "</td>";
                                     echo "<td>" . $row['status_peminjaman'] . "</td>";
                                     echo "</tr>";
-                                    $no++;
                                 }
                             } else {
                                 echo "<tr><td colspan='6'>Tidak ada data</td></tr>";
                             }
                             ?>
+
                         </tbody>
                     </table>
                     <nav aria-label="Page navigation example">

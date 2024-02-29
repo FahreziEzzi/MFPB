@@ -35,13 +35,13 @@ $resultUlasan = mysqli_query($koneksi, $query);
 
 <head>
     <style>
-        .nav-item.active .nav-link span {
-            font-size: 17px !important;
-        }
+    .nav-item.active .nav-link span {
+        font-size: 17px !important;
+    }
 
-        .nav-item.side .nav-link span {
-            font-size: 17px !important;
-        }
+    .nav-item.side .nav-link span {
+        font-size: 17px !important;
+    }
     </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -51,52 +51,54 @@ $resultUlasan = mysqli_query($koneksi, $query);
 
     <title>Dashboard</title>
     <link href="../sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
     <link href="../sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
 
 </head>
 <style>
-    .nav-item.active .nav-link span {
-        font-size: 17px !important;
-    }
+.nav-item.active .nav-link span {
+    font-size: 17px !important;
+}
 
-    .nav-item.side .nav-link span {
-        font-size: 17px !important;
-    }
+.nav-item.side .nav-link span {
+    font-size: 17px !important;
+}
 
-    .ulasan-sidebar {
-        position: fixed;
-        top: 80px;
-        right: 20px;
-        width: 300px;
-        background-color: #ffffff;
-        border: 1px solid #dddddd;
-        padding: 15px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+.ulasan-sidebar {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: 300px;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-    .ulasan-title {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
+.ulasan-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
 
-    .ulasan-item {
-        margin-bottom: 15px;
-    }
+.ulasan-item {
+    margin-bottom: 15px;
+}
 
-    .ulasan-item p {
-        margin-bottom: 5px;
-    }
+.ulasan-item p {
+    margin-bottom: 5px;
+}
 </style>
 
 
 <body id="page-top">
     <div id="wrapper">
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-angry"></i>
                 </div>
@@ -162,19 +164,22 @@ $resultUlasan = mysqli_query($koneksi, $query);
                     </button>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown no-arrow d-sm-none">
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
                             </div>
                         </li>
                         <div class="topbar-divider d-none d-sm-block">
                         </div>
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?= $_SESSION['username']; ?>
                                     <i class="fas fa-caret-down"></i>
                                 </span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -203,23 +208,26 @@ $resultUlasan = mysqli_query($koneksi, $query);
                                     </thead>
                                     <tbody>
                                         <?php while ($row = mysqli_fetch_assoc($resultUlasan)) : ?>
-                                            <tr>
-                                                <td><?= $row['buku_id'] ?></td>
-                                                <td>
-                                                    <?php if (!empty($row['cover'])) : ?>
-                                                        <img src="../buku/<?= $row['cover']; ?>" alt="Cover Buku" style="max-width: 100px; max-height: 100px;">
-                                                    <?php else : ?>
-                                                        Tidak ada Cover
-                                                    <?php endif; ?>
-                                                </td>
-                                                <td><?= $row['judul'] ?></td>
-                                                <td><?= $row['jumlah_ulasan'] ?></td>
-                                                <td><?= number_format($row['rating'], 2); ?></td>
-                                                <td class="text-center">
-                                                    <a class="badge badge-danger" onclick="" href="tambah_ulasan.php?id=<?= $row['buku_id'] ?>">Tambah Ulasan</a>
-                                                    <a class="badge badge-success" href="lihat_ulasan.php?id=<?= $row['buku_id'] ?>">Lihat Ulasan</a>
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td><?= $row['buku_id'] ?></td>
+                                            <td>
+                                                <?php if (!empty($row['cover'])) : ?>
+                                                <img src="../buku/<?= $row['cover']; ?>" alt="Cover Buku"
+                                                    style="max-width: 100px; max-height: 100px;">
+                                                <?php else : ?>
+                                                Tidak ada Cover
+                                                <?php endif; ?>
+                                            </td>
+                                            <td><?= $row['judul'] ?></td>
+                                            <td><?= $row['jumlah_ulasan'] ?></td>
+                                            <td><?= number_format($row['rating'], 2); ?></td>
+                                            <td class="text-center">
+                                                <a class="badge badge-danger" onclick=""
+                                                    href="tambah_ulasan.php?id=<?= $row['buku_id'] ?>">Tambah Ulasan</a>
+                                                <a class="badge badge-success"
+                                                    href="lihat_ulasan.php?id=<?= $row['buku_id'] ?>">Lihat Ulasan</a>
+                                            </td>
+                                        </tr>
                                         <?php endwhile; ?>
                                     </tbody>
                                 </table>
@@ -227,16 +235,22 @@ $resultUlasan = mysqli_query($koneksi, $query);
                                     <div class="col">
                                         <nav aria-label="Page navigation">
                                             <ul class="pagination justify-content-center">
-                                                <li class="page-item <?php echo $current_page <= 1 ? 'disabled' : ''; ?>">
-                                                    <a class="page-link" href="?page=<?php echo $current_page - 1; ?>" tabindex="-1" aria-disabled="true">Previous</a>
+                                                <li
+                                                    class="page-item <?php echo $current_page <= 1 ? 'disabled' : ''; ?>">
+                                                    <a class="page-link" href="?page=<?php echo $current_page - 1; ?>"
+                                                        tabindex="-1" aria-disabled="true">Previous</a>
                                                 </li>
                                                 <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
-                                                    <li class="page-item <?php echo $current_page == $i ? 'active' : ''; ?>">
-                                                        <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                                    </li>
+                                                <li
+                                                    class="page-item <?php echo $current_page == $i ? 'active' : ''; ?>">
+                                                    <a class="page-link"
+                                                        href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                </li>
                                                 <?php endfor; ?>
-                                                <li class="page-item <?php echo $current_page >= $total_pages ? 'disabled' : ''; ?>">
-                                                    <a class="page-link" href="?page=<?php echo $current_page + 1; ?>">Next</a>
+                                                <li
+                                                    class="page-item <?php echo $current_page >= $total_pages ? 'disabled' : ''; ?>">
+                                                    <a class="page-link"
+                                                        href="?page=<?php echo $current_page + 1; ?>">Next</a>
                                                 </li>
                                             </ul>
                                         </nav>
@@ -258,7 +272,8 @@ $resultUlasan = mysqli_query($koneksi, $query);
         <a class="scroll-to-top rounded" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
