@@ -127,6 +127,11 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                     <span>Data Buku</span></a>
             </li>
             <li class="nav-item side">
+                <a class="nav-link" href="../pengembalian.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Pengembalian Buku</span></a>
+            </li>
+            <li class="nav-item side">
                 <a class="nav-link" href="../datapengguna/data_pengguna.php">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Data Pengguna</span></a>
@@ -154,7 +159,7 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                     <span>Registrasi</span></a>
             </li>
             <li class="nav-item side">
-                <a class="nav-link" href="#" onclick="confirmLogout();">
+                <a class="nav-link" href="../logout.php" onclick="confirmLogout();">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
@@ -170,6 +175,11 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                     <span>Data Buku</span></a>
             </li>
             <li class="nav-item side">
+                <a class="nav-link" href="../pengembalian.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Pengembalian Buku</span></a>
+            </li>
+            <li class="nav-item side">
                 <a class="nav-link" href="../peminjaman/peminjaman.php">
                     <i class="fas fa-fw fa-file-alt"></i>
                     <span>Peminjam</span></a>
@@ -180,7 +190,7 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                     <span>Laporan</span></a>
             </li>
             <li class="nav-item side">
-                <a class="nav-link" href="#" onclick="confirmLogout();">
+                <a class="nav-link" href="../logout.php" onclick="confirmLogout();">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>

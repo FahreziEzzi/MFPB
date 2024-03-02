@@ -99,6 +99,11 @@ $total_users = $count_users_data['total_users'];
                     <span>Data Buku</span></a>
             </li>
             <li class="nav-item side">
+                <a class="nav-link" href="pengembalian.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Pengembalian buku</span></a>
+            </li>
+            <li class="nav-item side">
                 <a class="nav-link" href="datapengguna/data_pengguna.php">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Data Pengguna</span></a>
@@ -126,7 +131,7 @@ $total_users = $count_users_data['total_users'];
                     <span>Registrasi</span></a>
             </li>
             <li class="nav-item side">
-                <a class="nav-link" href="#" onclick="confirmLogout();">
+                <a class="nav-link" href="logout.php" onclick="confirmLogout();">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
@@ -152,7 +157,7 @@ $total_users = $count_users_data['total_users'];
                     <span>Laporan</span></a>
             </li>
             <li class="nav-item side">
-                <a class="nav-link" href="#" onclick="confirmLogout();">
+                <a class="nav-link" href="logout.php" onclick="confirmLogout();">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
@@ -204,7 +209,8 @@ $total_users = $count_users_data['total_users'];
                                 aria-labelledby="userDropdown">
 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="logout.php" data-toggle="modal"
+                                    data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -354,7 +360,7 @@ $total_users = $count_users_data['total_users'];
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.php">Logout</a>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>

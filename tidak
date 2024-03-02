@@ -648,3 +648,62 @@ $result = mysqli_query($koneksi, $query);
 </body>
 
 </html>
+<!-- new code -->
+<div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+        <!-- Your content here -->
+        <form class="user" action="proses_tambah_buku.php" method="post" enctype="multipart/form-data">
+            <!-- Your form fields here -->
+            <div class="form-group">
+                <label for="inputPdf">File PDF:</label>
+                <input type="file" class="form-control-file" id="inputPdf" name="pdf" accept="application/pdf">
+            </div>
+            <!-- Your other form fields here -->
+            <button type="submit" class="btn btn-primary btn-user btn-block">Tambah Buku</button>
+        </form>
+    </div>
+</div>
+
+
+<!-- baca online -->
+<?php
+// Pastikan session sudah dimulai
+include('../koneksi.php');
+session_start();
+
+// Periksa apakah parameter ID buku ada dalam URL
+if (isset($_GET['id'])) {
+    $bookId = $_GET['id'];
+
+    // Periksa apakah pengguna sudah login
+    if (isset($_SESSION['user_id'])) {
+        $userId = $_SESSION['user_id'];
+
+        // Periksa apakah pengguna telah meminjam buku
+        $checkQuery = "SELECT * FROM peminjaman WHERE buku = ? AND user = ?";
+        $stmt = mysqli_prepare($koneksi, $checkQuery);
+        mysqli_stmt_bind_param($stmt, "ii", $bookId, $userId);
+        mysqli_stmt_execute($stmt);
+        $checkResult = mysqli_stmt_get_result($stmt);
+
+        if (mysqli_num_rows($checkResult) > 0) {
+            // Pengguna telah meminjam buku, maka berikan akses
+            $query = "SELECT * FROM buku WHERE id = $bookId";
+            $result = mysqli_query($koneksi, $query);
+            $book = mysqli_fetch_assoc($result);
+
+            // Tampilkan PDF menggunakan tag embed
+            echo "<embed src='../buku/{$book['pdf']}' type='../buku/pdf/' width='100%' height='600px' toolbar='0'>";
+
+            // Jangan lupa untuk keluar dari skrip setelah menampilkan PDF
+            exit();
+        } else {
+            echo "Anda belum meminjam buku ini.";
+        }
+    } else {
+        echo "Anda harus login untuk mengakses buku ini.";
+    }
+} else {
+    echo "Parameter ID buku tidak ditemukan.";
+}
+?>

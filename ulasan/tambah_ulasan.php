@@ -61,6 +61,11 @@ $usermame = $_SESSION['username'];
                                 <span>Data Buku</span></a>
                         </li>
                         <li class="nav-item side">
+                            <a class="nav-link" href="../pengembalian.php">
+                                <i class="fas fa-fw fa-book"></i>
+                                <span>Pengembalian Buku</span></a>
+                        </li>
+                        <li class="nav-item side">
                             <a class="nav-link" href="../datapengguna/data_pengguna.php">
                                 <i class="fas fa-fw fa-users"></i>
                                 <span>Data Pengguna</span></a>

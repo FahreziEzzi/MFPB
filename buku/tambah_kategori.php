@@ -112,6 +112,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <span>Data Buku</span></a>
             </li>
             <li class="nav-item side">
+                <a class="nav-link" href="../pengembalian.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Pengembalian Buku</span></a>
+            </li>
+            <li class="nav-item side">
                 <a class="nav-link" href="../datapengguna/data_pengguna.php">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Data Pengguna</span></a>
@@ -152,6 +157,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <a class="nav-link" href="../buku/index.php">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Data Buku</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../pengembalian.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Pengembalian Buku</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="../peminjaman/peminjaman.php">
@@ -225,7 +235,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <span class="icon text-white-50">
                             <i class="fas fa-arrow-left"></i>
                         </span>
-                        <span class="text">Kembali ke Data Buku</span>
+
                     </a>
 
                     <div class="d-sm-flex justify-content-between mb-4">

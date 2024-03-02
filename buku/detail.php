@@ -42,15 +42,15 @@ $result = mysqli_query($koneksi, $query);
 
 <head>
     <style>
-        .nav-item.active .nav-link span {
-            font-size: 17px !important;
-        }
+    .nav-item.active .nav-link span {
+        font-size: 17px !important;
+    }
 
-        .nav-item.side .nav-link span {
-            font-size: 17px !important;
+    .nav-item.side .nav-link span {
+        font-size: 17px !important;
 
 
-        }
+    }
     </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -64,7 +64,9 @@ $result = mysqli_query($koneksi, $query);
     <!-- SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
     <link href="../sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="../sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
@@ -98,69 +100,74 @@ $result = mysqli_query($koneksi, $query);
             <?php
             if ($role === 'admin') :
             ?>
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.php">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Data Buku</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../datapengguna/data_pengguna.php">
-                        <i class="fas fa-fw fa-users"></i>
-                        <span>Data Pengguna</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../peminjaman/peminjaman.php">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Peminjam</span></a>
-                </li>
-                <hr class="sidebar-divider">
-                <li class="nav-item side">
-                    <a class="nav-link" href="../ulasan/index.php">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Ulasan</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../laporan/laporan.php">
-                        <i class="fas fa-fw fa-print"></i>
-                        <span>Laporan</span></a>
-                </li>
-                <hr class="sidebar-divider">
-                <li class="nav-item side">
-                    <a class="nav-link" href="registrasi_anggota.php">
-                        <i class="fas fa-fw fa-user-check"></i>
-                        <span>Registrasi</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../logout.php">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Logout</span></a>
-                </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="index.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Data Buku</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../pengembalian.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Pengembalian Buku</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../datapengguna/data_pengguna.php">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Data Pengguna</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../peminjaman/peminjaman.php">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Peminjam</span></a>
+            </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item side">
+                <a class="nav-link" href="../ulasan/index.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Ulasan</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../laporan/laporan.php">
+                    <i class="fas fa-fw fa-print"></i>
+                    <span>Laporan</span></a>
+            </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item side">
+                <a class="nav-link" href="registrasi_anggota.php">
+                    <i class="fas fa-fw fa-user-check"></i>
+                    <span>Registrasi</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../logout.php">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Logout</span></a>
+            </li>
 
             <?php endif ?>
             <?php
             if ($role === 'petugas') :
             ?>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../buku/index.php">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Data Buku</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="../peminjaman/peminjaman.php">
-                        <i class="fas fa-fw fa-file-alt"></i>
-                        <span>Peminjam</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="../laporan/laporan.php">
-                        <i class="fas fa-print"></i>
-                        <span>Laporan</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../logout.php" onclick="confirmLogout();">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
-                    </a>
-                </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../buku/index.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Data Buku</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="../peminjaman/peminjaman.php">
+                    <i class="fas fa-fw fa-file-alt"></i>
+                    <span>Peminjam</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="../laporan/laporan.php">
+                    <i class="fas fa-print"></i>
+                    <span>Laporan</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../logout.php" onclick="confirmLogout();">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
 
             <?php endif ?>
             <hr class="sidebar-divider d-none d-md-block">
@@ -197,14 +204,16 @@ $result = mysqli_query($koneksi, $query);
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?= $_SESSION['username']; ?>
                                     <i class="fas fa-caret-down"></i>
                                 </span>
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -224,22 +233,22 @@ $result = mysqli_query($koneksi, $query);
                     <h1 class="h3 mb-4 text-gray-800 text-center">Detail Buku</h1>
                     <div class="row justify-content-center">
                         <?php while ($row = mysqli_fetch_assoc($result)) : ?>
-                            <div class="card mb-3" style="max-width: 800px;box-shadow: 0 4px 20px 0 rgba(0,0,0,0.4);">
-                                <div class="row no-gutters">
-                                    <div class="col-md-4">
-                                        <img src="<?= $row['cover']; ?>" class="card-img" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title font-weight-bold">Judul : <?= $row['judul']; ?></h5>
-                                            <p class="card-text">Penulis : <?= $row['penulis']; ?></p>
-                                            <p class="card-text">Tahun Terbit : <?= $row['tahun_terbit']; ?></p>
-                                            <p class="card-text">Deskripsi : <br><?= $row['deskripsi']; ?></p>
+                        <div class="card mb-3" style="max-width: 800px;box-shadow: 0 4px 20px 0 rgba(0,0,0,0.4);">
+                            <div class="row no-gutters">
+                                <div class="col-md-4">
+                                    <img src="<?= $row['cover']; ?>" class="card-img" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title font-weight-bold">Judul : <?= $row['judul']; ?></h5>
+                                        <p class="card-text">Penulis : <?= $row['penulis']; ?></p>
+                                        <p class="card-text">Tahun Terbit : <?= $row['tahun_terbit']; ?></p>
+                                        <p class="card-text">Deskripsi : <br><?= $row['deskripsi']; ?></p>
 
-                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         <?php endwhile; ?>
                     </div>
 
@@ -264,7 +273,8 @@ $result = mysqli_query($koneksi, $query);
             </a>
 
             <!-- Logout Modal-->
-            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -306,11 +316,11 @@ $result = mysqli_query($koneksi, $query);
 
             </script>
             <script>
-                function confirmLogout() {
-                    if (confirm("Are you sure you want to logout?")) {
-                        window.location.href = "logout.php"; // Redirect ke logout.php jika user menekan OK
-                    }
+            function confirmLogout() {
+                if (confirm("Are you sure you want to logout?")) {
+                    window.location.href = "logout.php"; // Redirect ke logout.php jika user menekan OK
                 }
+            }
             </script>
 
 </body>

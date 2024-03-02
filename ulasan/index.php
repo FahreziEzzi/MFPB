@@ -117,6 +117,11 @@ $resultUlasan = mysqli_query($koneksi, $query);
                     <span>Data Buku</span></a>
             </li>
             <li class="nav-item side">
+                <a class="nav-link" href="../pengembalian.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Pengembalian Buku</span></a>
+            </li>
+            <li class="nav-item side">
                 <a class="nav-link" href="../buku/">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Data Pengguna</span></a>
@@ -181,7 +186,8 @@ $resultUlasan = mysqli_query($koneksi, $query);
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="../logout.php" data-toggle="modal"
+                                    data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>

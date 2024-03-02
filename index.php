@@ -21,100 +21,100 @@ if (!$resultPopuler) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perpustakaan Digital</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #fff;
-            background-size: cover;
-            background-position: center;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        background-size: cover;
+        background-position: center;
+    }
 
-        .container {
-            width: 80%;
-            margin: 50px auto;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-        }
+    .container {
+        width: 80%;
+        margin: 50px auto;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+    }
 
-        .navbar {
-            color: #fff;
-            padding: 10px 0;
-            overflow: hidden;
-            background-color: #333;
-            /* Menambahkan warna latar belakang navbar */
-        }
+    .navbar {
+        color: #fff;
+        padding: 10px 0;
+        overflow: hidden;
+        background-color: #333;
+        /* Menambahkan warna latar belakang navbar */
+    }
 
-        .navbar a {
-            color: #fff;
-            /* Mengubah warna teks navbar menjadi putih */
-            text-decoration: none;
-            margin: 0 22px;
-            transition: background-color 0.3s;
-        }
+    .navbar a {
+        color: #fff;
+        /* Mengubah warna teks navbar menjadi putih */
+        text-decoration: none;
+        margin: 0 22px;
+        transition: background-color 0.3s;
+    }
 
-        .navbar a.right {
-            float: right;
-        }
+    .navbar a.right {
+        float: right;
+    }
 
-        h1 {
-            color: #333;
-            text-align: left;
-            /* Mengubah posisi teks "Selamat Datang" menjadi kiri */
-            margin-left: 10%;
-            /* Memberi jarak dari tepi kiri */
-        }
+    h1 {
+        color: #333;
+        text-align: left;
+        /* Mengubah posisi teks "Selamat Datang" menjadi kiri */
+        margin-left: 10%;
+        /* Memberi jarak dari tepi kiri */
+    }
 
-        p {
-            color: #666;
-            font-size: 18px;
-            text-align: left;
-            /* Mengubah posisi teks deskripsi menjadi kiri */
-            margin-left: 10%;
-            /* Memberi jarak dari tepi kiri */
-        }
+    p {
+        color: #666;
+        font-size: 18px;
+        text-align: left;
+        /* Mengubah posisi teks deskripsi menjadi kiri */
+        margin-left: 10%;
+        /* Memberi jarak dari tepi kiri */
+    }
 
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
 
-        .rekomendasi {
-            text-align: center;
-            margin-top: 50px;
-        }
+    .rekomendasi {
+        text-align: center;
+        margin-top: 50px;
+    }
 
-        footer {
-            background-color: #333;
-            /* Mengubah warna latar belakang footer */
-            color: #333;
-            /* Mengubah warna teks footer menjadi putih */
-            padding: 48px 0;
-            /* Memberi ruang di atas dan bawah teks footer */
-        }
+    footer {
+        background-color: #333;
+        /* Mengubah warna latar belakang footer */
+        color: #333;
+        /* Mengubah warna teks footer menjadi putih */
+        padding: 48px 0;
+        /* Memberi ruang di atas dan bawah teks footer */
+    }
 
-        .card-text {
-            font-size: 18px;
-            /* Ukuran font yang diperkecil */
-            text-align: center;
-            /* Posisikan teks di tengah */
-            /* Posisioning absolute agar bisa ditempatkan tepat di bawah gambar */
-            bottom: 0;
-            /* Menempatkan teks di bagian bawah */
-            left: 0;
-            /* Menempatkan teks di bagian kiri */
-            width: 250px;
-            /* Lebar sesuai dengan parent (card-body) */
-            padding: 2px 0;
-            /* Padding di atas dan bawah untuk memberi jarak */
-        }
+    .card-text {
+        font-size: 18px;
+        /* Ukuran font yang diperkecil */
+        text-align: center;
+        /* Posisikan teks di tengah */
+        /* Posisioning absolute agar bisa ditempatkan tepat di bawah gambar */
+        bottom: 0;
+        /* Menempatkan teks di bagian bawah */
+        left: 0;
+        /* Menempatkan teks di bagian kiri */
+        width: 250px;
+        /* Lebar sesuai dengan parent (card-body) */
+        padding: 2px 0;
+        /* Padding di atas dan bawah untuk memberi jarak */
+    }
     </style>
 </head>
 
@@ -136,20 +136,21 @@ if (!$resultPopuler) {
         <h2>Buku-buku Populer</h2>
         <div class="container" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
             <?php while ($row = mysqli_fetch_assoc($resultPopuler)) : ?>
-                <div class="col-lg-3 mb-3 searchable" style="flex-basis: 30%;">
-                    <div class="card search-result">
-                        <div class="card-img-container">
-                            <h5 class="font-weight-bold card-title"><?php echo $row['judul']; ?></h5>
-                            <img src="buku/<?php echo $row['cover']; ?>" class="card-img-top img-fluid" alt="Cover Buku" style="max-width: 290px; height: 290px;">
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text"><?php echo $row['penulis']; ?></p>
-                            <p class="card-text"><?php echo $row['penerbit']; ?></p>
-                            <p class="card-text">Tahun Terbit: <?php echo $row['tahun_terbit']; ?></p>
-                            <!-- Tombol Pinjam, Kembalikan, Ulasan, dan Tambah/Hapus dari Bookmark -->
-                        </div>
+            <div class="col-lg-3 mb-3 searchable" style="flex-basis: 30%;">
+                <div class="card search-result">
+                    <div class="card-img-container">
+                        <h5 class="font-weight-bold card-title"><?php echo $row['judul']; ?></h5>
+                        <img src="buku/<?php echo $row['cover']; ?>" class="card-img-top img-fluid" alt="Cover Buku"
+                            style="max-width: 290px; height: 290px;">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text"><?php echo $row['penulis']; ?></p>
+                        <p class="card-text"><?php echo $row['penerbit']; ?></p>
+                        <p class="card-text">Tahun Terbit: <?php echo $row['tahun_terbit']; ?></p>
+                        <!-- Tombol Pinjam, Kembalikan, Ulasan, dan Tambah/Hapus dari Bookmark -->
                     </div>
                 </div>
+            </div>
             <?php endwhile; ?>
         </div>
     </div>

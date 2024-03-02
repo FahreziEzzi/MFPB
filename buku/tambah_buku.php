@@ -18,13 +18,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $penerbit = htmlspecialchars($_POST["penerbit"]);
     $tahun_terbit = htmlspecialchars($_POST["tahun_terbit"]);
     $kategori_id = htmlspecialchars($_POST["kategori_id"]);
+    $pdf = htmlspecialchars($_POST["pdf"]);
     $deskripsi = mysqli_real_escape_string($koneksi, $_POST["deskripsi"]);
-    $stok = htmlspecialchars($_POST["stok"]); // Menambahkan penanganan untuk stok
+    $stok = htmlspecialchars($_POST["stok"]);
 
     // Lakukan validasi dan penambahan buku
     if (!empty($judul) && !empty($penulis) && !empty($penerbit) && !empty($tahun_terbit) && !empty($kategori_id) && !empty($stok) && !empty($deskripsi)) {
         // Query untuk memeriksa apakah buku sudah ada
-        $check_book_query = "SELECT * FROM `buku` WHERE `judul` = '$judul' AND `penulis` = '$penulis' AND `penerbit` = '$penerbit' AND `tahun_terbit` = '$tahun_terbit' AND `kategori_id` = '$kategori_id'";
+        $check_book_query = "SELECT * FROM `buku` WHERE `judul` = '$judul' AND `penulis` = '$penulis' AND `penerbit` = '$penerbit' AND `tahun_terbit` = '$tahun_terbit' AND `kategori_id` = '$kategori_id', `pdf` = '$pdf'";
         $result_check_book = mysqli_query($koneksi, $check_book_query);
 
         if (mysqli_num_rows($result_check_book) > 0) {
@@ -141,6 +142,11 @@ if (mysqli_num_rows($result_kategori) > 0) {
                     <span>Data Buku</span></a>
             </li>
             <li class="nav-item side">
+                <a class="nav-link" href="../pengembalian.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Pengembalian Buku</span></a>
+            </li>
+            <li class="nav-item side">
                 <a class="nav-link" href="../datapengguna/data_pengguna.php">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Data Pengguna</span></a>
@@ -193,7 +199,7 @@ if (mysqli_num_rows($result_kategori) > 0) {
                         <span class="icon text-white-50">
                             <i class="fas fa-arrow-left"></i>
                         </span>
-                        <span class="text">Kembali ke Data Buku</span>
+
                     </a>
                     <div class="container-fluid">
                         <div class="row">
@@ -236,10 +242,11 @@ if (mysqli_num_rows($result_kategori) > 0) {
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
-                                                id="inputLinkEbook" placeholder="Link E-Book" name="link_ebook"
-                                                required>
+                                            <label for="inputPdf">File PDF:</label>
+                                            <input type="file" class="form-control-file" id="inputPdf" name="pdf"
+                                                accept="pdf/">
                                         </div>
+
                                         <div class="form-group">
                                             <label for="inputGambar">cover Buku:</label>
                                             <input type="file" class="form-control-file" id="inputGambar" name="cover"

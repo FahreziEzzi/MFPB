@@ -3,6 +3,17 @@ session_start();
 
 include '../koneksi.php';
 
+if (!isset($_SESSION['username'])) {
+    echo "<script>alert('Tolong login terlebih dahulu'); window.location.href = '../login.php';</script>";
+    exit();
+}
+
+function countUserBorrowedBooks($koneksi, $userId) {
+    $countQuery = "SELECT COUNT(*) AS total FROM peminjaman WHERE user = $userId AND status_peminjaman = 'Dipinjam'";
+    $result = mysqli_query($koneksi, $countQuery);
+    $data = mysqli_fetch_assoc($result);
+    return $data['total'];
+}
 function getLoggedInUserID($koneksi, $username) {
     $query = "SELECT id FROM user WHERE username = '$username'";
     $result = mysqli_query($koneksi, $query);
@@ -12,16 +23,7 @@ function getLoggedInUserID($koneksi, $username) {
 
     return $userId;
 }
-
-
-if (!isset($_SESSION['username'])) {
-    header("Location: ../login.php"); 
-    exit();
-}
-
 $username = $_SESSION['username'];
-
-
 $userId = getLoggedInUserID($koneksi, $username);
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
@@ -40,6 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
         $updatePeminjamanQuery = "UPDATE peminjaman SET tanggal_pengembalian = '$tanggalPengembalian', status_peminjaman = 'Dikembalikan' WHERE user = $userId AND buku = $bookId AND status_peminjaman = 'Dipinjam'";
         
         if (mysqli_query($koneksi, $updatePeminjamanQuery)) {
+            // Setelah pengembalian berhasil, tambahkan stok buku dengan satu
+            $updateStokQuery = "UPDATE buku SET stok = stok + 1 WHERE id = $bookId";
+            mysqli_query($koneksi, $updateStokQuery);
+
             // Pengembalian berhasil, alihkan kembali pengguna ke halaman utama atau berikan pesan konfirmasi
             header("Location: index.php");
             exit();
@@ -57,31 +63,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
     header("Location: index.php");
     exit();
 }
-function calculateReturnDate($tanggalPeminjaman) {
-    return date('Y-m-d', strtotime($tanggalPeminjaman . ' + 3 days'));
-}
-
-function autoReturnBooks($koneksi) {
-    // Ambil semua peminjaman yang masih dalam status 'Dipinjam'
-    $query = "SELECT id, user, buku, tanggal_peminjaman FROM peminjaman WHERE status_peminjaman = 'Dipinjam'";
-    $result = mysqli_query($koneksi, $query);
-
-    while ($row = mysqli_fetch_assoc($result)) {
-        $peminjamanId = $row['id'];
-        $userId = $row['user'];
-        $bookId = $row['buku'];
-        $tanggalPeminjaman = $row['tanggal_peminjaman'];
-        $tanggalPengembalian = calculateReturnDate($tanggalPeminjaman);
-
-        // Periksa apakah tanggal pengembalian sudah lewat
-        if (strtotime($tanggalPengembalian) < strtotime(date('Y-m-d'))) {
-            // Jika tanggal pengembalian sudah lewat, update status peminjaman menjadi 'Dikembalikan' dan tambahkan tanggal pengembalian
-            $updateQuery = "UPDATE peminjaman SET tanggal_pengembalian = '$tanggalPengembalian', status_peminjaman = 'Dikembalikan' WHERE id = $peminjamanId";
-            mysqli_query($koneksi, $updateQuery);
-        }
-    }
-}
-
-// Panggil fungsi untuk mengembalikan buku secara otomatis
-autoReturnBooks($koneksi);
 ?>

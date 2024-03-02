@@ -51,17 +51,17 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
 
 <head>
     <style>
-        #searchDropdown {
-            display: none;
-        }
+    #searchDropdown {
+        display: none;
+    }
 
-        .nav-item.active .nav-link span {
-            font-size: 17px !important;
-        }
+    .nav-item.active .nav-link span {
+        font-size: 17px !important;
+    }
 
-        .nav-item.side .nav-link span {
-            font-size: 17px !important;
-        }
+    .nav-item.side .nav-link span {
+        font-size: 17px !important;
+    }
     </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,7 +70,9 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
     <meta name="author" content="">
     <title>Dashboard</title>
     <link href="../sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
     <link href="../sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
@@ -98,70 +100,80 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
             <?php
             if ($role === 'admin') :
             ?>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../buku/index.php">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Data Buku</span></a>
-                </li>
-                <li class="nav-item side active">
-                    <a class="nav-link" href="">
-                        <i class="fas fa-fw fa-users"></i>
-                        <span>Data Pengguna</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../peminjaman/peminjaman.php">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Peminjam</span></a>
-                </li>
-                <hr class="sidebar-divider">
-                <li class="nav-item side">
-                    <a class="nav-link" href="../ulasan/index.php">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Ulasan</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../laporan/laporan.php">
-                        <i class="fas fa-fw fa-print"></i>
-                        <span>Laporan</span></a>
-                </li>
-                <hr class="sidebar-divider">
-                <li class="nav-item side">
-                    <a class="nav-link" href="../registrasi_anggota.php">
-                        <i class="fas fa-fw fa-user-check"></i>
-                        <span>Registrasi</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="#" onclick="confirmLogout();">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
-                    </a>
-                </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../buku/index.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Data Buku</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../pengembalian.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Pengembalian Buku</span></a>
+            </li>
+            <li class="nav-item side active">
+                <a class="nav-link" href="">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Data Pengguna</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../peminjaman/peminjaman.php">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Peminjam</span></a>
+            </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item side">
+                <a class="nav-link" href="../ulasan/index.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Ulasan</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../laporan/laporan.php">
+                    <i class="fas fa-fw fa-print"></i>
+                    <span>Laporan</span></a>
+            </li>
+            <hr class="sidebar-divider">
+            <li class="nav-item side">
+                <a class="nav-link" href="../registrasi_anggota.php">
+                    <i class="fas fa-fw fa-user-check"></i>
+                    <span>Registrasi</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../logout.php" onclick="confirmLogout();">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
 
             <?php endif ?>
             <?php
             if ($role === 'petugas') :
             ?>
-                <li class="nav-item side">
-                    <a class="nav-link" href="../buku/index.php">
-                        <i class="fas fa-fw fa-book"></i>
-                        <span>Data Buku</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="../peminjaman/peminjaman.php">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Peminjam</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="../laporan/laporan.php">
-                        <i class="fas fa-print"></i>
-                        <span>Laporan</span></a>
-                </li>
-                <li class="nav-item side">
-                    <a class="nav-link" href="#" onclick="confirmLogout();">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
-                    </a>
-                </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../buku/index.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Data Buku</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../pengembalian.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Pengembalian Buku</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="../peminjaman/peminjaman.php">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Peminjam</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="../laporan/laporan.php">
+                    <i class="fas fa-print"></i>
+                    <span>Laporan</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../logout.php" onclick="confirmLogout();">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
             <?php endif ?>
 
             <!-- Divider -->
@@ -180,10 +192,13 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                     </button>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown no-arrow d-sm-none">
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
                                 <form class="form-inline mr-auto w-100 navbar-search">
                                     <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
                                         <div class="input-group-append">
                                             <button class="btn btn-primary" type="button">
                                                 <i class="fas fa-search fa-sm"></i>
@@ -196,16 +211,19 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                         <div class="topbar-divider d-none d-sm-block">
                         </div>
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?= $_SESSION['username']; ?>
                                     <i class="fas fa-caret-down"></i>
                                 </span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="../logout.php" data-toggle="modal"
+                                    data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -228,7 +246,8 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                                         </option>
                                         <option value="petugas" <?php echo ($role === 'petugas') ? 'selected' : ''; ?>>
                                             Petugas</option>
-                                        <option value="peminjam" <?php echo ($role === 'peminjam') ? 'selected' : ''; ?>>Peminjam</option>
+                                        <option value="peminjam"
+                                            <?php echo ($role === 'peminjam') ? 'selected' : ''; ?>>Peminjam</option>
                                     </select>
                                 </div>
                             </div>
@@ -250,26 +269,29 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                                             </thead>
                                             <tbody id="dataPengguna">
                                                 <?php while ($data = mysqli_fetch_assoc($result)) : ?>
-                                                    <tr>
-                                                        <td><?= $data['id'] ?></td>
-                                                        <td><?= $data['username'] ?></td>
-                                                        <td><?= $data['email'] ?></td>
-                                                        <td><?= $data['nama_lengkap'] ?></td>
-                                                        <td><?= $data['alamat'] ?></td>
-                                                        <td><?= $data['role'] ?></td>
-                                                    </tr>
+                                                <tr>
+                                                    <td><?= $data['id'] ?></td>
+                                                    <td><?= $data['username'] ?></td>
+                                                    <td><?= $data['email'] ?></td>
+                                                    <td><?= $data['nama_lengkap'] ?></td>
+                                                    <td><?= $data['alamat'] ?></td>
+                                                    <td><?= $data['role'] ?></td>
+                                                </tr>
                                                 <?php endwhile ?>
                                             </tbody>
                                         </table>
                                         <nav aria-label="Page navigation example">
                                             <ul class="pagination justify-content-center">
                                                 <li class="page-item <?php echo $prevDisabled; ?>">
-                                                    <a class="page-link" href="?page=<?php echo $prevPage; ?>" tabindex="-1" aria-disabled="true">Previous</a>
+                                                    <a class="page-link" href="?page=<?php echo $prevPage; ?>"
+                                                        tabindex="-1" aria-disabled="true">Previous</a>
                                                 </li>
                                                 <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
-                                                    <li class="page-item <?php echo ($currentPage == $i) ? "active" : ""; ?>">
-                                                        <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                                    </li>
+                                                <li
+                                                    class="page-item <?php echo ($currentPage == $i) ? "active" : ""; ?>">
+                                                    <a class="page-link"
+                                                        href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                </li>
                                                 <?php endfor; ?>
                                                 <li class="page-item <?php echo $nextDisabled; ?>">
                                                     <a class="page-link" href="?page=<?php echo $nextPage; ?>">Next</a>
@@ -291,7 +313,8 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                         <a class="scroll-to-top rounded" href="#page-top">
                             <i class="fas fa-angle-up"></i>
                         </a>
-                        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -303,7 +326,8 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                                     <div class="modal-body">Select "Logout" below if you are ready to end your current
                                         session.</div>
                                     <div class="modal-footer">
-                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                        <button class="btn btn-secondary" type="button"
+                                            data-dismiss="modal">Cancel</button>
                                         <a class="btn btn-primary" href="../login.php">Logout</a>
                                     </div>
                                 </div>
@@ -318,52 +342,52 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                         <script src="../sbadmin/js/demo/chart-area-demo.js"></script>
                         <script src="../sbadmin/js/demo/chart-pie-demo.js"></script>
                         <script>
-                            $(document).ready(function() {
-                                // Handle filter change event
-                                $('#roleFilter').change(function() {
-                                    var selectedRole = $(this).val();
-                                    // Send AJAX request to fetch filtered data
-                                    $.ajax({
-                                        type: 'GET',
-                                        url: 'fetch_data.php', // Change this to your PHP script for fetching data
-                                        data: {
-                                            role_filter: selectedRole
-                                        },
-                                        success: function(response) {
-                                            // Update table content with filtered data
-                                            $('#dataPengguna').html(response);
-                                        }
-                                    });
+                        $(document).ready(function() {
+                            // Handle filter change event
+                            $('#roleFilter').change(function() {
+                                var selectedRole = $(this).val();
+                                // Send AJAX request to fetch filtered data
+                                $.ajax({
+                                    type: 'GET',
+                                    url: 'fetch_data.php', // Change this to your PHP script for fetching data
+                                    data: {
+                                        role_filter: selectedRole
+                                    },
+                                    success: function(response) {
+                                        // Update table content with filtered data
+                                        $('#dataPengguna').html(response);
+                                    }
                                 });
                             });
+                        });
                         </script>
                         <script>
-                            $.ajax({
-                                type: 'GET',
-                                url: 'fetch_data.php',
-                                data: {
-                                    role_filter: selectedRole,
-                                    page: 1 // Ubah nomor halaman sesuai kebutuhan
-                                },
-                                success: function(response) {
-                                    $('#dataPengguna').html(response);
-                                }
-                            });
-                        </script>
-                        <script>
-                            $(document).ready(function() {
-                                // Mengatur tindakan logout saat tombol logout ditekan
-                                $('#logout').click(function() {
-                                    // Redirect ke halaman logout.php atau sesuai halaman logout Anda
-                                    window.location.href = 'login.php';
-                                });
-                            });
-
-                            function confirmLogout() {
-                                if (confirm("Apakah kamu yakin ingin logout?")) {
-                                    window.location.href = "logout.php"; // Redirect ke logout.php jika user menekan OK
-                                }
+                        $.ajax({
+                            type: 'GET',
+                            url: 'fetch_data.php',
+                            data: {
+                                role_filter: selectedRole,
+                                page: 1 // Ubah nomor halaman sesuai kebutuhan
+                            },
+                            success: function(response) {
+                                $('#dataPengguna').html(response);
                             }
+                        });
+                        </script>
+                        <script>
+                        $(document).ready(function() {
+                            // Mengatur tindakan logout saat tombol logout ditekan
+                            $('#logout').click(function() {
+                                // Redirect ke halaman logout.php atau sesuai halaman logout Anda
+                                window.location.href = 'login.php';
+                            });
+                        });
+
+                        function confirmLogout() {
+                            if (confirm("Apakah kamu yakin ingin logout?")) {
+                                window.location.href = "logout.php"; // Redirect ke logout.php jika user menekan OK
+                            }
+                        }
                         </script>
 
 </body>
