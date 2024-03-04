@@ -115,6 +115,20 @@ if (!$resultPopuler) {
         padding: 2px 0;
         /* Padding di atas dan bawah untuk memberi jarak */
     }
+
+    footer {
+        background-color: #333;
+        color: #fff;
+        padding: 20px 0;
+    }
+
+    footer a {
+        color: #fff;
+    }
+
+    footer a:hover {
+        color: #ccc;
+    }
     </style>
 </head>
 
@@ -129,8 +143,7 @@ if (!$resultPopuler) {
         <h1>Selamat Datang di Perpustakaan Digital</h1>
         <p>Temukan dunia pengetahuan di ujung jari Anda dengan koleksi buku elektronik kami yang kaya dan beragam. Dari
             fiksi hingga non-fiksi, dari sejarah hingga sastra, kami menyediakan akses mudah dan cepat ke ribuan judul
-            terbaik. </p>
-
+            terbaik.</p>
     </div>
     <div class="rekomendasi">
         <h2>Buku-buku Populer</h2>

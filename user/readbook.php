@@ -1,8 +1,6 @@
 <?php
 
-
 include '../koneksi.php';
-
 
 // Check if the user is not logged in
 if (!isset($_SESSION['username'])) {
@@ -12,9 +10,6 @@ if (!isset($_SESSION['username'])) {
 
 // Fetch user role from the database based on the username in the session
 $username = $_SESSION['username'];
-
-
-
 
 ?>
 
@@ -95,7 +90,12 @@ $username = $_SESSION['username'];
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <a href="index.php" class="btn btn-primary btn-icon-split back-button">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-arrow-left"></i>
+                        </span>
 
+                    </a>
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
@@ -123,6 +123,7 @@ $username = $_SESSION['username'];
                     </ul>
 
                 </nav>
+
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -135,33 +136,16 @@ $username = $_SESSION['username'];
                                 class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
-                <!-- End of Page Content -->
+
+
+                <!-- Tombol untuk kembali ke halaman index.php -->
 
 
             </div>
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h4>Tentang Kami</h4>
-                            <p>Perpustakaan Digital menyediakan akses mudah dan cepat ke ribuan judul buku elektronik
-                                terbaik.
-                            </p>
-                        </div>
-                        <div class="col-md-4">
-                            <h4>Kontak Kami</h4>
-                            <p>Email: Fahrezireziw1054@gmail.com</p>
-                            <p>Telepon: 083109627088</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="copy text-center">
-                    <p>&copy; 2024 Perpustakaan Digital. All rights reserved.</p>
-                </div>
-            </footer>
+
             <!-- End of Footer -->
 
         </div>

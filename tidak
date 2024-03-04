@@ -1,709 +1,219 @@
 <?php
+include('koneksi.php');
 session_start();
 
-include '../koneksi.php';
-if (!isset($_SESSION['username'])) {
-    header("Location: ../login.php");
-    exit();
+// Ambil buku-buku populer berdasarkan rating tertinggi
+$queryPopuler = "SELECT b.*, AVG(u.rating) AS rating_rata FROM buku b LEFT JOIN ulasan_buku u ON b.id = u.buku GROUP BY b.id ORDER BY rating_rata DESC LIMIT 3";
+
+
+$resultPopuler = mysqli_query($koneksi, $queryPopuler);
+
+if (!$resultPopuler) {
+    die("Error: " . mysqli_error($koneksi));
 }
 
-$username = $_SESSION['username'];
-
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if (isset($_GET['id']) && isset($_GET['action'])) {
-        $bookId = $_GET['id'];
-        $action = $_GET['action'];
-        if ($action !== 'add' && $action !== 'delete') {
-            echo "Aksi tidak valid.";
-            exit();
-        }
-        $checkBookQuery = "SELECT * FROM buku WHERE id = $bookId";
-        $checkBookResult = mysqli_query($koneksi, $checkBookQuery);
-        if (mysqli_num_rows($checkBookResult) > 0) {
-            if ($action == 'add') {
-                $insertQuery = "INSERT INTO koleksi_pribadi (user, buku) VALUES ((SELECT id FROM user WHERE username = '$username'), $bookId)";
-                mysqli_query($koneksi, $insertQuery);
-                $_SESSION['notification'] = "Buku sudah ditambahkan ke bookmark.";
-
-                // Simpan status peminjaman dalam session
-                $_SESSION['status_peminjaman'] = "Buku telah dipinjam";
-
-                header("Location: index.php");
-                exit();
-            } elseif ($action == 'delete') {
-                $deleteQuery = "DELETE FROM koleksi_pribadi WHERE user = (SELECT id FROM user WHERE username = '$username') AND buku = $bookId";
-                mysqli_query($koneksi, $deleteQuery);
-                $_SESSION['notification'] = "Buku berhasil dihapus dari bookmark.";
-
-                // Simpan status peminjaman dalam session
-                $_SESSION['status_peminjaman'] = "Buku telah dikembalikan";
-
-                header("Location: index.php");
-                exit();
-            }
-        } else {
-            echo "Buku dengan ID $bookId tidak ditemukan.";
-            exit();
-        }
-    } else {
-    }
-} else {
-    echo "Metode yang diterima hanya GET.";
-    exit();
-}
-
-if (isset($_SESSION['notification'])) {
-    // Tampilkan pesan notifikasi
-    echo "<script>alert('" . $_SESSION['notification'] . "');</script>";
-    // Hapus pesan notifikasi dari session
-    unset($_SESSION['notification']);
-}
-
-$query = "SELECT * FROM buku";
-$result = mysqli_query($koneksi, $query);
 ?>
-
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perpustakaan Digital</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-
-    </style>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Beranda</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <link href="../sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-    <link href="../sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <style>
-    .card-img-container {
-        position: relative;
-        overflow: hidden;
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        background-size: cover;
+        background-position: center;
     }
 
-    .card-img-container::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
+    .container {
+        width: 80%;
+        margin: 50px auto;
+        text-align: center;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .navbar {
+        color: #fff;
+        padding: 10px 0;
+        overflow: hidden;
+        background-color: #333;
+        /* Menambahkan warna latar belakang navbar */
+    }
+
+    .navbar a {
+        color: #fff;
+        /* Mengubah warna teks navbar menjadi putih */
+        text-decoration: none;
+        margin: 0 22px;
+        transition: background-color 0.3s;
+    }
+
+    .navbar a.right {
+        float: right;
+    }
+
+    h1 {
+        color: #333;
+        text-align: left;
+        /* Mengubah posisi teks "Selamat Datang" menjadi kiri */
+        margin-left: 10%;
+        /* Memberi jarak dari tepi kiri */
+    }
+
+    p {
+        color: #666;
+        font-size: 18px;
+        text-align: left;
+        /* Mengubah posisi teks deskripsi menjadi kiri */
+        margin-left: 10%;
+        /* Memberi jarak dari tepi kiri */
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+
+    .rekomendasi {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .card-text {
+        font-size: 18px;
+        /* Ukuran font yang diperkecil */
+        text-align: center;
+        /* Posisikan teks di tengah */
+        /* Posisioning absolute agar bisa ditempatkan tepat di bawah gambar */
         bottom: 0;
+        /* Menempatkan teks di bagian bawah */
         left: 0;
-        border: 5px solid #e9ecef;
-        pointer-events: none;
-        z-index: 1;
+        /* Menempatkan teks di bagian kiri */
+        width: 250px;
+        /* Lebar sesuai dengan parent (card-body) */
+        padding: 2px 0;
+        /* Padding di atas dan bawah untuk memberi jarak */
     }
 
-    .card-img-container {
-        position: relative;
-        overflow: hidden;
-        height: 430px;
-        /* Ubah sesuai dengan keinginan Anda */
+    footer {
+        background-color: #000;
+        padding: 50px 0;
     }
 
-    px .card-img-container img {
-        width: 550px;
-        height: 550px;
-        object-fit: cover;
+    footer h5 {
+        color: #fff;
+    }
+
+    footer p {
+        color: #fff;
+    }
+
+    footer a {
+        color: #fff;
+    }
+
+    footer a:hover {
+        color: #ccc;
+    }
+
+    .social-icons .btn {
+        margin: 5px;
     }
     </style>
 </head>
 
-<body id="page-top">
-    <div id="wrapper">
-        <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" id="searchInput" class="form-control bg-light border-0 small"
-                                placeholder="Cari..." aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    <?= $_SESSION['username']; ?>
-                                    <i class="fas fa-caret-down"></i>
-                                </span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="peminjaman.php">
-                                    <i class="fas fa-handshake fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Peminjaman
-                                </a>
-                                <a class="dropdown-item" href="bookmark.php">
-                                    <i class="far fa-bookmark fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Bookmark
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-
-                </nav>
-                <div class="container-fluid">
-                    <div id="noResultsMessage" class="mt-5 text-center" style="display: none;">
-                        <i class="fas fa-book fa-3x mb-3"></i>
-                        <p>Buku yang Anda cari tidak ditemukan.</p>
-                    </div>
-                    <div class="row">
-                        <?php while ($row = mysqli_fetch_assoc($result)) : ?>
-                        <div class="col-lg-3 mb-3 searchable">
-                            <div class="card search-result">
-                                <div class="card-img-container">
-                                    <img src="../buku/<?php echo $row['cover']; ?>" class="card-img-top img-fluid"
-                                        alt="Cover Buku">
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="font-weight-bold card-title"><?php echo $row['judul']; ?></h5>
-                                    <p class="card-text"><?php echo $row['penulis']; ?></p>
-                                    <p class="card-text"><?php echo $row['penerbit']; ?></p>
-                                    <p class="card-text">Tahun Terbit: <?php echo $row['tahun_terbit']; ?></p>
-                                    <?php
-                                        // Hitung selisih hari antara tanggal pengembalian dengan tanggal sekarang
-                                        $id = $row['id'];
-                                        $querypinjam = "SELECT * FROM peminjaman WHERE buku = $id AND user = '" . $_SESSION['user_id'] . "' AND status_peminjaman = 'Dipinjam'";
-                                        $resultpinjam = mysqli_query($koneksi, $querypinjam);
-                                        $datapinjam = mysqli_fetch_assoc($resultpinjam);
-
-                                        if (mysqli_num_rows($resultpinjam) > 0 && $datapinjam['status_peminjaman'] == "Dipinjam") {
-                                            $tanggalPeminjaman = $datapinjam['tanggal_peminjaman'];
-                                            $tanggalPengembalian = date('Y-m-d', strtotime($tanggalPeminjaman . ' + 3 days'));
-                                            $selisihHari = ceil((strtotime($tanggalPengembalian) - strtotime(date('Y-m-d'))) / (60 * 60 * 24));
-                                            if ($selisihHari > 0) {
-                                                echo "<p class='card-text text-danger'>Batas hari peminjaman: $selisihHari hari</p>";
-                                            }
-                                        }
-                                        ?>
-                                    <?php
-                                        // Periksa apakah pengguna telah meminjam buku ini
-                                        $id = $row['id'];
-                                        $querypinjam = "SELECT * FROM peminjaman WHERE buku = $id AND user = '" . $_SESSION['user_id'] . "' AND status_peminjaman = 'Dipinjam'";
-                                        $resultpinjam = mysqli_query($koneksi, $querypinjam);
-                                        $datapinjam = mysqli_fetch_assoc($resultpinjam);
-                                        $hasBorrowed = mysqli_num_rows($resultpinjam) > 0 && $datapinjam['status_peminjaman'] == "Dipinjam";
-                                        ?>
-
-                                    <?php if ($hasBorrowed) : ?>
-                                    <!-- Tombol "Baca" akan muncul jika pengguna telah meminjam buku -->
-                                    <a href="tambah_ulasan.php?id=<?= $row['id']; ?>" class="btn btn-success">Ulasan</a>
-                                    <?php endif ?>
-
-                                    <?php if ($hasBorrowed) : ?>
-                                    <!-- Tombol "Baca" akan muncul jika pengguna telah meminjam buku -->
-                                    <a href="baca_online.php?id=<?= $row['id']; ?>" class="btn btn-info"
-                                        target="_blank">Baca</a>
-                                    <?php endif ?>
-
-                                    <?php if (mysqli_num_rows($resultpinjam) > 0 && $datapinjam['status_peminjaman'] == "Dipinjam") : ?>
-                                    <!-- Tombol "Kembalikan" -->
-                                    <a href="kembalikan.php?id=<?= $row['id'] ?>" class="btn btn-danger"
-                                        id="pinjamButton<?php echo $row['id']; ?>">Kembalikan</a>
-                                    <?php else : ?>
-                                    <!-- Tombol "Pinjam" -->
-                                    <a href="pinjam.php?id=<?= $row['id']; ?>" class="btn btn-primary"
-                                        id="pinjamButton<?php echo $row['id']; ?>">Pinjam</a>
-                                    <?php endif ?>
-
-                                    <!-- Tombol "Bookmark" -->
-                                    <?php
-                                        $checkQuery = "SELECT * FROM koleksi_pribadi WHERE user = (SELECT id FROM user WHERE username = '$username') AND buku = {$row['id']}";
-                                        $checkResult = mysqli_query($koneksi, $checkQuery);
-                                        if (mysqli_num_rows($checkResult) > 0) : ?>
-                                    <a href="index.php?id=<?= $row['id']; ?>&action=delete" class="btn btn-secondary"
-                                        onclick="return confirmDelete()">
-                                        <i class="fas fa-heart"></i>
-                                    </a>
-                                    <?php else : ?>
-                                    <a href="index.php?id=<?= $row['id']; ?>&action=add" class="btn btn-secondary">
-                                        <i class="far fa-heart"></i>
-                                    </a>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        </div>
-                        <?php endwhile; ?>
-                    </div>
-                </div>
-                <footer class="sticky-footer bg-white">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Hak Cipta &copy; Situs Web Anda 2021</span>
-                        </div>
-                    </div>
-                </footer>
-            </div>
-        </div>
-
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Anda Siap untuk Keluar?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Pilih "Logout" di bawah jika Anda ingin mengakhiri sesi Anda saat ini.</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                        <a class="btn btn-primary" href="../login.php">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script src="../sbadmin/vendor/jquery/jquery.min.js"></script>
-        <script src="../sbadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../sbadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
-        <script src="../sbadmin/js/sb-admin-2.min.js"></script>
-        <script src="../sbadmin/vendor/chart.js/Chart.min.js"></script>
-        <script src="../sbadmin/js/demo/chart-area-demo.js"></script>
-        <script src="../sbadmin/js/demo/chart-pie-demo.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-        <script>
-        $(document).ready(function() {
-            $("#searchInput").on("input", function() {
-                let searchTerm = $(this).val().toLowerCase();
-                let resultsFound = false;
-                $(".searchable").each(function() {
-                    let cardText = $(this).text().toLowerCase();
-                    if (cardText.includes(searchTerm)) {
-                        $(this).show();
-                        resultsFound = true;
-                    } else {
-                        $(this).hide();
-                    }
-                });
-                if (resultsFound) {
-                    $("#noResultsMessage").hide();
-                } else {
-                    $("#noResultsMessage").show();
-                }
-            });
-
-            <?php if (isset($_SESSION['notification'])) : ?>
-            <?php if ($_SESSION['notification'] == 'Buku sudah ditambahkan ke bookmark.') : ?>
-            toastr.success('<?php echo $_SESSION['notification']; ?>');
-            <?php elseif ($_SESSION['notification'] == 'Buku berhasil dihapus dari bookmark.') : ?>
-            toastr.success('<?php echo $_SESSION['notification']; ?>');
-            <?php endif; ?>
-            <?php unset($_SESSION['notification']); ?>
-            <?php endif; ?>
-        });
-
-        function confirmDelete() {
-            return confirm('Apakah Anda yakin ingin menghapus buku dari bookmark?');
-        }
-        </script>
-</body>
-
-</html>
-<!-- new code -->
-<?php
-session_start();
-
-include '../koneksi.php';
-if (!isset($_SESSION['username'])) {
-    header("Location: ../login.php");
-    exit();
-}
-
-$username = $_SESSION['username'];
-
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if (isset($_GET['id']) && isset($_GET['action'])) {
-        $bookId = $_GET['id'];
-        $action = $_GET['action'];
-        if ($action !== 'add' && $action !== 'delete') {
-            echo "Aksi tidak valid.";
-            exit();
-        }
-        $checkBookQuery = "SELECT * FROM buku WHERE id = $bookId";
-        $checkBookResult = mysqli_query($koneksi, $checkBookQuery);
-        if (mysqli_num_rows($checkBookResult) > 0) {
-            if ($action == 'add') {
-                $insertQuery = "INSERT INTO koleksi_pribadi (user, buku) VALUES ((SELECT id FROM user WHERE username = '$username'), $bookId)";
-                mysqli_query($koneksi, $insertQuery);
-                $_SESSION['notification'] = "Buku sudah ditambahkan ke bookmark.";
-
-                // Simpan status peminjaman dalam session
-                $_SESSION['status_peminjaman'] = "Buku telah dipinjam";
-
-                header("Location: index.php");
-                exit();
-            } elseif ($action == 'delete') {
-                $deleteQuery = "DELETE FROM koleksi_pribadi WHERE user = (SELECT id FROM user WHERE username = '$username') AND buku = $bookId";
-                mysqli_query($koneksi, $deleteQuery);
-                $_SESSION['notification'] = "Buku berhasil dihapus dari bookmark.";
-
-                // Simpan status peminjaman dalam session
-                $_SESSION['status_peminjaman'] = "Buku telah dikembalikan";
-
-                header("Location: index.php");
-                exit();
-            }
-        } else {
-            echo "Buku dengan ID $bookId tidak ditemukan.";
-            exit();
-        }
-    } else {
-    }
-} else {
-    echo "Metode yang diterima hanya GET.";
-    exit();
-}
-
-if (isset($_SESSION['notification'])) {
-    // Tampilkan pesan notifikasi
-    echo "<script>alert('" . $_SESSION['notification'] . "');</script>";
-    // Hapus pesan notifikasi dari session
-    unset($_SESSION['notification']);
-}
-
-$query = "SELECT * FROM buku";
-$result = mysqli_query($koneksi, $query);
-?>
-
-<!DOCTYPE html>
-<html lang="id">
-
-<head>
-    <style>
-
-    </style>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Beranda</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <link href="../sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-    <link href="../sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <style>
-    .card-img-container {
-        position: relative;
-        overflow: hidden;
-    }
-
-    .card-img-container::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        border: 5px solid #e9ecef;
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    .card-img-container {
-        position: relative;
-        overflow: hidden;
-        height: 430px;
-        /* Ubah sesuai dengan keinginan Anda */
-    }
-
-    px .card-img-container img {
-        width: 550px;
-        height: 550px;
-        object-fit: cover;
-    }
-    </style>
-</head>
-
-<body id="page-top">
-    <div id="wrapper">
-        <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" id="searchInput" class="form-control bg-light border-0 small"
-                                placeholder="Cari..." aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    <?= $_SESSION['username']; ?>
-                                    <i class="fas fa-caret-down"></i>
-                                </span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="peminjaman.php">
-                                    <i class="fas fa-handshake fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Peminjaman
-                                </a>
-                                <a class="dropdown-item" href="bookmark.php">
-                                    <i class="far fa-bookmark fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Bookmark
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-
-                </nav>
-                <div class="container-fluid">
-                    <div id="noResultsMessage" class="mt-5 text-center" style="display: none;">
-                        <i class="fas fa-book fa-3x mb-3"></i>
-                        <p>Buku yang Anda cari tidak ditemukan.</p>
-                    </div>
-                    <div class="row">
-                        <?php while ($row = mysqli_fetch_assoc($result)) : ?>
-                        <div class="col-lg-3 mb-3 searchable">
-                            <div class="card search-result">
-                                <div class="card-img-container">
-                                    <img src="../buku/<?php echo $row['cover']; ?>" class="card-img-top img-fluid"
-                                        alt="Cover Buku">
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="font-weight-bold card-title"><?php echo $row['judul']; ?></h5>
-                                    <p class="card-text"><?php echo $row['penulis']; ?></p>
-                                    <p class="card-text"><?php echo $row['penerbit']; ?></p>
-                                    <p class="card-text">Tahun Terbit: <?php echo $row['tahun_terbit']; ?></p>
-
-                                    <?php
-                                        // Hitung selisih hari antara tanggal pengembalian dengan tanggal sekarang
-                                        $id = $row['id'];
-                                        $querypinjam = "SELECT * FROM peminjaman WHERE buku = $id AND user = '" . $_SESSION['user_id'] . "' AND status_peminjaman = 'Dipinjam'";
-                                        $resultpinjam = mysqli_query($koneksi, $querypinjam);
-                                        $datapinjam = mysqli_fetch_assoc($resultpinjam);
-
-                                        if (mysqli_num_rows($resultpinjam) > 0 && $datapinjam['status_peminjaman'] == "Dipinjam") {
-                                            $tanggalPeminjaman = $datapinjam['tanggal_peminjaman'];
-                                            $tanggalPengembalian = date('Y-m-d', strtotime($tanggalPeminjaman . ' + 3 days'));
-                                            $selisihHari = ceil((strtotime($tanggalPengembalian) - strtotime(date('Y-m-d'))) / (60 * 60 * 24));
-                                            if ($selisihHari > 0) {
-                                                echo "<p class='card-text text-danger'>Batas hari peminjaman: $selisihHari hari</p>";
-                                            }
-                                        }
-                                        ?>
-
-                                    <?php if (mysqli_num_rows($resultpinjam) > 0 && $datapinjam['status_peminjaman'] == "Dipinjam") : ?>
-                                    <a href="kembalikan.php?id=<?= $row['id'] ?>" class="btn btn-danger"
-                                        id="pinjamButton<?php echo $row['id']; ?>">Kembalikan</a>
-                                    <?php else : ?>
-                                    <a href="pinjam.php?id=<?= $row['id']; ?>" class="btn btn-primary"
-                                        id="pinjamButton<?php echo $row['id']; ?>">Pinjam</a>
-                                    <?php endif ?>
-                                    <a href="baca_online.php?id=<?= $row['id']; ?>" class="btn btn-info"
-                                        target="_blank">Baca</a>
-
-                                    <?php if (mysqli_num_rows($resultpinjam) > 0 && $datapinjam['status_peminjaman'] == "Dipinjam") : ?>
-                                    <a href="tambah_ulasan.php?id=<?= $row['id']; ?>" class="btn btn-success">Ulasan</a>
-                                    <?php endif ?>
-
-                                    <?php
-                                        $checkQuery = "SELECT * FROM koleksi_pribadi WHERE user = (SELECT id FROM user WHERE username = '$username') AND buku = {$row['id']}";
-                                        $checkResult = mysqli_query($koneksi, $checkQuery);
-                                        if (mysqli_num_rows($checkResult) > 0) : ?>
-                                    <a href="baca_online.php?id=<?= $row['id']; ?>" class="btn btn-info"
-                                        target="_blank">Baca</a>
-                                    <?php else : ?>
-                                    <a href="index.php?id=<?= $row['id']; ?>&action=add" class="btn btn-secondary">
-                                        <i class="far fa-heart"></i>
-                                    </a>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        </div>
-                        <?php endwhile; ?>
-                    </div>
-                </div>
-                <footer class="sticky-footer bg-white">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Hak Cipta &copy; Situs Web Anda 2021</span>
-                        </div>
-                    </div>
-                </footer>
-            </div>
-        </div>
-
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Anda Siap untuk Keluar?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Pilih "Logout" di bawah jika Anda ingin mengakhiri sesi Anda saat ini.</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                        <a class="btn btn-primary" href="../login.php">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script src="../sbadmin/vendor/jquery/jquery.min.js"></script>
-        <script src="../sbadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="../sbadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
-        <script src="../sbadmin/js/sb-admin-2.min.js"></script>
-        <script src="../sbadmin/vendor/chart.js/Chart.min.js"></script>
-        <script src="../sbadmin/js/demo/chart-area-demo.js"></script>
-        <script src="../sbadmin/js/demo/chart-pie-demo.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-        <script>
-        $(document).ready(function() {
-            $("#searchInput").on("input", function() {
-                let searchTerm = $(this).val().toLowerCase();
-                let resultsFound = false;
-                $(".searchable").each(function() {
-                    let cardText = $(this).text().toLowerCase();
-                    if (cardText.includes(searchTerm)) {
-                        $(this).show();
-                        resultsFound = true;
-                    } else {
-                        $(this).hide();
-                    }
-                });
-                if (resultsFound) {
-                    $("#noResultsMessage").hide();
-                } else {
-                    $("#noResultsMessage").show();
-                }
-            });
-
-            <?php if (isset($_SESSION['notification'])) : ?>
-            <?php if ($_SESSION['notification'] == 'Buku sudah ditambahkan ke bookmark.') : ?>
-            toastr.success('<?php echo $_SESSION['notification']; ?>');
-            <?php elseif ($_SESSION['notification'] == 'Buku berhasil dihapus dari bookmark.') : ?>
-            toastr.success('<?php echo $_SESSION['notification']; ?>');
-            <?php endif; ?>
-            <?php unset($_SESSION['notification']); ?>
-            <?php endif; ?>
-        });
-
-        function confirmDelete() {
-            return confirm('Apakah Anda yakin ingin menghapus buku dari bookmark?');
-        }
-        </script>
-</body>
-
-</html>
-<!-- new code -->
-<div id="content-wrapper" class="d-flex flex-column">
-    <div id="content">
-        <!-- Your content here -->
-        <form class="user" action="proses_tambah_buku.php" method="post" enctype="multipart/form-data">
-            <!-- Your form fields here -->
-            <div class="form-group">
-                <label for="inputPdf">File PDF:</label>
-                <input type="file" class="form-control-file" id="inputPdf" name="pdf" accept="application/pdf">
-            </div>
-            <!-- Your other form fields here -->
-            <button type="submit" class="btn btn-primary btn-user btn-block">Tambah Buku</button>
-        </form>
+<body>
+    <div class="navbar">
+        <a href="index.php">Beranda</a>
+        <a href="buku.php">Daftar Buku</a>
+        <a href="login.php" class="right">Login</a>
+        <a href="registrasi.php" class="right">Registrasi</a>
     </div>
-</div>
+    <div class="container">
+        <h1>Selamat Datang di Perpustakaan Digital</h1>
+        <p>Temukan dunia pengetahuan di ujung jari Anda dengan koleksi buku elektronik kami yang kaya dan beragam. Dari
+            fiksi hingga non-fiksi, dari sejarah hingga sastra, kami menyediakan akses mudah dan cepat ke ribuan judul
+            terbaik. </p>
 
+    </div>
+    <div class="rekomendasi">
+        <h2>Buku-buku Populer</h2>
+        <div class="container" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+            <?php while ($row = mysqli_fetch_assoc($resultPopuler)) : ?>
+            <div class="col-lg-3 mb-3 searchable" style="flex-basis: 30%;">
+                <div class="card search-result">
+                    <div class="card-img-container">
+                        <h5 class="font-weight-bold card-title"><?php echo $row['judul']; ?></h5>
+                        <img src="buku/<?php echo $row['cover']; ?>" class="card-img-top img-fluid" alt="Cover Buku"
+                            style="max-width: 290px; height: 290px;">
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text"><?php echo $row['penulis']; ?></p>
+                        <p class="card-text"><?php echo $row['penerbit']; ?></p>
+                        <p class="card-text">Tahun Terbit: <?php echo $row['tahun_terbit']; ?></p>
+                    </div>
+                </div>
+            </div>
+            <?php endwhile; ?>
+        </div>
+    </div>
 
-<!-- baca online -->
-<?php
-// Pastikan session sudah dimulai
-include('../koneksi.php');
-session_start();
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <footer class="text-center mt-5">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5>About Us</h5>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et justo sit amet dolor
+                                    efficitur finibus.</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Contact Us</h5>
+                                <ul class="list-unstyled">
+                                    <li>Address: Banjar</li>
+                                    <li>Phone: 0831-0962-7088</li>
+                                    <li>Email: fahrezireziw1054@gmail.com</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Follow Us</h5>
+                                <div class="social-icons">
+                                    <a href="#" class="btn btn-outline-light btn-social mx-1"><i
+                                            class="fab fa-facebook-f"></i></a>
+                                    <a href="#" class="btn btn-outline-light btn-social mx-1"><i
+                                            class="fab fa-twitter"></i></a>
+                                    <a href="#" class="btn btn-outline-light btn-social mx-1"><i
+                                            class="fab fa-linkedin-in"></i></a>
+                                    <a href="#" class="btn btn-outline-light btn-social mx-1"><i
+                                            class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
 
-// Periksa apakah parameter ID buku ada dalam URL
-if (isset($_GET['id'])) {
-    $bookId = $_GET['id'];
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    // Periksa apakah pengguna sudah login
-    if (isset($_SESSION['user_id'])) {
-        $userId = $_SESSION['user_id'];
+</body>
 
-        // Periksa apakah pengguna telah meminjam buku
-        $checkQuery = "SELECT * FROM peminjaman WHERE buku = ? AND user = ?";
-        $stmt = mysqli_prepare($koneksi, $checkQuery);
-        mysqli_stmt_bind_param($stmt, "ii", $bookId, $userId);
-        mysqli_stmt_execute($stmt);
-        $checkResult = mysqli_stmt_get_result($stmt);
-
-        if (mysqli_num_rows($checkResult) > 0) {
-            // Pengguna telah meminjam buku, maka berikan akses
-            $query = "SELECT * FROM buku WHERE id = $bookId";
-            $result = mysqli_query($koneksi, $query);
-            $book = mysqli_fetch_assoc($result);
-
-            // Tampilkan PDF menggunakan tag embed
-            echo "<embed src='../buku/{$book['pdf']}' type='../buku/pdf/' width='100%' height='600px' toolbar='0'>";
-
-            // Jangan lupa untuk keluar dari skrip setelah menampilkan PDF
-            exit();
-        } else {
-            echo "Anda belum meminjam buku ini.";
-        }
-    } else {
-        echo "Anda harus login untuk mengakses buku ini.";
-    }
-} else {
-    echo "Parameter ID buku tidak ditemukan.";
-}
-?>
+</html>

@@ -152,12 +152,17 @@ $result = mysqli_query($koneksi, $query);
                     <i class="fas fa-fw fa-book"></i>
                     <span>Data Buku</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item side">
+                <a class="nav-link" href="../pengembalian.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Pengembalian Buku</span></a>
+            </li>
+            <li class="nav-item side">
                 <a class="nav-link" href="../peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-file-alt"></i>
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Peminjam</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item side">
                 <a class="nav-link" href="../laporan/laporan.php">
                     <i class="fas fa-print"></i>
                     <span>Laporan</span></a>
@@ -221,9 +226,7 @@ $result = mysqli_query($koneksi, $query);
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
 

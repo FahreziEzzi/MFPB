@@ -59,6 +59,21 @@ $result = mysqli_query($koneksi, $query);
 <html lang="en">
 
 <head>
+    <style>
+    body {
+        position: relative;
+        min-height: 100vh;
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        /* Optional: adjust padding or margin as needed */
+        padding: 20px 0;
+        margin-top: 20px;
+    }
+    </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -78,102 +93,112 @@ $result = mysqli_query($koneksi, $query);
 </head>
 
 <body id="page-top">
-    <div id="wrapper">
-        <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" id="searchInput" class="form-control bg-light border-0 small"
-                                placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <div class="input-group">
+                        <input type="text" id="searchInput" class="form-control bg-light border-0 small"
+                            placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
                         </div>
-                    </form>
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
+                    </div>
+                </form>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item dropdown no-arrow d-sm-none">
+                        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                            aria-labelledby="searchDropdown">
+                            <form class="form-inline mr-auto w-100 navbar-search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control bg-light border-0 small"
+                                        placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button">
+                                            <i class="fas fa-search fa-sm"></i>
+                                        </button>
                                     </div>
-                                </form>
-                            </div>
-                        </li>
-                        <div class="topbar-divider d-none d-sm-block"></div>
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    <?= $_SESSION['username']; ?>
-                                    <i class="fas fa-caret-down"></i>
-                                </span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="peminjaman.php">
-                                    <i class="fas fa-handshake fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Peminjaman
-                                </a>
-                                <a class="dropdown-item" href="">
-                                    <i class="far fa-bookmark fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Bookmark
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="login.php" data-toggle="modal"
-                                    data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="container-fluid">
-                    <div id="noResultsMessage" class="mt-5 text-center" style="display: none;">
-                        <i class="fas fa-book fa-3x mb-3"></i>
-                        <p>Buku yang Anda cari tidak ditemukan.</p>
-                    </div>
-                    <div class="row">
-                        <?php while ($row = mysqli_fetch_assoc($result)) : ?>
-                        <div class="col-lg-4 mb-4 searchable">
-                            <div class="card search-result">
-                                <img src="../buku/<?php echo $row['cover']; ?>"
-                                    style="width: 100%; height: 300px; object-fit: cover;"
-                                    class="card-img-top img-fluid" alt="Cover Buku">
-                                <div class="card-body">
-                                    <h5 class="card-title"><?php echo $row['judul']; ?></h5>
-                                    <p class="card-text"><?php echo $row['penulis']; ?></p>
-                                    <p class="card-text"><?php echo $row['penerbit']; ?></p>
-                                    <p class="card-text">Tahun Terbit: <?php echo $row['tahun_terbit']; ?></p>
-                                    <a href="#" class="btn btn-primary">Pinjam</a>
-                                    <a href="bookmark.php?id=<?= $row['id']; ?>&action=delete" class="btn btn-secondary"
-                                        onclick="return confirmDelete()">
-                                        <i class="fas fa-heart"></i> Hapus Bookmark</a>
                                 </div>
+                            </form>
+                        </div>
+                    </li>
+                    <div class="topbar-divider d-none d-sm-block"></div>
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                <?= $_SESSION['username']; ?>
+                                <i class="fas fa-caret-down"></i>
+                            </span>
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                            aria-labelledby="userDropdown">
+
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-handshake fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Peminjaman
+                            </a>
+                            <a class="dropdown-item" href="bookmark.php">
+                                <i class="far fa-solid fa-heart fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Bookmark
+                            </a>
+                            <a class="dropdown-item" href="history.php">
+                                <i class="fas fa-history fa-sm fa-fw mr-2 text-gray-400"></i>
+                                History
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <div class="container-fluid">
+                <div id="noResultsMessage" class="mt-5 text-center" style="display: none;">
+                    <i class="fas fa-book fa-3x mb-3"></i>
+                    <p>Buku yang Anda cari tidak ditemukan.</p>
+                </div>
+                <div class="row">
+                    <?php while ($row = mysqli_fetch_assoc($result)) : ?>
+                    <div class="col-lg-4 mb-4 searchable">
+                        <div class="card search-result">
+                            <img src="../buku/<?php echo $row['cover']; ?>"
+                                style="width: 100%; height: 300px; object-fit: cover;" class="card-img-top img-fluid"
+                                alt="Cover Buku">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $row['judul']; ?></h5>
+                                <p class="card-text"><?php echo $row['penulis']; ?></p>
+                                <p class="card-text"><?php echo $row['penerbit']; ?></p>
+                                <p class="card-text">Tahun Terbit: <?php echo $row['tahun_terbit']; ?></p>
+                                <a href="pinjam.php?id=<?= $row['id']; ?>" class="btn btn-primary"
+                                    id="pinjamButton<?php echo $row['id']; ?>">Pinjam</a>
+                                <a href="bookmark.php?id=<?= $row['id']; ?>&action=delete" class="btn btn-secondary"
+                                    onclick="return confirmDelete()">
+                                    <i class="fas fa-heart"></i> Hapus Bookmark</a>
                             </div>
                         </div>
-                        <?php endwhile; ?>
                     </div>
+                    <?php endwhile; ?>
                 </div>
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Hak Cipta &copy; Situs Web Anda 2021</span>
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
+    </div>
     </div>
     <script>
     function showNotification(message, type) {

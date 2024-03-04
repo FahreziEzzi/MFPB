@@ -147,8 +147,13 @@ $total_users = $count_users_data['total_users'];
                     <span>Data Buku</span></a>
             </li>
             <li class="nav-item side">
+                <a class="nav-link" href="pengembalian.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Pengembalian Buku</span></a>
+            </li>
+            <li class="nav-item side">
                 <a class="nav-link" href="peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-file-alt"></i>
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Peminjam</span></a>
             </li>
             <li class="nav-item side">

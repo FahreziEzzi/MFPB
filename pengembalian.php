@@ -2,7 +2,8 @@
 session_start();
 
 include 'koneksi.php';
-
+$role = $_SESSION['role'];
+$username = $_SESSION['username'];
 // Check if the user is not logged in
 if (!isset($_SESSION['username'])) {
     header("Location: ../login.php"); // Redirect to the login page if not logged in
@@ -11,19 +12,35 @@ if (!isset($_SESSION['username'])) {
 
 // Fetch user role from the database based on the username in the session
 $username = $_SESSION['username'];
+
 // Handle jika tombol kembalikan diklik
-if(isset($_POST['return'])) {
+if (isset($_POST['return'])) {
     // Ambil tanggal hari ini
     $today = date('Y-m-d');
 
-    // Ubah status peminjaman menjadi "dikembalikan"
-    $sql = "UPDATE peminjaman SET status_peminjaman = 'dikembalikan' WHERE tanggal_pengembalian = '$today' AND status_peminjaman = 'dipinjam'";
-    if(mysqli_query($koneksi, $sql)) {
-        // Berhasil mengembalikan
-        $success_message = "Buku berhasil dikembalikan!";
+    // Query untuk mengambil jumlah buku yang harus dikembalikan hari ini
+    $queryBooksToReturn = "SELECT COUNT(id) AS total_books_to_return FROM peminjaman WHERE tanggal_pengembalian = '$today' AND status_peminjaman = 'dipinjam'";
+    $resultBooksToReturn = mysqli_query($koneksi, $queryBooksToReturn);
+    $rowBooksToReturn = mysqli_fetch_assoc($resultBooksToReturn);
+    $totalBooksToReturn = $rowBooksToReturn['total_books_to_return'];
+
+    // Jika tidak ada buku yang harus dikembalikan, tampilkan notifikasi
+    if ($totalBooksToReturn == 0) {
+        $error_message = "Tidak ada buku yang harus dikembalikan.";
     } else {
-        // Gagal mengembalikan
-        $error_message = "Buku Gagal Dikembalikan!";
+        // Ubah status peminjaman menjadi "dikembalikan"
+        $sql = "UPDATE peminjaman SET status_peminjaman = 'dikembalikan' WHERE tanggal_pengembalian = '$today' AND status_peminjaman = 'dipinjam'";
+        if (mysqli_query($koneksi, $sql)) {
+            // Berhasil mengembalikan
+            $success_message = "Buku berhasil dikembalikan!";
+
+            // Tambah stok buku yang telah dikembalikan
+            $updateStockQuery = "UPDATE buku SET stok = stok + 1 WHERE id IN (SELECT buku FROM peminjaman WHERE tanggal_pengembalian = '$today' AND status_peminjaman = 'dikembalikan')";
+            mysqli_query($koneksi, $updateStockQuery);
+        } else {
+            // Gagal mengembalikan
+            $error_message = "Buku Gagal Dikembalikan!";
+        }
     }
 }
 
@@ -51,6 +68,10 @@ $totalBooksToReturn = $rowBooksToReturn['total_books_to_return'];
     .nav-item.side .nav-link span {
         font-size: 17px !important;
     }
+
+    .error-message {
+        font-size: 14px;
+    }
     </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -69,89 +90,105 @@ $totalBooksToReturn = $rowBooksToReturn['total_books_to_return'];
     <div id="wrapper">
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard.php">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-angry"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Admin</div>
+                <div class="sidebar-brand-text mx-3">
+                    <?php
+                    echo $role === 'admin' ? 'Admin' : 'Petugas';
+                    ?>
+                </div>
             </a>
-            <!-- Divider -->
             <hr class="sidebar-divider my-0">
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
+            <li class="nav-item side">
                 <a class="nav-link" href="dashboard.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
-                </a>
+                    <span>Dashboard</span></a>
             </li>
-            <!-- Divider -->
             <hr class="sidebar-divider">
-            <!-- Nav Item - Data Buku -->
-            <li class="nav-item">
+            <?php
+            if ($role === 'admin') :
+            ?>
+            <li class="nav-item side">
                 <a class="nav-link" href="buku/index.php">
                     <i class="fas fa-fw fa-book"></i>
-                    <span>Data Buku</span>
-                </a>
+                    <span>Data Buku</span></a>
             </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../pengembalian.php">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Pengembalian Buku</span></a>
-            </li>
-            <!-- Nav Item - Pengembalian Buku -->
             <li class="nav-item active">
                 <a class="nav-link" href="pengembalian.php">
                     <i class="fas fa-fw fa-book"></i>
-                    <span>Pengembalian Buku</span>
-                </a>
+                    <span>Pengembalian Buku</span></a>
             </li>
-            <!-- Nav Item - Data Pengguna -->
-            <li class="nav-item">
+            <li class="nav-item side">
                 <a class="nav-link" href="datapengguna/data_pengguna.php">
                     <i class="fas fa-fw fa-users"></i>
-                    <span>Data Pengguna</span>
-                </a>
+                    <span>Data Pengguna</span></a>
             </li>
-            <!-- Nav Item - Peminjam -->
-            <li class="nav-item">
+            <li class="nav-item side">
                 <a class="nav-link" href="peminjaman/peminjaman.php">
                     <i class="fas fa-fw fa-user"></i>
-                    <span>Peminjam</span>
-                </a>
+                    <span>Peminjam</span></a>
             </li>
-            <!-- Divider -->
             <hr class="sidebar-divider">
-            <!-- Nav Item - Ulasan -->
-            <li class="nav-item">
+            <li class="nav-item side">
                 <a class="nav-link" href="ulasan/index.php">
                     <i class="fas fa-fw fa-book"></i>
-                    <span>Ulasan</span>
-                </a>
+                    <span>Ulasan</span></a>
             </li>
-            <!-- Nav Item - Laporan -->
-            <li class="nav-item">
+            <li class="nav-item side">
                 <a class="nav-link" href="laporan/laporan.php">
                     <i class="fas fa-fw fa-print"></i>
-                    <span>Laporan</span>
-                </a>
+                    <span>Laporan</span></a>
             </li>
-            <!-- Divider -->
             <hr class="sidebar-divider">
-            <!-- Nav Item - Registrasi -->
-            <li class="nav-item">
+            <li class="nav-item side">
                 <a class="nav-link" href="registrasi_anggota.php">
                     <i class="fas fa-fw fa-user-check"></i>
-                    <span>Registrasi</span>
-                </a>
+                    <span>Registrasi</span></a>
             </li>
-            <!-- Nav Item - Logout -->
-            <li class="nav-item">
+            <li class="nav-item side">
                 <a class="nav-link" href="logout.php" onclick="confirmLogout();">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
             </li>
+
+            <?php endif ?>
+            <?php
+            if ($role === 'petugas') :
+            ?>
+            <li class="nav-item side">
+                <a class="nav-link" href="buku/index.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Data Buku</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="pengembalian.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Pengembalian Buku</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="peminjaman/peminjaman.php">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Peminjam</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="laporan/laporan.php">
+                    <i class="fas fa-print"></i>
+                    <span>Laporan</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="logout.php" onclick="confirmLogout();">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+            <?php endif ?>
+            <hr class="sidebar-divider d-none d-md-block">
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
         </ul>
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
@@ -178,11 +215,12 @@ $totalBooksToReturn = $rowBooksToReturn['total_books_to_return'];
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="logout.php" data-toggle="modal"
+                                <a id="logout" class="dropdown-item" href="#" data-toggle="modal"
                                     data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
+
                             </div>
                         </li>
                     </ul>
@@ -199,9 +237,9 @@ $totalBooksToReturn = $rowBooksToReturn['total_books_to_return'];
                             <div class="container">
                                 <div class="message">
                                     <?php
-                                    if(isset($error_message)) {
-                                        echo '<p class="error">' . $error_message . '</p>';
-                                    } elseif(isset($success_message)) {
+                                    if (isset($error_message)) {
+                                        echo '<p class="error-message">' . $error_message . '</p>';
+                                    } elseif (isset($success_message)) {
                                         echo '<p class="success">' . $success_message . '</p>';
                                     }
                                     ?>
@@ -265,21 +303,27 @@ $totalBooksToReturn = $rowBooksToReturn['total_books_to_return'];
     <script src="sbadmin/vendor/chart.js/Chart.min.js"></script>
     <script src="sbadmin/js/demo/chart-area-demo.js"></script>
     <script src="sbadmin/js/demo/chart-pie-demo.js"></script>
-    <script>
-    $(document).ready(function() {
-        // Mengatur tindakan logout saat tombol logout ditekan
-        $('#logout').click(function() {
-            // Redirect ke halaman logout.php atau sesuai halaman logout Anda
-            window.location.href = 'login.php';
-        });
-    });
 
+    <script>
     function confirmLogout() {
-        if (confirm("Apakah kamu yakin ingin logout?")) {
-            window.location.href = "logout.php"; // Redirect ke logout.php jika user menekan OK
-        }
+        Swal.fire({
+            title: 'Konfirmasi Logout',
+            text: "Apakah Anda yakin ingin keluar?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Logout',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Jika pengguna mengklik "Ya", redirect ke halaman logout
+                window.location.href = "../logout.php";
+            }
+        });
     }
     </script>
+
 </body>
 
 </html>

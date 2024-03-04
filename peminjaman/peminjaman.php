@@ -179,9 +179,9 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                     <i class="fas fa-fw fa-book"></i>
                     <span>Pengembalian Buku</span></a>
             </li>
-            <li class="nav-item side">
+            <li class="nav-item active">
                 <a class="nav-link" href="../peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-file-alt"></i>
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Peminjam</span></a>
             </li>
             <li class="nav-item side">

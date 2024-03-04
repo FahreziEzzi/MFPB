@@ -113,9 +113,10 @@ $result = mysqli_query($koneksi, $sql);
                     <span>Registrasi</span></a>
             </li>
             <li class="nav-item side">
-                <a class="nav-link" href="../logout.php">
+                <a class="nav-link" href="../logout.php" onclick="confirmLogout();">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span></a>
+                    <span>Logout</span>
+                </a>
             </li>
 
             <?php endif ?>
@@ -135,18 +136,19 @@ $result = mysqli_query($koneksi, $sql);
             </li>
             <li class="nav-item side">
                 <a class="nav-link" href="../peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-file-alt"></i>
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Peminjam</span></a>
             </li>
-            <li class="nav-item side">
+            <li class="nav-item active">
                 <a class="nav-link" href="../laporan/laporan.php">
                     <i class="fas fa-print"></i>
                     <span>Laporan</span></a>
             </li>
             <li class="nav-item side">
-                <a class="nav-link" href="../logout.php">
+                <a class="nav-link" href="../logout.php" onclick="confirmLogout();">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span></a>
+                    <span>Logout</span>
+                </a>
             </li>
             <?php endif ?>
             <hr class="sidebar-divider d-none d-md-block">
@@ -274,6 +276,21 @@ $result = mysqli_query($koneksi, $sql);
     <script src="../sbadmin/vendor/chart.js/Chart.min.js"></script>
     <script src="../sbadmin/js/demo/chart-area-demo.js"></script>
     <script src="../sbadmin/js/demo/chart-pie-demo.js"></script>
+    <script>
+    $(document).ready(function() {
+        // Mengatur tindakan logout saat tombol logout ditekan
+        $('#logout').click(function() {
+            // Redirect ke halaman logout.php atau sesuai halaman logout Anda
+            window.location.href = 'login.php';
+        });
+    });
+
+    function confirmLogout() {
+        if (confirm("Apakah kamu yakin ingin logout?")) {
+            window.location.href = "logout.php"; // Redirect ke logout.php jika user menekan OK
+        }
+    }
+    </script>
 </body>
 
 </html>

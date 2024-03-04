@@ -26,10 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 $_SESSION['notification'] = "Buku sudah ditambahkan ke bookmark.";
 
                 // Simpan status peminjaman dalam session
-                $_SESSION['status_peminjaman'] = "Buku telah dipinjam";
-
-                $updateStockQuery = "UPDATE buku SET stok = stok - 1 WHERE id = $bookId";
-                mysqli_query($koneksi, $updateStockQuery);
+                $_SESSION['status_peminjaman'] = "Buku telah ditambahkan ke bookmark.";
 
                 header("Location: index.php");
                 exit();
@@ -40,10 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
                 // Simpan status peminjaman dalam session
                 $_SESSION['status_peminjaman'] = "Buku telah dikembalikan";
-
-                // Tambah stok buku
-                $updateStockQuery = "UPDATE buku SET stok = stok + 1 WHERE id = $bookId";
-                mysqli_query($koneksi, $updateStockQuery);
 
                 header("Location: index.php");
                 exit();
@@ -65,7 +58,8 @@ if (isset($_SESSION['notification'])) {
     // Hapus pesan notifikasi dari session
     unset($_SESSION['notification']);
 }
-
+$categoryQuery = "SELECT id, nama_kategori FROM kategori_buku";
+$categoryResult = mysqli_query($koneksi, $categoryQuery);
 $query = "SELECT * FROM buku";
 $result = mysqli_query($koneksi, $query);
 ?>
@@ -133,6 +127,20 @@ $result = mysqli_query($koneksi, $query);
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
+                    <div class="dropdown">
+                        <button class="btn btn-info dropdown-toggle" type="button" id="kategoriDropdown"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Filter Kategori
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="kategoriDropdown">
+                            <?php while ($category = mysqli_fetch_assoc($categoryResult)) : ?>
+                            <button class="dropdown-item" onclick="filterBooks(<?php echo $category['id']; ?>)">
+                                <?php echo $category['nama_kategori']; ?>
+                            </button>
+                            <?php endwhile; ?>
+                            <button class="dropdown-item" onclick="filterBooks(null)">Semua Kategori</button>
+                        </div>
+                    </div>
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
@@ -154,6 +162,8 @@ $result = mysqli_query($koneksi, $query);
                                     <i class="fas fa-caret-down"></i>
                                 </span>
                             </a>
+
+                            <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="peminjaman.php">
@@ -161,15 +171,20 @@ $result = mysqli_query($koneksi, $query);
                                     Peminjaman
                                 </a>
                                 <a class="dropdown-item" href="bookmark.php">
-                                    <i class="far fa-bookmark fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    <i class="far fa-solid fa-heart fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Bookmark
                                 </a>
+                                <a class="dropdown-item" href="history.php">
+                                    <i class="fas fa-history fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    History
+                                </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
                             </div>
+                        </li>
                         </li>
                     </ul>
 
@@ -181,7 +196,8 @@ $result = mysqli_query($koneksi, $query);
                     </div>
                     <div class="row">
                         <?php while ($row = mysqli_fetch_assoc($result)) : ?>
-                        <div class="col-lg-3 mb-3 searchable">
+
+                        <div data-category-id="<?php echo $row['kategori_id']; ?>" class="col-lg-3 mb-3 searchable">
                             <div class="card search-result">
                                 <div class="card-img-container">
                                     <img src="../buku/<?php echo $row['cover']; ?>" class="card-img-top img-fluid"
@@ -232,6 +248,8 @@ $result = mysqli_query($koneksi, $query);
                                     <a href="tambah_ulasan.php?id=<?= $row['id']; ?>" class="btn btn-success">Ulasan</a>
                                     <?php endif ?>
 
+
+
                                     <?php if ($hasBorrowed) : ?>
                                     <!-- Tombol "Baca" akan muncul jika pengguna telah meminjam buku -->
                                     <a href="baca.php?id=<?= $row['id']; ?>" class="btn btn-info"
@@ -281,7 +299,8 @@ $result = mysqli_query($koneksi, $query);
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body">Pilih "Logout" di bawah jika Anda ingin mengakhiri sesi Anda saat ini.</div>
+                    <div class="modal-body">Pilih "Logout" di bawah jika Anda ingin mengakhiri sesi Anda saat
+                        ini.</div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
                         <a class="btn btn-primary" href="../logout.php">Logout</a>
@@ -293,9 +312,6 @@ $result = mysqli_query($koneksi, $query);
         <script src="../sbadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="../sbadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
         <script src="../sbadmin/js/sb-admin-2.min.js"></script>
-        <script src="../sbadmin/vendor/chart.js/Chart.min.js"></script>
-        <script src="../sbadmin/js/demo/chart-area-demo.js"></script>
-        <script src="../sbadmin/js/demo/chart-pie-demo.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -333,6 +349,17 @@ $result = mysqli_query($koneksi, $query);
 
         function confirmDelete() {
             return confirm('Apakah Anda yakin ingin menghapus buku dari bookmark?');
+        }
+        </script>
+        <script>
+        function filterBooks(categoryId) {
+            $(".searchable").each(function() {
+                if (categoryId === null || $(this).data('category-id') === categoryId) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
         }
         </script>
 </body>

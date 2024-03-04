@@ -2,35 +2,6 @@
 // Include your database connection file if not already included
 include('koneksi.php');
 
-// Check if the form is submitted
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     // Retrieve user input from the form
-//     $username = $_POST['username'];
-//     $email = $_POST['email'];
-//     $password = password_hash($_POST['password'], PASSWORD_BCRYPT); // Hash the password
-//     $full_name = $_POST['full_name'];
-//     $address = $_POST['address'];
-//     $role = $_POST['role'];
-
-//     // Prepare and execute the SQL query to insert user data into the 'user' table
-//     $query = "INSERT INTO `user` (`perpus_id`, `username`, `password`, `email`, `nama_lengkap`, `alamat`, `role`)
-//               VALUES (1, ?, ?, ?, ?, ?, ?)";
-
-//     $stmt = $mysqli->prepare($query);
-//     $stmt->bind_param('ssssss', $username, $password, $email, $full_name, $address, $role);
-
-//     if ($stmt->execute()) {
-//         // Registration successful
-//        // header("Location: login.php"); // Redirect to login page
-//         exit();
-//     } else {
-//         // Registration failed
-//         echo "Error: " . $stmt->error;
-//     }
-
-//     // Close the statement
-//     $stmt->close();
-// }
 
 
 ?>
@@ -49,37 +20,39 @@ include('koneksi.php');
 
     <!-- Custom fonts for this template-->
     <link href="sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
 
     <style>
-        body {
-            background-color: #4e73df
-        }
+    body {
+        background-color: #4e73df
+    }
 
-        .container {
+    .container {
 
-            /* Set the container height to fill the viewport */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        /* Set the container height to fill the viewport */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-        .card.o-hidden.border-0.shadow-lg.my-5 {
-            border: none;
-            -webkit-box-shadow: none;
-            box-shadow: none;
-        }
+    .card.o-hidden.border-0.shadow-lg.my-5 {
+        border: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
 
-        .card-body {
-            padding: 2rem;
-        }
+    .card-body {
+        padding: 2rem;
+    }
 
-        .bg-gradient-primary {
-            background: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
-        }
+    .bg-gradient-primary {
+        background: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+    }
     </style>
 
 </head>
@@ -100,19 +73,24 @@ include('koneksi.php');
                                 </div>
                                 <form class="user" action="process_registration.php" method="post">
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-user" id="inputUsername" placeholder="Username" name="username" required>
+                                        <input type="text" class="form-control form-control-user" id="inputUsername"
+                                            placeholder="Username" name="username" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="email" class="form-control form-control-user" id="inputEmail" placeholder="Email Address" name="email" required>
+                                        <input type="email" class="form-control form-control-user" id="inputEmail"
+                                            placeholder="Email Address" name="email" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control form-control-user" id="inputPassword" placeholder="Password" name="password" required>
+                                        <input type="password" class="form-control form-control-user" id="inputPassword"
+                                            placeholder="Password" name="password" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control form-control-user" id="inputFullName" placeholder="Full Name" name="full_name" required>
+                                        <input type="text" class="form-control form-control-user" id="inputFullName"
+                                            placeholder="Full Name" name="full_name" required>
                                     </div>
                                     <div class="form-group">
-                                        <textarea class="form-control form-control-user" id="inputAddress" placeholder="Address" name="address" required></textarea>
+                                        <textarea class="form-control form-control-user" id="inputAddress"
+                                            placeholder="Address" name="address" required></textarea>
                                     </div>
                                     <input type="hidden" name="role" value="peminjam">
                                     <button type="submit" class="btn btn-primary btn-user btn-block">Register</button>

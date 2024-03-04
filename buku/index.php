@@ -129,7 +129,7 @@ $result = mysqli_query($koneksi, $sql);
             <?php
             if ($role === 'petugas') :
             ?>
-            <li class="nav-item side">
+            <li class="nav-item active">
                 <a class="nav-link" href="../buku/index.php">
                     <i class="fas fa-fw fa-book"></i>
                     <span>Data Buku</span></a>
@@ -141,7 +141,7 @@ $result = mysqli_query($koneksi, $sql);
             </li>
             <li class="nav-item side">
                 <a class="nav-link" href="../peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-file-alt"></i>
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Peminjam</span></a>
             </li>
             <li class="nav-item side">
