@@ -162,7 +162,7 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                     <span>Registrasi</span></a>
             </li>
             <li class="nav-item side">
-                <a class="nav-link" href="../logout.php" onclick="confirmLogout();">
+                <a class="nav-link" href="#" onclick="confirmLogout();">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>

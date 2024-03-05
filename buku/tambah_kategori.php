@@ -144,9 +144,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <span>Registrasi</span></a>
             </li>
             <li class="nav-item side">
-                <a class="nav-link" href="../logout.php">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Logout</span></a>
+                <a class="nav-link" href="#" onclick="confirmLogout();">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
             </li>
 
             <?php endif ?>
@@ -174,9 +175,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <span>Laporan</span></a>
             </li>
             <li class="nav-item side">
-                <a class="nav-link" href="../logout.php">
+                <a class="nav-link" href="#" onclick="confirmLogout();">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span></a>
+                    <span>Logout</span>
+                </a>
             </li>
             <?php endif ?>
             <hr class="sidebar-divider d-none d-md-block">

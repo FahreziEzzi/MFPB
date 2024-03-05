@@ -4,7 +4,7 @@ session_start();
 $role = isset($_SESSION['role']) ? $_SESSION['role'] : '';
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 if (!isset($_SESSION['username'])) {
-    header("Location: ../login.php"); 
+    header("Location: ../login.php");
     exit();
 }
 // Check apakah pengguna sudah login
@@ -83,23 +83,23 @@ if (mysqli_num_rows($result_kategori) > 0) {
 
     <head>
         <style>
-        #searchDropdown {
-            display: none;
-        }
+            #searchDropdown {
+                display: none;
+            }
 
-        .nav-item.active .nav-link span {
-            font-size: 17px !important;
-        }
+            .nav-item.active .nav-link span {
+                font-size: 17px !important;
+            }
 
-        .nav-item.side .nav-link span {
-            font-size: 17px !important;
-        }
+            .nav-item.side .nav-link span {
+                font-size: 17px !important;
+            }
 
-        .back-button {
-            position: absolute;
-            top: 0;
-            left: -260px;
-        }
+            .back-button {
+                position: absolute;
+                top: 0;
+                left: -260px;
+            }
         </style>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -108,9 +108,7 @@ if (mysqli_num_rows($result_kategori) > 0) {
         <meta name="author" content="">
         <title>Tambah Buku</title>
         <link href="../sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-        <link
-            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-            rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
         <link href="../sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
     </head>
 
@@ -139,79 +137,80 @@ if (mysqli_num_rows($result_kategori) > 0) {
             <?php
             if ($role === 'admin') :
             ?>
-            <li class="nav-item side">
-                <a class="nav-link" href="index.php">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Data Buku</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../pengembalian.php">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Pengembalian Buku</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../datapengguna/data_pengguna.php">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Data Pengguna</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Peminjam</span></a>
-            </li>
-            <hr class="sidebar-divider">
-            <li class="nav-item side">
-                <a class="nav-link" href="../ulasan/index.php">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Ulasan</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../laporan/laporan.php">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Laporan</span></a>
-            </li>
-            <hr class="sidebar-divider">
-            <li class="nav-item side">
-                <a class="nav-link" href="registrasi_anggota.php">
-                    <i class="fas fa-fw fa-user-check"></i>
-                    <span>Registrasi</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../logout.php">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Logout</span></a>
-            </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="index.php">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Data Buku</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../pengembalian.php">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Pengembalian Buku</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../datapengguna/data_pengguna.php">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Data Pengguna</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../peminjaman/peminjaman.php">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Peminjam</span></a>
+                </li>
+                <hr class="sidebar-divider">
+                <li class="nav-item side">
+                    <a class="nav-link" href="../ulasan/index.php">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Ulasan</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../laporan/laporan.php">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Laporan</span></a>
+                </li>
+                <hr class="sidebar-divider">
+                <li class="nav-item side">
+                    <a class="nav-link" href="registrasi_anggota.php">
+                        <i class="fas fa-fw fa-user-check"></i>
+                        <span>Registrasi</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="#" onclick="confirmLogout();">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
 
             <?php endif ?>
             <?php
             if ($role === 'petugas') :
             ?>
-            <li class="nav-item active">
-                <a class="nav-link" href="../buku/index.php">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Data Buku</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../pengembalian.php">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Pengembalian Buku</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Peminjam</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../laporan/laporan.php">
-                    <i class="fas fa-print"></i>
-                    <span>Laporan</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="#" onclick="confirmLogout();">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="../buku/index.php">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Data Buku</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../pengembalian.php">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Pengembalian Buku</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../peminjaman/peminjaman.php">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Peminjam</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../laporan/laporan.php">
+                        <i class="fas fa-print"></i>
+                        <span>Laporan</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="#" onclick="confirmLogout();">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
             <?php endif ?>
             <hr class="sidebar-divider d-none d-md-block">
             <div class="text-center d-none d-md-inline">
@@ -241,32 +240,24 @@ if (mysqli_num_rows($result_kategori) > 0) {
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Tambah Buku</h1>
                                     </div>
-                                    <form class="user" action="process_tambah_buku.php" method="post"
-                                        enctype="multipart/form-data">
+                                    <form class="user" action="process_tambah_buku.php" method="post" enctype="multipart/form-data">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" id="inputJudul"
-                                                placeholder="Judul Buku" name="judul" required>
+                                            <input type="text" class="form-control form-control-user" id="inputJudul" placeholder="Judul Buku" name="judul" required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" id="inputPenulis"
-                                                placeholder="Penulis" name="penulis" required>
+                                            <input type="text" class="form-control form-control-user" id="inputPenulis" placeholder="Penulis" name="penulis" required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" id="inputPenerbit"
-                                                placeholder="Penerbit" name="penerbit" required>
+                                            <input type="text" class="form-control form-control-user" id="inputPenerbit" placeholder="Penerbit" name="penerbit" required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="number" class="form-control form-control-user"
-                                                id="inputTahunTerbit" placeholder="Tahun Terbit" name="tahun_terbit"
-                                                required>
+                                            <input type="number" class="form-control form-control-user" id="inputTahunTerbit" placeholder="Tahun Terbit" name="tahun_terbit" required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="number" class="form-control form-control-user" id="inputStok"
-                                                placeholder="Stok" name="stok" required>
+                                            <input type="number" class="form-control form-control-user" id="inputStok" placeholder="Stok" name="stok" required>
                                         </div>
                                         <div class="form-group">
-                                            <textarea class="form-control form-control-user" id="inputDeskripsi"
-                                                placeholder="Deskripsi" name="deskripsi" required></textarea>
+                                            <textarea class="form-control form-control-user" id="inputDeskripsi" placeholder="Deskripsi" name="deskripsi" required></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label for="kategori_id">Kategori:</label>
@@ -276,14 +267,12 @@ if (mysqli_num_rows($result_kategori) > 0) {
                                         </div>
                                         <div class="form-group">
                                             <label for="inputPdf">File PDF:</label>
-                                            <input type="file" class="form-control-file" id="inputPdf" name="pdf"
-                                                accept="pdf/">
+                                            <input type="file" class="form-control-file" id="inputPdf" name="pdf" accept="pdf/">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="inputGambar">cover Buku:</label>
-                                            <input type="file" class="form-control-file" id="inputGambar" name="cover"
-                                                accept="image/*">
+                                            <input type="file" class="form-control-file" id="inputGambar" name="cover" accept="image/*">
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">Tambah
                                             Buku</button>
@@ -311,6 +300,33 @@ if (mysqli_num_rows($result_kategori) > 0) {
         <script src="../sbadmin/vendor/chart.js/Chart.min.js"></script>
         <script src="../sbadmin/js/demo/chart-area-demo.js"></script>
         <script src="../sbadmin/js/demo/chart-pie-demo.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#searchInput').on('input', function() {
+                    var searchKeyword = $(this).val();
+                    searchBooks(searchKeyword);
+                });
+            });
+
+            function searchBooks(keyword) {
+                $.ajax({
+                    url: 'search.php',
+                    type: 'POST',
+                    data: {
+                        keyword: keyword
+                    },
+                    success: function(response) {
+                        $('#bookTable').html(response);
+                    }
+                });
+            }
+
+            function confirmLogout() {
+                if (confirm("Are you sure you want to logout?")) {
+                    window.location.href = "../logout.php"
+                }
+            }
+        </script>
 </body>
 
 </html>

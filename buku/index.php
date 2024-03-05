@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['username'])) {
-    header("Location: ../login.php"); 
+    header("Location: ../login.php");
     exit();
 }
 include "../koneksi.php";
@@ -35,17 +35,17 @@ $result = mysqli_query($koneksi, $sql);
 
 <head>
     <style>
-    .nav-item.active .nav-link span {
-        font-size: 17px !important;
-    }
+        .nav-item.active .nav-link span {
+            font-size: 17px !important;
+        }
 
-    .nav-item.side .nav-link span {
-        font-size: 17px !important;
-    }
+        .nav-item.side .nav-link span {
+            font-size: 17px !important;
+        }
 
-    .badge-danger:hover {
-        cursor: pointer;
-    }
+        .badge-danger:hover {
+            cursor: pointer;
+        }
     </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -54,9 +54,7 @@ $result = mysqli_query($koneksi, $sql);
     <meta name="author" content="">
     <title>Dashboard</title>
     <link href="../sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="../sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
 </head>
 
@@ -85,80 +83,80 @@ $result = mysqli_query($koneksi, $sql);
             <?php
             if ($role === 'admin') :
             ?>
-            <li class="nav-item side active">
-                <a class="nav-link" href="">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Data Buku</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../pengembalian.php">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Pengembalian Buku</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../datapengguna/data_pengguna.php">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Data Pengguna</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Peminjam</span></a>
-            </li>
-            <hr class="sidebar-divider">
-            <li class="nav-item side">
-                <a class="nav-link" href="../ulasan/index.php">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Ulasan</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../laporan/laporan.php">
-                    <i class="fas fa-fw fa-print"></i>
-                    <span>Laporan</span></a>
-            </li>
-            <hr class="sidebar-divider">
-            <li class="nav-item side">
-                <a class="nav-link" href="registrasi_anggota.php">
-                    <i class="fas fa-fw fa-user-check"></i>
-                    <span>Registrasi</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../logout.php" onclick="confirmLogout();">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </li>
+                <li class="nav-item side active">
+                    <a class="nav-link" href="">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Data Buku</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../pengembalian.php">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Pengembalian Buku</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../datapengguna/data_pengguna.php">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Data Pengguna</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../peminjaman/peminjaman.php">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Peminjam</span></a>
+                </li>
+                <hr class="sidebar-divider">
+                <li class="nav-item side">
+                    <a class="nav-link" href="../ulasan/index.php">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Ulasan</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../laporan/laporan.php">
+                        <i class="fas fa-fw fa-print"></i>
+                        <span>Laporan</span></a>
+                </li>
+                <hr class="sidebar-divider">
+                <li class="nav-item side">
+                    <a class="nav-link" href="registrasi_anggota.php">
+                        <i class="fas fa-fw fa-user-check"></i>
+                        <span>Registrasi</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="#" onclick="confirmLogout();">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
 
             <?php endif ?>
             <?php
             if ($role === 'petugas') :
             ?>
-            <li class="nav-item active">
-                <a class="nav-link" href="../buku/index.php">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Data Buku</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../pengembalian.php">
-                    <i class="fas fa-fw fa-book"></i>
-                    <span>Pengembalian Buku</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Peminjam</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="../laporan/laporan.php">
-                    <i class="fas fa-print"></i>
-                    <span>Laporan</span></a>
-            </li>
-            <li class="nav-item side">
-                <a class="nav-link" href="#" onclick="confirmLogout();">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="../buku/index.php">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Data Buku</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../pengembalian.php">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Pengembalian Buku</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../peminjaman/peminjaman.php">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Peminjam</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="../laporan/laporan.php">
+                        <i class="fas fa-print"></i>
+                        <span>Laporan</span></a>
+                </li>
+                <li class="nav-item side">
+                    <a class="nav-link" href="#" onclick="confirmLogout();">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
             <?php endif ?>
             <hr class="sidebar-divider d-none d-md-block">
             <div class="text-center d-none d-md-inline">
@@ -178,11 +176,9 @@ $result = mysqli_query($koneksi, $sql);
                     </button>
 
                     <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" id="searchInput" class="form-control bg-light border-0 small"
-                                placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" id="searchInput" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="button">
                                     <i class="fas fa-search fa-sm"></i>
@@ -196,18 +192,14 @@ $result = mysqli_query($koneksi, $sql);
 
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
                             </a>
                             <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
                                 <form class="form-inline mr-auto w-100 navbar-search">
                                     <div class="input-group">
-                                        <input id="searchInput" type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
+                                        <input id="searchInput" type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                                         <div class="input-group-append">
                                             <button class="btn btn-primary" type="button">
                                                 <i class="fas fa-search fa-sm"></i>
@@ -224,19 +216,16 @@ $result = mysqli_query($koneksi, $sql);
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     <?= $_SESSION['username']; ?>
                                     <i class="fas fa-caret-down"></i>
                                 </span>
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="../logout.php" data-toggle="modal"
-                                    data-target="#logoutModal">
+                                <a class="dropdown-item" href="../logout.php" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -269,24 +258,20 @@ $result = mysqli_query($koneksi, $sql);
                                 </thead>
                                 <tbody>
                                     <?php while ($data = mysqli_fetch_assoc($result)) : ?>
-                                    <tr>
-                                        <td><?= $data['id'] ?></td>
-                                        <td><img src="<?= $data['cover'] ?>" alt="Cover Buku"
-                                                style="max-width: 100px; max-height: 100px;"></td>
-                                        <td><?= $data['judul'] ?></td>
-                                        <td><?= $data['penulis'] ?></td>
-                                        <td><?= $data['stok'] ?></td>
-                                        <td><?= $data['tahun_terbit'] ?></td>
-                                        <td class="text-center">
-                                            <a class="badge badge-danger"
-                                                onclick="confirmDelete(<?php echo $data['id']; ?>)">Delete</a>
+                                        <tr>
+                                            <td><?= $data['id'] ?></td>
+                                            <td><img src="<?= $data['cover'] ?>" alt="Cover Buku" style="max-width: 100px; max-height: 100px;"></td>
+                                            <td><?= $data['judul'] ?></td>
+                                            <td><?= $data['penulis'] ?></td>
+                                            <td><?= $data['stok'] ?></td>
+                                            <td><?= $data['tahun_terbit'] ?></td>
+                                            <td class="text-center">
+                                                <a class="badge badge-danger" onclick="confirmDelete(<?php echo $data['id']; ?>)">Delete</a>
 
-                                            <a class="badge badge-success"
-                                                href="edit.php?id=<?= $data['id'] ?>">Edit</a>
-                                            <a class="badge badge-primary"
-                                                href="detail.php?id=<?= $data['id'] ?>">Detail</a>
-                                        </td>
-                                    </tr>
+                                                <a class="badge badge-success" href="edit.php?id=<?= $data['id'] ?>">Edit</a>
+                                                <a class="badge badge-primary" href="detail.php?id=<?= $data['id'] ?>">Detail</a>
+                                            </td>
+                                        </tr>
                                     <?php endwhile ?>
                                 </tbody>
                             </table>
@@ -296,16 +281,14 @@ $result = mysqli_query($koneksi, $sql);
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination justify-content-center">
                                         <li class="page-item <?php echo $current_page <= 1 ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?page=<?php echo $current_page - 1; ?>"
-                                                tabindex="-1" aria-disabled="true">Previous</a>
+                                            <a class="page-link" href="?page=<?php echo $current_page - 1; ?>" tabindex="-1" aria-disabled="true">Previous</a>
                                         </li>
                                         <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
-                                        <li class="page-item <?php echo $current_page == $i ? 'active' : ''; ?>">
-                                            <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                        </li>
+                                            <li class="page-item <?php echo $current_page == $i ? 'active' : ''; ?>">
+                                                <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                            </li>
                                         <?php endfor; ?>
-                                        <li
-                                            class="page-item <?php echo $current_page >= $total_pages ? 'disabled' : ''; ?>">
+                                        <li class="page-item <?php echo $current_page >= $total_pages ? 'disabled' : ''; ?>">
                                             <a class="page-link" href="?page=<?php echo $current_page + 1; ?>">Next</a>
                                         </li>
                                     </ul>
@@ -331,8 +314,7 @@ $result = mysqli_query($koneksi, $sql);
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -358,51 +340,51 @@ $result = mysqli_query($koneksi, $sql);
     <script src="../sbadmin/js/demo/chart-pie-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-    $(document).ready(function() {
-        $('#searchInput').on('input', function() {
-            var searchKeyword = $(this).val();
-            searchBooks(searchKeyword);
+        $(document).ready(function() {
+            $('#searchInput').on('input', function() {
+                var searchKeyword = $(this).val();
+                searchBooks(searchKeyword);
+            });
         });
-    });
 
-    function searchBooks(keyword) {
-        $.ajax({
-            url: 'search.php',
-            type: 'POST',
-            data: {
-                keyword: keyword
-            },
-            success: function(response) {
-                $('#bookTable').html(response);
-            }
-        });
-    }
-
-    function confirmLogout() {
-        if (confirm("Are you sure you want to logout?")) {
-            window.location.href = "logout.php"
+        function searchBooks(keyword) {
+            $.ajax({
+                url: 'search.php',
+                type: 'POST',
+                data: {
+                    keyword: keyword
+                },
+                success: function(response) {
+                    $('#bookTable').html(response);
+                }
+            });
         }
-    }
+
+        function confirmLogout() {
+            if (confirm("Are you sure you want to logout?")) {
+                window.location.href = "../logout.php"
+            }
+        }
     </script>
 
     <script>
-    function confirmDelete(bookId) {
-        Swal.fire({
-            title: 'Apakah anda yakin menghapus buku ini?',
-            text: "Tindakan ini tidak dapat dibatalkan!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Jika pengguna mengonfirmasi penghapusan, arahkan ke delete.php dengan id buku yang ingin dihapus
-                window.location.href = 'delete.php?id=' + bookId;
-            }
-        });
-    }
+        function confirmDelete(bookId) {
+            Swal.fire({
+                title: 'Apakah anda yakin menghapus buku ini?',
+                text: "Tindakan ini tidak dapat dibatalkan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika pengguna mengonfirmasi penghapusan, arahkan ke delete.php dengan id buku yang ingin dihapus
+                    window.location.href = 'delete.php?id=' + bookId;
+                }
+            });
+        }
     </script>
 </body>
 
