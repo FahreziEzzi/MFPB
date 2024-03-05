@@ -1,39 +1,41 @@
 <?php
 session_start();
+
+include '../koneksi.php';
+
+// Check if the user is not logged in
 if (!isset($_SESSION['username'])) {
-    header("Location: ../login.php");
+    header("Location: ../login.php"); // Redirect to the login page if not logged in
     exit();
 }
-include "../koneksi.php";
-$sql = "SELECT * FROM buku";
-$result = mysqli_query($koneksi, $sql);
+
 $role = $_SESSION['role'];
 $username = $_SESSION['username'];
 
-// Pagination setup
-$limit = 3; // Jumlah entri per halaman
-$current_page = isset($_GET['page']) ? $_GET['page'] : 1; // Halaman saat ini
 
-// Hitung total entri
-$sql_count = "SELECT COUNT(*) AS total FROM buku";
-$count_result = mysqli_query($koneksi, $sql_count);
-$count_data = mysqli_fetch_assoc($count_result);
-$total_records = $count_data['total'];
+// Pagination
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 5;
+$offset = ($page - 1) * $limit;
 
-// Hitung total halaman
-$total_pages = ceil($total_records / $limit);
+$query = "SELECT * FROM kategori_buku LIMIT $limit OFFSET $offset";
+$result = mysqli_query($koneksi, $query);
 
-// Tentukan OFFSET untuk query
-$offset = ($current_page - 1) * $limit;
+// Total number of books
+$total_kategori_query = "SELECT COUNT(*) as total FROM kategori_buku";
+$total_kategori_result = mysqli_query($koneksi, $total_kategori_query);
+$total_kategori_row = mysqli_fetch_assoc($total_kategori_result);
+$total_kategori = $total_kategori_row['total'];
 
-// Query data buku dengan LIMIT dan OFFSET
-$sql = "SELECT * FROM buku LIMIT $limit OFFSET $offset";
-$result = mysqli_query($koneksi, $sql);
+// Total pages
+$total_pages = ceil($total_kategori / $limit);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <style>
     .nav-item.active .nav-link span {
         font-size: 17px !important;
@@ -47,23 +49,34 @@ $result = mysqli_query($koneksi, $sql);
         cursor: pointer;
     }
     </style>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Dashboard</title>
+
+    <title>Buku</title>
+
+    <!-- Custom fonts for this template-->
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
     <link href="../sbadmin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
+
+    <!-- Custom styles for this template-->
     <link href="../sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
 
-
+    <!-- Page Wrapper -->
     <div id="wrapper">
+
+        <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <a class="sidebar-brand d-flex align-items-center justify-content-center">
                 <div class="sidebar-brand-icon rotate-n-15">
@@ -118,7 +131,7 @@ $result = mysqli_query($koneksi, $sql);
             </li>
             <hr class="sidebar-divider">
             <li class="nav-item side">
-                <a class="nav-link" href="registrasi_anggota.php">
+                <a class="nav-link" href="../registrasi_anggota.php">
                     <i class="fas fa-fw fa-user-check"></i>
                     <span>Registrasi</span></a>
             </li>
@@ -165,11 +178,16 @@ $result = mysqli_query($koneksi, $sql);
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
         </ul>
+        <!-- End of Sidebar -->
+
+
+        <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
-
+            <!-- Main Content -->
             <div id="content">
 
+                <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
@@ -246,165 +264,222 @@ $result = mysqli_query($koneksi, $sql);
                     </ul>
 
                 </nav>
+                <!-- End of Topbar -->
 
+                <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <h1 class="h3 mb-3 text-gray-800">Buku</h1>
-
-                    <a href="tambah_buku.php" class="mb-4 btn btn-primary">Tambah Buku</a>
+                    <h1 class="h3 mb-3 text-gray-800">Kategori</h1>
+                    <a href="index.php" class="mb-4 btn btn-primary">Buku</a>
                     <a href="tambah_kategori.php" class="mb-4 btn btn-primary">Tambah Kategori</a>
-                    <a href="kategori.php" class="mb-4 btn btn-primary">Edit Kategori</a>
+
+                    <!-- Page Heading -->
+
+
                     <div class="row">
-                        <div class="col-lg-12 table-responsive">
+                        <?php if (isset($_SESSION['success'])) {; ?>
+                        <div class="col-lg-3 alert alert-success" role="alert"><?= $_SESSION['success']; ?></div>
+                        <?php
+                            unset($_SESSION['success']);
+                        }; ?>
+                        <div class="col-lg-10">
                             <table class="table table-hover" id="bookTable">
                                 <thead>
                                     <tr>
                                         <th scope="col">ID</th>
-                                        <th scope="col">Cover</th>
-                                        <th scope="col">Judul</th>
-                                        <th scope="col">Pengarang</th>
-                                        <th scope="col">Stok</th>
-                                        <th scope="col">Tahun Terbit</th>
+                                        <th>Nama Kategori</th>
+                                        <!-- Tambahkan kolom sesuai dengan struktur tabel buku -->
                                         <th style="text-align: center;">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php while ($data = mysqli_fetch_assoc($result)) : ?>
+                                    <?php while ($row = mysqli_fetch_assoc($result)) : ?>
                                     <tr>
-                                        <td><?= $data['id'] ?></td>
-                                        <td><img src="<?= $data['cover'] ?>" alt="Cover Buku"
-                                                style="max-width: 100px; max-height: 100px;"></td>
-                                        <td><?= $data['judul'] ?></td>
-                                        <td><?= $data['penulis'] ?></td>
-                                        <td><?= $data['stok'] ?></td>
-                                        <td><?= $data['tahun_terbit'] ?></td>
+                                        <td><?= $row['id']; ?></td>
+                                        <td><?= $row['nama_kategori']; ?></td>
                                         <td class="text-center">
-                                            <a class="badge badge-danger"
-                                                onclick="confirmDelete(<?php echo $data['id']; ?>)">Delete</a>
-
+                                            <a style="cursor: pointer;" data-kategori-id="<?= $row['id']; ?>"
+                                                class="delete-review-btn badge badge-danger">Delete</a>
                                             <a class="badge badge-success"
-                                                href="edit.php?id=<?= $data['id'] ?>">Edit</a>
-                                            <a class="badge badge-primary"
-                                                href="detail.php?id=<?= $data['id'] ?>">Detail</a>
+                                                href="edit_kategori.php?id=<?= $row['id']; ?>">Edit</a>
                                         </td>
                                     </tr>
-                                    <?php endwhile ?>
+                                    <?php endwhile; ?>
                                 </tbody>
                             </table>
+                            <!-- Pagination -->
+                            <nav aria-label="Page navigation example">
+                                <ul class="justify-content-center pagination">
+                                    <!-- Previous Page Button -->
+                                    <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+                                        <a class="page-link" href="?page=<?= ($page <= 1) ? 1 : ($page - 1); ?>"
+                                            aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+
+                                    <!-- Page Buttons -->
+                                    <?php
+                                    $start_page = max(1, $page - 2);
+                                    $end_page = min($total_pages, $page + 2);
+
+                                    for ($i = $start_page; $i <= $end_page; $i++) :
+                                    ?>
+                                    <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+                                        <a class="page-link" href="?page=<?= $i; ?>"><?= $i; ?></a>
+                                    </li>
+                                    <?php endfor; ?>
+
+                                    <!-- Next Page Button -->
+                                    <li class="page-item <?php if ($page >= $total_pages) echo 'disabled'; ?>">
+                                        <a class="page-link"
+                                            href="?page=<?= ($page >= $total_pages) ? $total_pages : ($page + 1); ?>"
+                                            aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <!-- End Pagination -->
+
                         </div>
-                        <div class="row justify-content-center">
-                            <div class="col">
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item <?php echo $current_page <= 1 ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?page=<?php echo $current_page - 1; ?>"
-                                                tabindex="-1" aria-disabled="true">Previous</a>
-                                        </li>
-                                        <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
-                                        <li class="page-item <?php echo $current_page == $i ? 'active' : ''; ?>">
-                                            <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                        </li>
-                                        <?php endfor; ?>
-                                        <li
-                                            class="page-item <?php echo $current_page >= $total_pages ? 'disabled' : ''; ?>">
-                                            <a class="page-link" href="?page=<?php echo $current_page + 1; ?>">Next</a>
-                                        </li>
-                                    </ul>
-                                </nav>
+                    </div>
+                    <!-- Footer -->
+                    <footer class="sticky-footer bg-white">
+                        <div class="container my-auto">
+                            <div class="copyright text-center my-auto">
+                                <span>Copyright &copy; Your Website 2021</span>
                             </div>
                         </div>
-                    </div>
+                    </footer>
+                    <!-- End of Footer -->
 
+                </div>
+                <!-- End of Content Wrapper -->
+
+            </div>
+            <!-- End of Page Wrapper -->
+
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
+
+            <!-- Logout Modal-->
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">Select "Logout" below if you are ready to end your current session.
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-primary" href="../logout.php">Logout</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
-                    </div>
-                </div>
-            </footer>
-        </div>
+            <!-- SweetAlert JS -->
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+            <!-- Bootstrap core JavaScript-->
+            <script src="../sbadmin/vendor/jquery/jquery.min.js"></script>
+            <script src="../sbadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    </div>
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+            <!-- Core plugin JavaScript-->
+            <script src="../sbadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="../login.php">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="../sbadmin/vendor/jquery/jquery.min.js"></script>
-    <script src="../sbadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../sbadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="../sbadmin/js/sb-admin-2.min.js"></script>
-    <script src="../sbadmin/vendor/chart.js/Chart.min.js"></script>
-    <script src="../sbadmin/js/demo/chart-area-demo.js"></script>
-    <script src="../sbadmin/js/demo/chart-pie-demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-    $(document).ready(function() {
-        $('#searchInput').on('input', function() {
-            var searchKeyword = $(this).val();
-            searchBooks(searchKeyword);
-        });
-    });
+            <!-- Custom scripts for all pages-->
+            <script src="../sbadmin/js/sb-admin-2.min.js"></script>
 
-    function searchBooks(keyword) {
-        $.ajax({
-            url: 'search.php',
-            type: 'POST',
-            data: {
-                keyword: keyword
-            },
-            success: function(response) {
-                $('#bookTable').html(response);
+            <!-- Page level plugins -->
+            <script src="../sbadmin/vendor/chart.js/Chart.min.js"></script>
+
+            <!-- Page level custom scripts -->
+            <script src="../sbadmin/js/demo/chart-area-demo.js"></script>
+            <script src="../sbadmin/js/demo/chart-pie-demo.js"></script>
+
+            <script>
+            $(document).ready(function() {
+                $('#searchInput').on('input', function() {
+                    var searchKeyword = $(this).val();
+                    searchBooks(searchKeyword);
+                });
+            });
+
+            function searchBooks(keyword) {
+                $.ajax({
+                    url: 'http://localhost/perpustakaan1/dashboard/buku/search.php',
+                    type: 'POST',
+                    data: {
+                        keyword: keyword
+                    },
+                    success: function(response) {
+                        $('#bookTable').html(response);
+                    }
+                });
             }
-        });
-    }
+            </script>
+            <script>
+            // Ketika tombol hapus diklik
+            $('.delete-review-btn').click(function() {
+                // Dapatkan ID ulasan yang akan dihapus
+                let kategoriId = $(this).data('kategori-id');
 
-    function confirmLogout() {
-        if (confirm("Are you sure you want to logout?")) {
-            window.location.href = "../logout.php"
-        }
-    }
-    </script>
+                // Tampilkan konfirmasi SweetAlert
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Kategori akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    // Jika pengguna menekan tombol Ya, hapus
+                    if (result.isConfirmed) {
+                        // Redirect to delete_review.php with the review ID as parameter
+                        window.location.href = 'delete_kategori.php?id=' + kategoriId;
+                    }
+                });
+            });
+            </script>
 
-    <script>
-    function confirmDelete(bookId) {
-        Swal.fire({
-            title: 'Apakah anda yakin menghapus buku ini?',
-            text: "Tindakan ini tidak dapat dibatalkan!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Jika pengguna mengonfirmasi penghapusan, arahkan ke delete.php dengan id buku yang ingin dihapus
-                window.location.href = 'delete.php?id=' + bookId;
+            <script>
+            $(document).ready(function() {
+                $('#searchInput').on('input', function() {
+                    var searchKeyword = $(this).val();
+                    searchBooks(searchKeyword);
+                });
+            });
+
+            function searchBooks(keyword) {
+                $.ajax({
+                    url: 'search.php',
+                    type: 'POST',
+                    data: {
+                        keyword: keyword
+                    },
+                    success: function(response) {
+                        $('#bookTable').html(response);
+                    }
+                });
             }
-        });
-    }
-    </script>
+
+            function confirmLogout() {
+                if (confirm("Are you sure you want to logout?")) {
+                    window.location.href = "../logout.php"
+                }
+            }
+            </script>
+
 </body>
 
 </html>

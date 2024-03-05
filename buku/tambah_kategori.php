@@ -333,7 +333,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- Page level custom scripts -->
         <script src="../sbadmin/js/demo/chart-area-demo.js"></script>
         <script src="../sbadmin/js/demo/chart-pie-demo.js"></script>
+        <script>
+        $(document).ready(function() {
+            $('#searchInput').on('input', function() {
+                var searchKeyword = $(this).val();
+                searchBooks(searchKeyword);
+            });
+        });
 
+        function searchBooks(keyword) {
+            $.ajax({
+                url: 'search.php',
+                type: 'POST',
+                data: {
+                    keyword: keyword
+                },
+                success: function(response) {
+                    $('#bookTable').html(response);
+                }
+            });
+        }
+
+        function confirmLogout() {
+            if (confirm("Are you sure you want to logout?")) {
+                window.location.href = "../logout.php"
+            }
+        }
+        </script>
 </body>
 
 </html>
