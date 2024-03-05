@@ -8,7 +8,10 @@ $infoBukuQuery = "SELECT buku.id AS buku_id, buku.judul, buku.penulis, buku.pene
                   FROM buku
                   WHERE buku.id = $buku_id";
 $resultInfoBuku = mysqli_query($koneksi, $infoBukuQuery);
-
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 if ($resultInfoBuku) {
     $infoBuku = mysqli_fetch_assoc($resultInfoBuku);
 }

@@ -3,7 +3,10 @@ include "../koneksi.php";
 session_start();
 $sql = "SELECT * FROM buku";
 $resultBooks = mysqli_query($koneksi, $sql);
-
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 $limit = 5; // Jumlah entri per halaman
 $current_page = isset($_GET['page']) ? $_GET['page'] : 1; // Halaman saat ini
 

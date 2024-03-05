@@ -6,7 +6,7 @@ $role = $_SESSION['role'];
 $username = $_SESSION['username'];
 // Check if the user is not logged in
 if (!isset($_SESSION['username'])) {
-    header("Location: ../login.php"); // Redirect to the login page if not logged in
+    header("Location: login.php"); // Redirect to the login page if not logged in
     exit();
 }
 

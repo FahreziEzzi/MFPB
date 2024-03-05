@@ -1,7 +1,10 @@
 <?php
 session_start();
 include "../koneksi.php";
-
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 $ulasan_id = $_GET['id'];
 
 // Hapus ulasan dari database

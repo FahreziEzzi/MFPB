@@ -3,7 +3,10 @@ session_start();
 include "../koneksi.php";
 
 $role = $_SESSION['role'];
-
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 if ($role !== 'admin' && $role !== 'petugas') {
     header("Location: dashboard.php");
     exit();

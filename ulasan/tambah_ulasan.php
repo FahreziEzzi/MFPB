@@ -2,6 +2,10 @@
 session_start();
 $role = $_SESSION['role'];
 $usermame = $_SESSION['username'];
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

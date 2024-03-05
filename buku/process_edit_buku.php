@@ -1,6 +1,9 @@
 <?php
 include "../koneksi.php";
-
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 $id = $_GET['id'];
 $judul = $_POST['judul'];
 $penulis = $_POST['penulis'];

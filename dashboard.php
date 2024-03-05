@@ -3,6 +3,10 @@ include "koneksi.php";
 session_start();
 $role = $_SESSION['role'];
 $username = $_SESSION['username'];
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 
 // Pagination setup
 $limit = 4; // Jumlah entri per halaman

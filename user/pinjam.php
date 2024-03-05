@@ -3,7 +3,10 @@ session_start();
 
 include '../koneksi.php';
 
-
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 if (!isset($_SESSION['username'])) {
     echo "<script>alert('Tolong login terlebih dahulu'); window.location.href = '../login.php';</script>";
     exit();

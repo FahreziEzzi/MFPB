@@ -1,6 +1,10 @@
 <?php
 session_start();
 include "../koneksi.php";
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 $id = $_GET['id'];
 $result = mysqli_query($koneksi, "SELECT * FROM buku WHERE id = '$id'");
 $data = mysqli_fetch_assoc($result);

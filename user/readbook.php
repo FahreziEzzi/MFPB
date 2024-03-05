@@ -1,10 +1,8 @@
 <?php
 
 include '../koneksi.php';
-
-// Check if the user is not logged in
 if (!isset($_SESSION['username'])) {
-    echo "<script>alert('Tolong login terlebih dahulu'); window.location.href = '../login.php';</script>";
+    header("Location: ../login.php"); 
     exit();
 }
 

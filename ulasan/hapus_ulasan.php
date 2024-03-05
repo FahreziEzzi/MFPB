@@ -1,7 +1,10 @@
 <?php
 session_start();
 include "../koneksi.php";
-
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 // Pastikan hanya admin yang dapat mengakses halaman ini
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     // Jika bukan admin, redirect ke halaman lain atau tampilkan pesan error

@@ -7,6 +7,10 @@ $filter_condition = '';
 if ($role !== 'admin') {
     $filter_condition = "WHERE role = '$role'";
 }
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 
 // Inisialisasi variabel filter berdasarkan nilai yang dikirimkan melalui AJAX
 if (isset($_GET['role_filter']) && !empty($_GET['role_filter'])) {

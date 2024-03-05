@@ -3,7 +3,10 @@ include '../koneksi.php';
 session_start();
 $role = isset($_SESSION['role']) ? $_SESSION['role'] : '';
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
-
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
 // Check apakah pengguna sudah login
 if (!isset($_SESSION['username'])) {
     header("Location: ../login.php"); // Redirect ke halaman login jika belum login
