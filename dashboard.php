@@ -101,7 +101,7 @@ $total_users = $count_users_data['total_users'];
             <li class="nav-item side">
                 <a class="nav-link" href="pengembalian.php">
                     <i class="fas fa-fw fa-book"></i>
-                    <span>Pengembalian buku</span></a>
+                    <span>Pengembalian Buku</span></a>
             </li>
             <li class="nav-item side">
                 <a class="nav-link" href="datapengguna/data_pengguna.php">
@@ -162,7 +162,7 @@ $total_users = $count_users_data['total_users'];
                     <span>Laporan</span></a>
             </li>
             <li class="nav-item side">
-                <a class="nav-link" href="logout.php" onclick="confirmLogout();">
+                <a class="nav-link" href="#" onclick="confirmLogout();">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>

@@ -150,7 +150,7 @@ $result = mysqli_query($koneksi, $sql);
                     <span>Laporan</span></a>
             </li>
             <li class="nav-item side">
-                <a class="nav-link" href="../logout" onclick="confirmLogout();">
+                <a class="nav-link" href="#" onclick="confirmLogout();">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>

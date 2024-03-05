@@ -140,6 +140,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </a>
             </li>
             <?php endif ?>
+            <?php
+            if ($role === 'petugas') :
+            ?>
+            <li class="nav-item side">
+                <a class="nav-link" href="../buku/index.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Data Buku</span></a>
+            </li>
+
+            <li class="nav-item side">
+                <a class="nav-link" href="../pengembalian.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Pengembalian Buku</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../peminjaman/peminjaman.php">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Peminjam</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../laporan/laporan.php">
+                    <i class="fas fa-print"></i>
+                    <span>Laporan</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="#" onclick="confirmLogout();">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+            <?php endif ?>
 
             <hr class="sidebar-divider d-none d-md-block">
             <div class="text-center d-none d-md-inline">
@@ -223,6 +254,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <select class="form-control" id="inputKategori" name="kategori_id" required>
                                             <option value="comedy">comedy</option>
                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPdf">File PDF:</label>
+                                        <input type="file" class="form-control-file" id="inputPdf" name="pdf"
+                                            accept="pdf/">
                                     </div>
                                     <div class="form-group">
                                         <label for="inputCover">Cover:</label>

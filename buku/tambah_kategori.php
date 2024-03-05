@@ -97,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </a>
             <hr class="sidebar-divider my-0">
-            <li class="nav-item active">
+            <li class="nav-item side">
                 <a class="nav-link" href="../dashboard.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
@@ -163,17 +163,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <i class="fas fa-fw fa-book"></i>
                     <span>Pengembalian Buku</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item side">
                 <a class="nav-link" href="../peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-file-alt"></i>
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Peminjam</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item side">
                 <a class="nav-link" href="../laporan/laporan.php">
                     <i class="fas fa-print"></i>
                     <span>Laporan</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item side">
                 <a class="nav-link" href="../logout.php">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span></a>

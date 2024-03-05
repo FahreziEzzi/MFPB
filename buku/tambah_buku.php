@@ -180,6 +180,36 @@ if (mysqli_num_rows($result_kategori) > 0) {
             </li>
 
             <?php endif ?>
+            <?php
+            if ($role === 'petugas') :
+            ?>
+            <li class="nav-item active">
+                <a class="nav-link" href="../buku/index.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Data Buku</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../pengembalian.php">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Pengembalian Buku</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../peminjaman/peminjaman.php">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Peminjam</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="../laporan/laporan.php">
+                    <i class="fas fa-print"></i>
+                    <span>Laporan</span></a>
+            </li>
+            <li class="nav-item side">
+                <a class="nav-link" href="#" onclick="confirmLogout();">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+            <?php endif ?>
             <hr class="sidebar-divider d-none d-md-block">
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
