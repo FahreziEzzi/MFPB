@@ -31,4 +31,5 @@ Buka index.php pada folder perpustakaan, maka aplikasi siap dijalankan
 - [PHPOffice](https://github.com/PHPOffice/PhpSpreadsheet)
 
 # Catatan
-Di direktori file resetpw/check.php, ada bagian code $mail->Username = '' dan $mail->Password = '', Username ini adalah gmail yang digunakan dan Password ini adalah aplikasi sandi atau apps password dari gmail.
+- Di direktori file resetpw/check.php, ada bagian code $mail->Username = '' dan $mail->Password = '', Username ini adalah gmail yang digunakan dan Password ini adalah aplikasi sandi atau apps password dari gmail.
+- Gunakan Versi PHP 8+ agar fitur Lupa Password berfungsi 
