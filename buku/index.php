@@ -5,7 +5,7 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 include "../koneksi.php";
-$sql = "SELECT * FROM buku";
+$sql = "SELECT * FROM buku WHERE status_hapus = 0"; // Hanya ambil buku yang belum dihapus
 $result = mysqli_query($koneksi, $sql);
 $role = $_SESSION['role'];
 $username = $_SESSION['username'];
@@ -15,7 +15,7 @@ $limit = 3; // Jumlah entri per halaman
 $current_page = isset($_GET['page']) ? $_GET['page'] : 1; // Halaman saat ini
 
 // Hitung total entri
-$sql_count = "SELECT COUNT(*) AS total FROM buku";
+$sql_count = "SELECT COUNT(*) AS total FROM buku WHERE status_hapus = 0"; // Hitung total buku yang belum dihapus
 $count_result = mysqli_query($koneksi, $sql_count);
 $count_data = mysqli_fetch_assoc($count_result);
 $total_records = $count_data['total'];
@@ -27,8 +27,23 @@ $total_pages = ceil($total_records / $limit);
 $offset = ($current_page - 1) * $limit;
 
 // Query data buku dengan LIMIT dan OFFSET
-$sql = "SELECT * FROM buku LIMIT $limit OFFSET $offset";
+$sql = "SELECT * FROM buku WHERE status_hapus = 0 LIMIT $limit OFFSET $offset"; // Hanya ambil buku yang belum dihapus
 $result = mysqli_query($koneksi, $sql);
+
+
+// ...
+if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
+    $id_buku = $_GET['id'];
+
+    // Update nilai status_hapus menjadi 1
+    $sql_update = "UPDATE buku SET status_hapus = 1 WHERE id = $id_buku";
+    mysqli_query($koneksi, $sql_update);
+
+    // Redirect ke halaman history_delete.php
+    header("Location: history_delete.php");
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -280,7 +295,7 @@ $result = mysqli_query($koneksi, $sql);
                                         <td><?= $data['stok'] ?></td>
                                         <td><?= $data['tahun_terbit'] ?></td>
                                         <td class="text-center">
-                                            <a class="badge badge-danger"
+                                            <a class="badge badge-danger" href="#"
                                                 onclick="confirmDelete(<?php echo $data['id']; ?>)">Delete</a>
 
                                             <a class="badge badge-success"

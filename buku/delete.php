@@ -3,24 +3,19 @@ include "../koneksi.php";
 
 $id = $_GET["id"];
 
-// Ambil status_hapus saat ini
-$query = mysqli_query($koneksi, "SELECT status_hapus FROM buku WHERE id = '$id'");
-$row = mysqli_fetch_assoc($query);
-$status_hapus = $row['status_hapus'];
-
-// Tentukan nilai yang akan diubah
-$new_status = ($status_hapus == '1') ? '0' : '1';
-
-// Lakukan update status_hapus
-$result = mysqli_query($koneksi, "UPDATE buku SET status_hapus = '$new_status' WHERE id = '$id'");
-
-if ($result) {
-    $message = ($new_status == '1') ? "Data berhasil dipindahkan ke kolom status_hapus" : "Data berhasil dikembalikan dari status_hapus";
-    echo "<script>
-            alert('$message');
-            window.location.href = 'index.php'
-          </script>";
+if (isset($id)) {
+    // Update nilai status_hapus menjadi 1
+    $sql_update = "UPDATE buku SET status_hapus = 1 WHERE id = $id";
+    if (mysqli_query($koneksi, $sql_update)) {
+        // Jika penghapusan berhasil, redirect kembali ke halaman sebelumnya
+        header("Location: index.php");
+        exit();
+    } else {
+        // Jika terjadi kesalahan, tampilkan pesan kesalahan
+        echo "Error: " . mysqli_error($koneksi);
+    }
 } else {
-    echo "<script>alert('Error saat mengubah status data')</script>";
+    // Jika parameter id tidak diterima, tampilkan pesan kesalahan
+    echo "ID buku tidak ditemukan";
 }
 ?>

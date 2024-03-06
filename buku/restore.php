@@ -31,7 +31,7 @@ if (isset($_GET['id'])) {
     // Memeriksa apakah query berhasil dieksekusi
     if ($query) {
         // Jika berhasil, redirect kembali ke halaman sebelumnya atau halaman lain yang diinginkan
-        header("Location: index.php");
+        header("Location: history_delete.php");
         exit();
     } else {
         // Jika gagal, tampilkan pesan kesalahan atau lakukan penanganan yang sesuai
@@ -43,4 +43,3 @@ if (isset($_GET['id'])) {
     echo "ID buku tidak ditemukan.";
     exit();
 }
-?>
