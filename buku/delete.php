@@ -12,4 +12,5 @@
     }else{
         echo "<script>alert('Error saat menghapus data')</script>";
     }
+    
 ?>

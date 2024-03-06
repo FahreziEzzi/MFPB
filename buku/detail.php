@@ -138,9 +138,10 @@ $result = mysqli_query($koneksi, $query);
                     <span>Registrasi</span></a>
             </li>
             <li class="nav-item side">
-                <a class="nav-link" href="../logout.php">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Logout</span></a>
+                <a class="nav-link" href="#" onclick="confirmLogout();">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
             </li>
 
             <?php endif ?>
@@ -321,7 +322,7 @@ $result = mysqli_query($koneksi, $query);
             <script>
             function confirmLogout() {
                 if (confirm("Are you sure you want to logout?")) {
-                    window.location.href = "logout.php"; // Redirect ke logout.php jika user menekan OK
+                    window.location.href = "../logout.php"; // Redirect ke logout.php jika user menekan OK
                 }
             }
             </script>

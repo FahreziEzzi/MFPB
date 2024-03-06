@@ -129,6 +129,9 @@ if (!$resultPopuler) {
     footer a:hover {
         color: #ccc;
     }
+    .h4{
+        color: #000;
+    }
     </style>
 </head>
 
@@ -172,12 +175,12 @@ if (!$resultPopuler) {
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <h4>Tentang Kami</h4>
+                    <h4 class="h4">Tentang Kami</h4>
                     <p>Perpustakaan Digital menyediakan akses mudah dan cepat ke ribuan judul buku elektronik terbaik.
                     </p>
                 </div>
                 <div class="col-md-4">
-                    <h4>Kontak Kami</h4>
+                    <h4 class="h4">Kontak Kami</h4>
                     <p>Email: Fahrezireziw1054@gmail.com</p>
                     <p>Telepon: 083109627088</p>
                 </div>

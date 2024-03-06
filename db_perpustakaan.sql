@@ -39,6 +39,7 @@ CREATE TABLE `buku` (
   `tahun_terbit` int(11) NOT NULL,
   `stok` int(255) NOT NULL,
   `kategori_id` int(11) NOT NULL,
+  `status_hapus` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

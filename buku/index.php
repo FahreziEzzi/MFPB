@@ -254,6 +254,7 @@ $result = mysqli_query($koneksi, $sql);
                     <a href="tambah_buku.php" class="mb-4 btn btn-primary">Tambah Buku</a>
                     <a href="tambah_kategori.php" class="mb-4 btn btn-primary">Tambah Kategori</a>
                     <a href="kategori.php" class="mb-4 btn btn-primary">Edit Kategori</a>
+                    <a href="history_delete.php" class="mb-4 btn btn-primary">History Delete</a>
                     <div class="row">
                         <div class="col-lg-12 table-responsive">
                             <table class="table table-hover" id="bookTable">

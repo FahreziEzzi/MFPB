@@ -148,7 +148,7 @@ $totalBooksToReturn = $rowBooksToReturn['total_books_to_return'];
                     <span>Registrasi</span></a>
             </li>
             <li class="nav-item side">
-                <a class="nav-link" href="logout.php" onclick="confirmLogout();">
+                <a class="nav-link" href="#" onclick="confirmLogout();">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
@@ -305,22 +305,18 @@ $totalBooksToReturn = $rowBooksToReturn['total_books_to_return'];
     <script src="sbadmin/js/demo/chart-pie-demo.js"></script>
 
     <script>
-    function confirmLogout() {
-        Swal.fire({
-            title: 'Konfirmasi Logout',
-            text: "Apakah Anda yakin ingin keluar?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Logout',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Jika pengguna mengklik "Ya", redirect ke halaman logout
-                window.location.href = "../logout.php";
-            }
+    $(document).ready(function() {
+        // Mengatur tindakan logout saat tombol logout ditekan
+        $('#logout').click(function() {
+            // Redirect ke halaman logout.php atau sesuai halaman logout Anda
+            window.location.href = 'login.php';
         });
+    });
+
+    function confirmLogout() {
+        if (confirm("Apakah kamu yakin ingin logout?")) {
+            window.location.href = "logout.php"; // Redirect ke logout.php jika user menekan OK
+        }
     }
     </script>
 

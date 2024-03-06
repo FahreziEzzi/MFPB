@@ -165,12 +165,12 @@ if (mysqli_num_rows($result_kategori) > 0) {
                 </li>
                 <li class="nav-item side">
                     <a class="nav-link" href="../laporan/laporan.php">
-                        <i class="fas fa-fw fa-book"></i>
+                        <i class="fas fa-fw fa-print"></i>
                         <span>Laporan</span></a>
                 </li>
                 <hr class="sidebar-divider">
                 <li class="nav-item side">
-                    <a class="nav-link" href="registrasi_anggota.php">
+                    <a class="nav-link" href="../registrasi_anggota.php">
                         <i class="fas fa-fw fa-user-check"></i>
                         <span>Registrasi</span></a>
                 </li>

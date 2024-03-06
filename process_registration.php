@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('koneksi.php');
 if (!isset($_SESSION['username'])) {
     header("Location: ../login.php"); 
@@ -9,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_BCRYPT); 
     $full_name = $_POST['full_name'];
-    $address = $_POST['address'];
+    $address = $_POST['addres'];
     $role = $_POST['role'];
 
     $query = "INSERT INTO `user` (`perpus_id`, `username`, `password`, `email`, `nama_lengkap`, `alamat`, `role`, `created_at`) 

@@ -22,7 +22,7 @@ if($result){
     </script>";
 }
 else{
-    echo "<script>alert('error goblok')</script>";
+    echo "<script>alert('error')</script>";
 }
 
 ?>

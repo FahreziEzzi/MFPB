@@ -142,7 +142,7 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
             <li class="nav-item side active">
                 <a class="nav-link" href="">
                     <i class="fas fa-fw fa-user"></i>
-                    <span>Peminjam</span></a>
+                    <span>Peminjaman</span></a>
             </li>
             <hr class="sidebar-divider">
             <li class="nav-item side">
@@ -185,7 +185,7 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
             <li class="nav-item active">
                 <a class="nav-link" href="../peminjaman/peminjaman.php">
                     <i class="fas fa-fw fa-users"></i>
-                    <span>Peminjam</span></a>
+                    <span>Peminjaman</span></a>
             </li>
             <li class="nav-item side">
                 <a class="nav-link" href="../laporan/laporan.php">
@@ -255,7 +255,7 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                 </nav>
                 <!-- tabel -->
                 <div class="container mt-5">
-                    <h2>Daftar Peminjaman</h2>
+                    <h2>Transaksi Peminjaman</h2>
                     <form method="GET" class="form-row align-items-end" action="">
 
                         <div class="form-group col-lg-3 mb-3">

@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "../koneksi.php";
 if (!isset($_SESSION['username'])) {
     header("Location: ../login.php"); 
@@ -17,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $query = "INSERT INTO ulasan_buku (buku, user, rating, ulasan) VALUES ('$id_buku', '$id_user', '$rating', '$ulasan')";
     $result = mysqli_query($koneksi, $query);
     if ($result) {
-        header("Location: index.php?success=Ulasan berhasil dikirim");
+        header("Location: index.php");
         exit();
     } else {
         header("Location: index.php?error=Gagal menyimpan ulasan");

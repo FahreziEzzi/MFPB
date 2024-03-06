@@ -245,7 +245,7 @@ while ($row = mysqli_fetch_assoc($checkPeminjamanResult)) {
                                 <p class="card-text">Tahun Terbit: <?php echo $row['tahun_terbit']; ?></p>
                                 <?php if (isset($peminjaman[$row['id']])) :
                                 if ($peminjaman[$row['id']]['status_peminjaman'] == 'Dipinjam') : ?>
-                                <a href="balikin.php?id=<?= $row['id']; ?>&action=return"
+                                <a href="kembalikan.php?id=<?= $row['id']; ?>&action=return"
                                     class="btn btn-danger">Kembalikan</a>
                                 <?php else : ?>
                                 <a href="pinjam.php?id=<?= $row['id']; ?>" class="btn btn-primary">Pinjam</a>

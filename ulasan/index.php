@@ -125,7 +125,7 @@ $resultUlasan = mysqli_query($koneksi, $query);
                     <span>Pengembalian Buku</span></a>
             </li>
             <li class="nav-item side">
-                <a class="nav-link" href="../buku/">
+                <a class="nav-link" href="../datapengguna/data_pengguna.php">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Data Pengguna</span></a>
             </li>
