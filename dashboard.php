@@ -114,8 +114,8 @@ $total_users = $count_users_data['total_users'];
             </li>
             <li class="nav-item side">
                 <a class="nav-link" href="peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Peminjam</span></a>
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Peminjaman</span></a>
             </li>
             <hr class="sidebar-divider">
             <li class="nav-item side">
@@ -158,7 +158,7 @@ $total_users = $count_users_data['total_users'];
             <li class="nav-item side">
                 <a class="nav-link" href="peminjaman/peminjaman.php">
                     <i class="fas fa-fw fa-users"></i>
-                    <span>Peminjam</span></a>
+                    <span>Peminjaman</span></a>
             </li>
             <li class="nav-item side">
                 <a class="nav-link" href="laporan/laporan.php">

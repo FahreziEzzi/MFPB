@@ -95,8 +95,8 @@ $result = mysqli_query($koneksi, $sql);
             </li>
             <li class="nav-item side">
                 <a class="nav-link" href="../peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Peminjam</span></a>
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Peminjaman</span></a>
             </li>
             <hr class="sidebar-divider">
             <li class="nav-item side">
@@ -140,7 +140,7 @@ $result = mysqli_query($koneksi, $sql);
             <li class="nav-item side">
                 <a class="nav-link" href="../peminjaman/peminjaman.php">
                     <i class="fas fa-fw fa-users"></i>
-                    <span>Peminjam</span></a>
+                    <span>Peminjaman</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="../laporan/laporan.php">
@@ -294,6 +294,35 @@ $result = mysqli_query($koneksi, $sql);
         }
     }
     </script>
+
+<script>
+    // Penambahan Notifikasi untuk filter
+    $(document).ready(function() {
+        // Fungsi untuk mengecek form sebelum submit
+        $('form').submit(function(event) {
+            // Mengambil nilai dari input tanggal awal dan akhir
+            var filterDate = $('#filterDate').val();
+            var filterEndDate = $('#filterEndDate').val();
+
+            // Jika tanggal awal diisi tetapi tanggal akhir kosong
+            if (filterDate !== '' && filterEndDate === '') {
+                // Mencegah form dari submit
+                event.preventDefault();
+                // Menampilkan notifikasi
+                alert("Tolong isi filter tanggal akhirnya");
+            }
+
+            // Jika tanggal akhir diisi tetapi tanggal awal kosong
+            if (filterDate === '' && filterEndDate !== '') {
+                // Mencegah form dari submit
+                event.preventDefault();
+                // Menampilkan notifikasi
+                alert("Tolong isi filter tanggal awalnya");
+            }
+        });
+    });
+</script>
+
 </body>
 
 </html>

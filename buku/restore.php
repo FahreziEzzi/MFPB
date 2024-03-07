@@ -2,6 +2,9 @@
 // Memulai sesi
 session_start();
 
+// Menghubungkan ke database
+include "../koneksi.php";
+
 // Memeriksa apakah pengguna telah login
 if (!isset($_SESSION['username'])) {
     // Jika tidak, redirect ke halaman login
@@ -11,23 +14,26 @@ if (!isset($_SESSION['username'])) {
 
 // Memeriksa peran pengguna
 $role = $_SESSION['role'];
-if ($role !== 'admin') {
-    // Jika peran bukan admin, redirect ke halaman lain atau tampilkan pesan kesalahan
+if ($role !== 'admin' && $role !== 'petugas') {
+    // Jika peran bukan admin atau petugas, redirect ke halaman lain atau tampilkan pesan kesalahan
     echo "Anda tidak memiliki izin untuk mengakses halaman ini.";
     exit();
 }
+
 
 // Memeriksa apakah ada ID buku yang dikirimkan melalui parameter GET
 if (isset($_GET['id'])) {
     // Mengambil ID buku dari parameter GET
     $book_id = $_GET['id'];
 
-    // Menghubungkan ke database (sesuaikan dengan koneksi Anda)
-    include "../koneksi.php";
 
     // Query untuk mengubah status_hapus buku menjadi 0 (belum dihapus)
     $query = mysqli_query($koneksi, "UPDATE buku SET status_hapus = '0' WHERE id = '$book_id'");
 
+    if ($query) {
+        // Menyimpan pesan notifikasi dalam session
+        $_SESSION['notification'] = "Buku berhasil dikembalikan.";
+    }    
     // Memeriksa apakah query berhasil dieksekusi
     if ($query) {
         // Jika berhasil, redirect kembali ke halaman sebelumnya atau halaman lain yang diinginkan

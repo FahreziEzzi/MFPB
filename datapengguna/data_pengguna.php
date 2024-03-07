@@ -121,8 +121,8 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
             </li>
             <li class="nav-item side">
                 <a class="nav-link" href="../peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Peminjam</span></a>
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Peminjaman</span></a>
             </li>
             <hr class="sidebar-divider">
             <li class="nav-item side">
@@ -162,10 +162,10 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                     <i class="fas fa-fw fa-book"></i>
                     <span>Pengembalian Buku</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item side">
                 <a class="nav-link" href="../peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Peminjam</span></a>
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Peminjaman</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="../laporan/laporan.php">

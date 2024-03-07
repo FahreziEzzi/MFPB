@@ -4,6 +4,13 @@ if (!isset($_SESSION['username'])) {
     header("Location: ../login.php");
     exit();
 }
+
+// Check if notification exists in session
+$notification = isset($_SESSION['notification']) ? $_SESSION['notification'] : "";
+
+// Clear notification from session
+unset($_SESSION['notification']);
+
 include "../koneksi.php";
 $sql = "SELECT * FROM buku WHERE status_hapus = 0"; // Hanya ambil buku yang belum dihapus
 $result = mysqli_query($koneksi, $sql);
@@ -38,6 +45,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
     // Update nilai status_hapus menjadi 1
     $sql_update = "UPDATE buku SET status_hapus = 1 WHERE id = $id_buku";
     mysqli_query($koneksi, $sql_update);
+
+    // Set notifikasi ke dalam session
+    $_SESSION['notification'] = "Buku berhasil dikembalikan.";
 
     // Redirect ke halaman history_delete.php
     header("Location: history_delete.php");
@@ -141,8 +151,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
                 </li>
                 <li class="nav-item side">
                     <a class="nav-link" href="../peminjaman/peminjaman.php">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Peminjam</span></a>
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>Peminjaman</span></a>
                 </li>
                 <hr class="sidebar-divider">
                 <li class="nav-item side">
@@ -185,7 +195,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
                 <li class="nav-item side">
                     <a class="nav-link" href="../peminjaman/peminjaman.php">
                         <i class="fas fa-fw fa-users"></i>
-                        <span>Peminjam</span></a>
+                        <span>Peminjaman</span></a>
                 </li>
                 <li class="nav-item side">
                     <a class="nav-link" href="../laporan/laporan.php">
@@ -217,16 +227,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
                     </button>
 
                     <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" id="searchInput" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -278,6 +279,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
                 </nav>
 
                 <div class="container">
+                    <?php if (!empty($notification)) : ?>
+                        <div class="alert alert-success" role="alert">
+                            <?php echo $notification; ?>
+                        </div>
+                    <?php endif; ?>
                     <div class="table-container">
                         <h1 class="h3 mb-3 text-gray-800">Data Buku Yang Dihapus</h1>
                         <table>
@@ -356,25 +362,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
         <script src="../sbadmin/js/demo/chart-pie-demo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            $(document).ready(function() {
-                $('#searchInput').on('input', function() {
-                    var searchKeyword = $(this).val();
-                    searchBooks(searchKeyword);
-                });
-            });
-
-            function searchBooks(keyword) {
-                $.ajax({
-                    url: 'search.php',
-                    type: 'POST',
-                    data: {
-                        keyword: keyword
-                    },
-                    success: function(response) {
-                        $('#bookTable').html(response);
-                    }
-                });
-            }
 
             function confirmLogout() {
                 if (confirm("Are you sure you want to logout?")) {

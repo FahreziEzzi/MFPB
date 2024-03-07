@@ -127,8 +127,8 @@ $totalBooksToReturn = $rowBooksToReturn['total_books_to_return'];
             </li>
             <li class="nav-item side">
                 <a class="nav-link" href="peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Peminjam</span></a>
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Peminjaman</span></a>
             </li>
             <hr class="sidebar-divider">
             <li class="nav-item side">
@@ -171,7 +171,7 @@ $totalBooksToReturn = $rowBooksToReturn['total_books_to_return'];
             <li class="nav-item side">
                 <a class="nav-link" href="peminjaman/peminjaman.php">
                     <i class="fas fa-fw fa-users"></i>
-                    <span>Peminjam</span></a>
+                    <span>Peminjaman</span></a>
             </li>
             <li class="nav-item side">
                 <a class="nav-link" href="laporan/laporan.php">

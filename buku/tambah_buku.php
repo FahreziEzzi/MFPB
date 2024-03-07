@@ -153,10 +153,10 @@ if (mysqli_num_rows($result_kategori) > 0) {
                         <span>Data Pengguna</span></a>
                 </li>
                 <li class="nav-item side">
-                    <a class="nav-link" href="../peminjaman/peminjaman.php">
-                        <i class="fas fa-fw fa-user"></i>
-                        <span>Peminjam</span></a>
-                </li>
+                <a class="nav-link" href="../peminjaman/peminjaman.php">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Peminjaman</span></a>
+            </li>
                 <hr class="sidebar-divider">
                 <li class="nav-item side">
                     <a class="nav-link" href="../ulasan/index.php">

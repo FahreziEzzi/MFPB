@@ -31,7 +31,7 @@ $sql = "SELECT * FROM buku WHERE status_hapus = 0 LIMIT $limit OFFSET $offset"; 
 $result = mysqli_query($koneksi, $sql);
 
 
-// ...
+
 if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
     $id_buku = $_GET['id'];
 
@@ -117,8 +117,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
             </li>
             <li class="nav-item side">
                 <a class="nav-link" href="../peminjaman/peminjaman.php">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Peminjam</span></a>
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Peminjaman</span></a>
             </li>
             <hr class="sidebar-divider">
             <li class="nav-item side">
@@ -161,7 +161,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id']))
             <li class="nav-item side">
                 <a class="nav-link" href="../peminjaman/peminjaman.php">
                     <i class="fas fa-fw fa-users"></i>
-                    <span>Peminjam</span></a>
+                    <span>Peminjaman</span></a>
             </li>
             <li class="nav-item side">
                 <a class="nav-link" href="../laporan/laporan.php">

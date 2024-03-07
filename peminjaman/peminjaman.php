@@ -140,8 +140,8 @@ $nextDisabled = ($currentPage == $totalPages) ? "disabled" : "";
                     <span>Data Pengguna</span></a>
             </li>
             <li class="nav-item side active">
-                <a class="nav-link" href="">
-                    <i class="fas fa-fw fa-user"></i>
+                <a class="nav-link" href="peminjaman.php">
+                    <i class="fas fa-fw fa-users"></i>
                     <span>Peminjaman</span></a>
             </li>
             <hr class="sidebar-divider">
